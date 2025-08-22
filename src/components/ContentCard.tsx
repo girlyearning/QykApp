@@ -4,16 +4,17 @@ import { Trash2, Clock } from "lucide-react";
 interface ContentCardProps {
   title: string;
   content: string;
-  timestamp: Date;
+  timestamp: Date | string;
   onDelete: () => void;
   type: "note" | "entry" | "confession";
   isNew?: boolean;
 }
 
 const ContentCard = ({ title, content, timestamp, onDelete, type, isNew = false }: ContentCardProps) => {
-  const formatTimestamp = (date: Date) => {
+  const formatTimestamp = (date: Date | string) => {
     const now = new Date();
-    const diffInMinutes = Math.floor((now.getTime() - date.getTime()) / (1000 * 60));
+    const targetDate = typeof date === 'string' ? new Date(date) : date;
+    const diffInMinutes = Math.floor((now.getTime() - targetDate.getTime()) / (1000 * 60));
     
     if (diffInMinutes < 1) return "Just now";
     if (diffInMinutes < 60) return `${diffInMinutes}m ago`;
