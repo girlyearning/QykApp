@@ -39,26 +39,26 @@ const ContentCard = ({ title, content, timestamp, onDelete, type }: ContentCardP
   };
 
   return (
-    <div className="glass-card p-4 rounded-2xl group hover:shadow-md transition-shadow duration-200">
+    <div className="glass-card p-4 rounded-2xl group hover:shadow-md transition-all duration-300 hover-lift animate-scale-in">
       <div className="flex items-start justify-between mb-2">
         <div className="flex-1">
-          <h4 className="font-medium text-foreground text-sm mb-1">{title}</h4>
+          <h4 className="font-medium text-foreground text-sm mb-1 font-space font-condensed">{title}</h4>
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
             <Clock className="w-3 h-3" />
-            <span>{formatTimestamp(timestamp)}</span>
+            <span className="font-overused font-condensed">{formatTimestamp(timestamp)}</span>
           </div>
         </div>
         <Button
           variant="ghost"
           size="sm"
           onClick={onDelete}
-          className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 h-8 w-8 p-0 text-muted-foreground hover:text-destructive"
+          className="opacity-0 group-hover:opacity-100 transition-all duration-200 h-8 w-8 p-0 text-muted-foreground hover:text-destructive hover:scale-110"
         >
           <Trash2 className="w-3 h-3" />
         </Button>
       </div>
       
-      <div className="text-sm text-foreground/90 leading-relaxed">
+      <div className="text-sm text-foreground/90 leading-relaxed font-overused font-condensed">
         {getDisplayContent()}
       </div>
     </div>

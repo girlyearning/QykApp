@@ -33,43 +33,44 @@ const Index = () => {
     <div className="min-h-screen bg-gradient-iridescent p-4 pb-24">
       <div className="max-w-2xl mx-auto space-y-8">
         {/* Header */}
-        <div className="text-center space-y-4 pt-safe">
+        <div className="text-center space-y-4 pt-safe animate-fade-in">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <Sparkles className="w-8 h-8 text-primary" />
-            <h1 className="text-4xl font-bold text-primary">QYK</h1>
+            <Sparkles className="w-8 h-8 text-primary animate-pulse-glow" />
+            <h1 className="text-4xl font-bold text-primary font-space font-extra-condensed">QYK</h1>
           </div>
-          <p className="text-lg text-muted-foreground font-medium">
+          <p className="text-lg text-muted-foreground font-medium font-overused font-condensed">
             Your personal writing sanctuary
           </p>
-          <p className="text-sm text-muted-foreground max-w-md mx-auto">
+          <p className="text-sm text-muted-foreground max-w-md mx-auto font-overused font-condensed">
             Express yourself through quick notes, detailed entries, or private confessions
           </p>
         </div>
 
         {/* Service Cards */}
-        <div className="space-y-4">
-          {services.map((service) => (
+        <div className="space-y-4 stagger-animation">
+          {services.map((service, index) => (
             <div
               key={service.title}
-              className="glass-card p-6 rounded-3xl hover:scale-[1.02] transition-transform duration-200 cursor-pointer"
+              style={{ '--stagger-delay': index } as React.CSSProperties}
+              className="glass-card p-6 rounded-3xl hover:scale-[1.02] transition-all duration-300 cursor-pointer hover-lift animate-slide-up"
               onClick={() => navigate(service.route)}
             >
               <div className="flex items-center space-x-4">
-                <div className={`p-3 rounded-2xl bg-muted/50 ${service.color}`}>
+                <div className={`p-3 rounded-2xl bg-muted/50 ${service.color} animate-bounce-in`}>
                   <service.icon className="w-6 h-6" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-xl font-bold text-foreground">
+                  <h3 className="text-xl font-bold text-foreground font-space font-condensed">
                     {service.title}
                   </h3>
-                  <p className="text-sm text-muted-foreground font-medium">
+                  <p className="text-sm text-muted-foreground font-medium font-overused font-condensed">
                     {service.description}
                   </p>
                 </div>
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="rounded-full px-4 h-8"
+                  className="rounded-full px-4 h-8 font-overused font-condensed hover:scale-105 transition-transform duration-200"
                 >
                   Open
                 </Button>
@@ -79,20 +80,20 @@ const Index = () => {
         </div>
 
         {/* Quick Stats */}
-        <div className="glass-card p-6 rounded-3xl">
-          <h3 className="text-lg font-bold text-foreground mb-4">Today's Writing</h3>
+        <div className="glass-card p-6 rounded-3xl animate-scale-in">
+          <h3 className="text-lg font-bold text-foreground mb-4 font-space font-condensed">Today's Writing</h3>
           <div className="grid grid-cols-3 gap-4">
             <div className="text-center">
-              <div className="text-2xl font-bold text-primary">0</div>
-              <div className="text-xs text-muted-foreground">Notes</div>
+              <div className="text-2xl font-bold text-primary font-space">0</div>
+              <div className="text-xs text-muted-foreground font-overused font-condensed">Notes</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-primary">0</div>
-              <div className="text-xs text-muted-foreground">Entries</div>
+              <div className="text-2xl font-bold text-primary font-space">0</div>
+              <div className="text-xs text-muted-foreground font-overused font-condensed">Entries</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-primary">0</div>
-              <div className="text-xs text-muted-foreground">Confessions</div>
+              <div className="text-2xl font-bold text-primary font-space">0</div>
+              <div className="text-xs text-muted-foreground font-overused font-condensed">Confessions</div>
             </div>
           </div>
         </div>

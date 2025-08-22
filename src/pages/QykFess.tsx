@@ -2,7 +2,9 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { QykInput } from "@/components/QykInput";
 import { ContentCard } from "@/components/ContentCard";
-import { Folder, Plus, Search, Lock } from "lucide-react";
+import { FolderManager } from "@/components/FolderManager";
+import { Search, Lock } from "lucide-react";
+import useLocalStorage from "@/hooks/useLocalStorage";
 
 interface Confession {
   id: string;
@@ -12,10 +14,10 @@ interface Confession {
 }
 
 const QykFess = () => {
-  const [confessions, setConfessions] = useState<Confession[]>([]);
+  const [confessions, setConfessions] = useLocalStorage<Confession[]>("qyk-confessions", []);
   const [currentConfession, setCurrentConfession] = useState("");
-  const [folders, setFolders] = useState<string[]>(["Private", "Secrets", "Thoughts"]);
-  const [selectedFolder, setSelectedFolder] = useState("Private");
+  const [folders, setFolders] = useLocalStorage<string[]>("qyk-fess-folders", ["Private", "Secrets", "Thoughts"]);
+  const [selectedFolder, setSelectedFolder] = useLocalStorage<string>("qyk-fess-selected-folder", "Private");
 
   const handleSubmit = () => {
     if (currentConfession.trim() && currentConfession.length <= 350) {
@@ -42,53 +44,33 @@ const QykFess = () => {
     <div className="min-h-screen bg-gradient-iridescent p-4 pb-24">
       <div className="max-w-2xl mx-auto space-y-6">
         {/* Header */}
-        <div className="text-center space-y-2 pt-safe">
-          <h1 className="text-3xl font-bold text-primary">QykFess</h1>
-          <p className="text-sm text-muted-foreground font-medium">
+        <div className="text-center space-y-2 pt-safe animate-fade-in">
+          <h1 className="text-3xl font-bold text-primary font-space font-extra-condensed">QykFess</h1>
+          <p className="text-sm text-muted-foreground font-medium font-overused font-condensed">
             Private confessions and secret thoughts (350 chars)
           </p>
         </div>
 
         {/* Privacy Notice */}
-        <div className="glass-card p-4 rounded-3xl bg-primary/5 border border-primary/20">
+        <div className="glass-card p-4 rounded-3xl bg-primary/5 border border-primary/20 animate-slide-down">
           <div className="flex items-center gap-2 text-primary">
             <Lock className="w-4 h-4" />
-            <span className="text-sm font-medium">
+            <span className="text-sm font-medium font-overused font-condensed">
               Your confessions are private and stored locally
             </span>
           </div>
         </div>
 
-        {/* Folder Selection */}
-        <div className="glass-card p-4 rounded-3xl">
-          <div className="flex items-center gap-2 mb-3">
-            <Folder className="w-4 h-4 text-primary" />
-            <span className="text-sm font-medium text-foreground">Folders</span>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {folders.map((folder) => (
-              <Button
-                key={folder}
-                variant={selectedFolder === folder ? "default" : "outline"}
-                size="sm"
-                className="rounded-full h-8 px-4 text-xs"
-                onClick={() => setSelectedFolder(folder)}
-              >
-                {folder}
-              </Button>
-            ))}
-            <Button
-              variant="outline"
-              size="sm"
-              className="rounded-full h-8 w-8 p-0"
-            >
-              <Plus className="w-3 h-3" />
-            </Button>
-          </div>
-        </div>
+        {/* Folder Management */}
+        <FolderManager
+          folders={folders}
+          selectedFolder={selectedFolder}
+          onFolderSelect={setSelectedFolder}
+          onFoldersChange={setFolders}
+        />
 
         {/* Input Section */}
-        <div className="glass-card p-6 rounded-3xl">
+        <div className="glass-card p-6 rounded-3xl animate-slide-up hover-lift">
           <QykInput
             value={currentConfession}
             onChange={setCurrentConfession}
@@ -97,13 +79,13 @@ const QykFess = () => {
             rows={4}
           />
           <div className="flex justify-between items-center mt-4">
-            <span className="text-xs text-muted-foreground">
+            <span className="text-xs text-muted-foreground font-overused font-condensed">
               {currentConfession.length}/350 characters
             </span>
             <Button 
               onClick={handleSubmit}
               disabled={!currentConfession.trim() || currentConfession.length > 350}
-              className="rounded-full px-6 h-9"
+              className="rounded-full px-6 h-9 font-overused font-condensed hover:scale-105 transition-transform duration-200"
             >
               Confess
             </Button>
@@ -111,24 +93,29 @@ const QykFess = () => {
         </div>
 
         {/* Confessions List */}
-        <div className="space-y-3">
+        <div className="space-y-3 stagger-animation">
           {filteredConfessions.length === 0 ? (
-            <div className="text-center py-12">
-              <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="text-center py-12 animate-fade-in">
+              <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse-glow">
                 <Lock className="w-8 h-8 text-muted-foreground" />
               </div>
-              <p className="text-muted-foreground">No confessions yet. Share what's on your mind.</p>
+              <p className="text-muted-foreground font-overused font-condensed">No confessions yet. Share what's on your mind.</p>
             </div>
           ) : (
-            filteredConfessions.map((confession) => (
-              <ContentCard
+            filteredConfessions.map((confession, index) => (
+              <div
                 key={confession.id}
-                title="Anonymous Confession"
-                content={confession.content}
-                timestamp={confession.timestamp}
-                onDelete={() => deleteConfession(confession.id)}
-                type="confession"
-              />
+                style={{ '--stagger-delay': index } as React.CSSProperties}
+                className="animate-slide-up"
+              >
+                <ContentCard
+                  title="Anonymous Confession"
+                  content={confession.content}
+                  timestamp={confession.timestamp}
+                  onDelete={() => deleteConfession(confession.id)}
+                  type="confession"
+                />
+              </div>
             ))
           )}
         </div>
