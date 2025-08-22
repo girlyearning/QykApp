@@ -16,7 +16,7 @@ interface Confession {
 const QykFess = () => {
   const [confessions, setConfessions] = useLocalStorage<Confession[]>("qyk-confessions", []);
   const [currentConfession, setCurrentConfession] = useState("");
-  const [newItemId, setNewItemId] = useState<string | null>(null);
+  const [newItemIds, setNewItemIds] = useState<string[]>([]);
   const [folders, setFolders] = useLocalStorage<string[]>("qyk-fess-folders", ["Private", "Secrets", "Thoughts"]);
   const [selectedFolder, setSelectedFolder] = useLocalStorage<string>("qyk-fess-selected-folder", "Private");
 
@@ -30,7 +30,7 @@ const QykFess = () => {
       };
       setConfessions([newConfession, ...confessions]);
       setCurrentConfession("");
-      setNewItemId(newConfession.id);
+      setNewItemIds(prev => [...prev, newConfession.id]);
     }
   };
 
@@ -116,7 +116,7 @@ const QykFess = () => {
                   timestamp={confession.timestamp}
                   onDelete={() => deleteConfession(confession.id)}
                   type="confession"
-                  isNew={newItemId === confession.id}
+                  isNew={newItemIds.includes(confession.id)}
                 />
               </div>
             ))

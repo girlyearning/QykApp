@@ -16,7 +16,7 @@ interface Note {
 const QykNote = () => {
   const [notes, setNotes] = useLocalStorage<Note[]>("qyk-notes", []);
   const [currentNote, setCurrentNote] = useState("");
-  const [newItemId, setNewItemId] = useState<string | null>(null);
+  const [newItemIds, setNewItemIds] = useState<string[]>([]);
   const [folders, setFolders] = useLocalStorage<string[]>("qyk-note-folders", ["General"]);
   const [selectedFolder, setSelectedFolder] = useLocalStorage<string>("qyk-note-selected-folder", "General");
 
@@ -30,7 +30,7 @@ const QykNote = () => {
       };
       setNotes([newNote, ...notes]);
       setCurrentNote("");
-      setNewItemId(newNote.id);
+      setNewItemIds(prev => [...prev, newNote.id]);
     }
   };
 
@@ -106,7 +106,7 @@ const QykNote = () => {
                   timestamp={note.timestamp}
                   onDelete={() => deleteNote(note.id)}
                   type="note"
-                  isNew={newItemId === note.id}
+                  isNew={newItemIds.includes(note.id)}
                 />
               </div>
             ))
