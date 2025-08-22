@@ -214,6 +214,20 @@ All colors MUST be HSL.
     transform: translateY(-2px);
   }
 
+  /* Pulse glow animation for highlighted items */
+  @keyframes pulse-glow {
+    0%, 100% {
+      box-shadow: 0 0 0 0px hsl(var(--primary) / 0.4);
+    }
+    50% {
+      box-shadow: 0 0 0 6px hsl(var(--primary) / 0.1);
+    }
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 2s infinite;
+  }
+
   /* Stagger animation utility */
   .stagger-animation > * {
     animation-delay: calc(var(--stagger-delay, 0) * 100ms);
