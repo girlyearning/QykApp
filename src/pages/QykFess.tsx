@@ -11,7 +11,7 @@ interface Confession {
   folder?: string;
 }
 
-const Qykfess = () => {
+const QykFess = () => {
   const [confessions, setConfessions] = useState<Confession[]>([]);
   const [currentConfession, setCurrentConfession] = useState("");
   const [folders, setFolders] = useState<string[]>(["Private", "Secrets", "Thoughts"]);
@@ -43,7 +43,7 @@ const Qykfess = () => {
       <div className="max-w-2xl mx-auto space-y-6">
         {/* Header */}
         <div className="text-center space-y-2 pt-safe">
-          <h1 className="text-3xl font-bold text-primary">Qykfess</h1>
+          <h1 className="text-3xl font-bold text-primary">QykFess</h1>
           <p className="text-sm text-muted-foreground font-medium">
             Private confessions and secret thoughts (350 chars)
           </p>
@@ -137,4 +137,4 @@ const Qykfess = () => {
   );
 };
 
-export default Qykfess;
+export default QykFess;

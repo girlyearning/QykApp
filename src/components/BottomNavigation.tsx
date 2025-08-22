@@ -16,7 +16,7 @@ const BottomNavigation = () => {
     {
       to: "/qykfess",
       icon: Lock,
-      label: "Qykfess",
+      label: "QykFess",
     },
   ];
 

@@ -6,7 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import QykNote from "./pages/QykNote";
 import QykWrite from "./pages/QykWrite";
-import Qykfess from "./pages/Qykfess";
+import QykFess from "./pages/QykFess";
 import NotFound from "./pages/NotFound";
 import BottomNavigation from "./components/BottomNavigation";
 
@@ -23,7 +23,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/qyknote" element={<QykNote />} />
             <Route path="/qykwrite" element={<QykWrite />} />
-            <Route path="/qykfess" element={<Qykfess />} />
+            <Route path="/qykfess" element={<QykFess />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

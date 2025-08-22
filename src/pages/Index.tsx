@@ -21,7 +21,7 @@ const Index = () => {
       color: "text-purple-600",
     },
     {
-      title: "Qykfess",
+      title: "QykFess",
       description: "Private confessions (350 chars)",
       icon: Lock,
       route: "/qykfess", 
