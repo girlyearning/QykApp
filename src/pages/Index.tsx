@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { StickyNote, BookOpen, Lock, Sparkles } from "lucide-react";
+import { StickyNote, BookOpen, Lock, Sparkles, Settings } from "lucide-react";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -34,9 +34,20 @@ const Index = () => {
       <div className="max-w-2xl mx-auto space-y-8">
         {/* Header */}
         <div className="text-center space-y-4 pt-safe animate-fade-in">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <Sparkles className="w-8 h-8 text-primary animate-pulse-glow" />
-            <h1 className="text-4xl font-bold text-primary font-space font-extra-condensed">QYK</h1>
+          <div className="flex items-center justify-between mb-4">
+            <div></div>
+            <div className="flex items-center justify-center gap-2">
+              <Sparkles className="w-8 h-8 text-primary animate-pulse-glow" />
+              <h1 className="text-4xl font-bold text-primary font-space font-extra-condensed">QYK</h1>
+            </div>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => navigate('/settings')}
+              className="rounded-full p-2 hover-lift"
+            >
+              <Settings className="w-5 h-5" />
+            </Button>
           </div>
           <p className="text-lg text-muted-foreground font-medium font-overused font-condensed">
             Your personal writing sanctuary

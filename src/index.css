@@ -39,20 +39,45 @@ All colors MUST be HSL.
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  /* Pink Theme */
+  .theme-pink {
+    --background: 350 100% 98%;
+    --foreground: 340 60% 15%;
+    --primary: 340 75% 55%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 340 30% 90%;
+    --secondary-foreground: 340 60% 25%;
+    --muted: 340 20% 95%;
+    --muted-foreground: 340 30% 45%;
+    --accent: 340 40% 85%;
+    --accent-foreground: 340 60% 25%;
+    --border: 340 20% 88%;
+    --input: 340 20% 88%;
+  }
+
+  /* Iridescent Theme (Default) */
+  .theme-iridescent {
+    --background: 300 100% 99%;
+    --foreground: 260 15% 15%;
+    --primary: 320 65% 65%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 280 25% 92%;
+    --secondary-foreground: 260 25% 25%;
+    --muted: 290 15% 94%;
+    --muted-foreground: 270 20% 50%;
+    --accent: 310 30% 88%;
+    --accent-foreground: 260 25% 25%;
+    --border: 290 15% 90%;
+    --input: 290 15% 90%;
   }
 
   .dark {
@@ -91,6 +116,38 @@ All colors MUST be HSL.
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  /* Theme-specific background gradients */
+  .theme-pink .bg-gradient-iridescent {
+    background: linear-gradient(135deg, 
+      hsl(340, 70%, 95%) 0%,
+      hsl(320, 60%, 92%) 25%,
+      hsl(300, 50%, 90%) 50%,
+      hsl(280, 60%, 92%) 75%,
+      hsl(340, 70%, 95%) 100%
+    );
+  }
+
+  .theme-iridescent .bg-gradient-iridescent {
+    background: linear-gradient(135deg, 
+      hsl(300, 80%, 96%) 0%,
+      hsl(280, 70%, 94%) 20%,
+      hsl(260, 60%, 92%) 40%,
+      hsl(240, 70%, 94%) 60%,
+      hsl(320, 80%, 96%) 80%,
+      hsl(300, 80%, 96%) 100%
+    );
+  }
+
+  .theme-dark .bg-gradient-iridescent {
+    background: linear-gradient(135deg, 
+      hsl(222, 50%, 8%) 0%,
+      hsl(240, 40%, 12%) 25%,
+      hsl(260, 30%, 10%) 50%,
+      hsl(240, 40%, 12%) 75%,
+      hsl(222, 50%, 8%) 100%
+    );
   }
 }
 
