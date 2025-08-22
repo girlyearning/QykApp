@@ -10,6 +10,13 @@ const Settings = () => {
 
   const themes: { id: Theme; name: string; description: string; icon: any; preview: string }[] = [
     {
+      id: 'light',
+      name: 'Light Mode',
+      description: 'Clean and bright interface (Default)',
+      icon: Sparkles,
+      preview: 'bg-gradient-to-br from-gray-50 to-gray-100'
+    },
+    {
       id: 'pink',
       name: 'Pink Bliss',
       description: 'Warm pink tones with soft gradients',
@@ -19,7 +26,7 @@ const Settings = () => {
     {
       id: 'iridescent',
       name: 'Iridescent Dreams',
-      description: 'Shimmering rainbow-like colors (Default)',
+      description: 'Shimmering rainbow-like colors',
       icon: Sparkles,
       preview: 'bg-gradient-to-br from-purple-200 via-pink-200 to-blue-200'
     },
@@ -125,7 +132,7 @@ const Settings = () => {
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Created by</span>
-                <span>QYK Team</span>
+                <span>Vee</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Data Storage</span>
