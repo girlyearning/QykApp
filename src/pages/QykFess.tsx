@@ -31,8 +31,6 @@ const QykFess = () => {
       setConfessions([newConfession, ...confessions]);
       setCurrentConfession("");
       setNewItemId(newConfession.id);
-      // Clear highlight after 3 seconds
-      setTimeout(() => setNewItemId(null), 3000);
     }
   };
 

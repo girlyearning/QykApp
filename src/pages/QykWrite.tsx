@@ -36,8 +36,6 @@ const QykWrite = () => {
       setCurrentTitle("");
       setCurrentContent("");
       setNewItemId(newEntry.id);
-      // Clear highlight after 3 seconds
-      setTimeout(() => setNewItemId(null), 3000);
     }
   };
 

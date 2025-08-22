@@ -31,8 +31,6 @@ const QykNote = () => {
       setNotes([newNote, ...notes]);
       setCurrentNote("");
       setNewItemId(newNote.id);
-      // Clear highlight after 3 seconds
-      setTimeout(() => setNewItemId(null), 3000);
     }
   };
 
