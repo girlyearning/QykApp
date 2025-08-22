@@ -1,9 +1,27 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { StickyNote, BookOpen, Lock, Sparkles, Settings } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import { useNotes, useEntries, useConfessions } from "@/hooks/useSupabaseData";
 
 const Index = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const { notes } = useNotes();
+  const { entries } = useEntries();
+  const { confessions } = useConfessions();
+
+  // Get today's counts
+  const today = new Date().toDateString();
+  const todaysNotes = notes.filter(note => 
+    new Date(note.created_at).toDateString() === today
+  ).length;
+  const todaysEntries = entries.filter(entry => 
+    new Date(entry.created_at).toDateString() === today
+  ).length;
+  const todaysConfessions = confessions.filter(confession => 
+    new Date(confession.created_at).toDateString() === today
+  ).length;
 
   const services = [
     {
@@ -50,10 +68,10 @@ const Index = () => {
             </Button>
           </div>
           <p className="text-lg text-muted-foreground font-medium font-overused font-condensed">
-            Your personal writing sanctuary
+            Welcome back, {user?.email?.split('@')[0]}!
           </p>
           <p className="text-sm text-muted-foreground max-w-md mx-auto font-overused font-condensed">
-            Express yourself through quick notes, detailed entries, or private confessions
+            Your personal writing sanctuary in the cloud
           </p>
         </div>
 
@@ -88,15 +106,15 @@ const Index = () => {
           <h3 className="text-lg font-bold text-foreground mb-4 font-space font-condensed">Today's Writing</h3>
           <div className="grid grid-cols-3 gap-4">
             <div className="text-center">
-              <div className="text-2xl font-bold text-primary font-space">0</div>
+              <div className="text-2xl font-bold text-primary font-space">{todaysNotes}</div>
               <div className="text-xs text-muted-foreground font-overused font-condensed">Notes</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-primary font-space">0</div>
+              <div className="text-2xl font-bold text-primary font-space">{todaysEntries}</div>
               <div className="text-xs text-muted-foreground font-overused font-condensed">Entries</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-primary font-space">0</div>
+              <div className="text-2xl font-bold text-primary font-space">{todaysConfessions}</div>
               <div className="text-xs text-muted-foreground font-overused font-condensed">Confessions</div>
             </div>
           </div>

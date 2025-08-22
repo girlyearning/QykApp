@@ -6,41 +6,29 @@ import { ContentCard } from "@/components/ContentCard";
 import { FolderManager } from "@/components/FolderManager";
 import { Search, BookOpen } from "lucide-react";
 import useLocalStorage from "@/hooks/useLocalStorage";
-
-interface Entry {
-  id: string;
-  title: string;
-  content: string;
-  timestamp: Date;
-  folder?: string;
-}
+import { useEntries } from "@/hooks/useSupabaseData";
 
 const QykWrite = () => {
-  const [entries, setEntries] = useLocalStorage<Entry[]>("qyk-entries", []);
+  const { entries, loading, addEntry, deleteEntry } = useEntries();
   const [currentTitle, setCurrentTitle] = useState("");
   const [currentContent, setCurrentContent] = useState("");
   const [newItemIds, setNewItemIds] = useState<string[]>([]);
   const [folders, setFolders] = useLocalStorage<string[]>("qyk-write-folders", ["Personal", "Work", "Ideas"]);
   const [selectedFolder, setSelectedFolder] = useLocalStorage<string>("qyk-write-selected-folder", "Personal");
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (currentTitle.trim() && currentContent.trim()) {
-      const newEntry: Entry = {
-        id: Date.now().toString(),
-        title: currentTitle.trim(),
-        content: currentContent.trim(),
-        timestamp: new Date(),
-        folder: selectedFolder,
-      };
-      setEntries([newEntry, ...entries]);
-      setCurrentTitle("");
-      setCurrentContent("");
-      setNewItemIds(prev => [...prev, newEntry.id]);
+      const newEntry = await addEntry(currentContent.trim(), currentTitle.trim(), selectedFolder);
+      if (newEntry) {
+        setCurrentTitle("");
+        setCurrentContent("");
+        setNewItemIds(prev => [...prev, newEntry.id]);
+      }
     }
   };
 
-  const deleteEntry = (id: string) => {
-    setEntries(entries.filter(entry => entry.id !== id));
+  const handleDelete = (id: string) => {
+    deleteEntry(id);
   };
 
   const filteredEntries = entries.filter(entry => 
@@ -113,14 +101,14 @@ const QykWrite = () => {
                 style={{ '--stagger-delay': index } as React.CSSProperties}
                 className="animate-slide-up"
               >
-                <ContentCard
-                  title={entry.title}
-                  content={entry.content}
-                  timestamp={entry.timestamp}
-                  onDelete={() => deleteEntry(entry.id)}
-                  type="entry"
-                  isNew={newItemIds.includes(entry.id)}
-                />
+                 <ContentCard
+                   title={entry.title || "Untitled"}
+                   content={entry.content}
+                   timestamp={new Date(entry.created_at)}
+                   onDelete={() => handleDelete(entry.id)}
+                   type="entry"
+                   isNew={newItemIds.includes(entry.id)}
+                 />
               </div>
             ))
           )}

@@ -1,12 +1,33 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useTheme, Theme } from "@/contexts/ThemeContext";
-import { Palette, Sparkles, Moon, Check, ArrowLeft } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import { Palette, Sparkles, Moon, Check, ArrowLeft, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
 
 const Settings = () => {
   const { theme, setTheme } = useTheme();
+  const { signOut, user } = useAuth();
+  const { toast } = useToast();
   const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await signOut();
+      toast({
+        title: "Signed out",
+        description: "You have been signed out successfully",
+      });
+      navigate("/auth");
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to sign out",
+        variant: "destructive",
+      });
+    }
+  };
 
   const themes: { id: Theme; name: string; description: string; icon: any; preview: string }[] = [
     {
@@ -63,6 +84,32 @@ const Settings = () => {
             </p>
           </div>
         </div>
+
+        {/* Authentication */}
+        <Card className="glass-card border-0 animate-slide-up">
+          <CardHeader>
+            <CardTitle className="font-space font-condensed">Account</CardTitle>
+            <CardDescription className="font-overused font-condensed">
+              Manage your account and sign out
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="text-sm space-y-2 font-overused font-condensed">
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Email</span>
+                <span>{user?.email}</span>
+              </div>
+            </div>
+            <Button
+              variant="outline"
+              onClick={handleLogout}
+              className="w-full rounded-2xl font-overused font-condensed hover-lift"
+            >
+              <LogOut className="w-4 h-4 mr-2" />
+              Sign Out
+            </Button>
+          </CardContent>
+        </Card>
 
         {/* Theme Selection */}
         <Card className="glass-card border-0 animate-slide-up">
@@ -136,7 +183,7 @@ const Settings = () => {
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Data Storage</span>
-                <span>Local Only</span>
+                <span>Supabase Cloud</span>
               </div>
             </div>
           </CardContent>
@@ -145,9 +192,9 @@ const Settings = () => {
         {/* Privacy Notice */}
         <div className="glass-card p-4 rounded-3xl bg-primary/5 border border-primary/20 animate-scale-in">
           <div className="text-center space-y-2">
-            <h3 className="font-semibold text-primary font-space font-condensed">Privacy First</h3>
+            <h3 className="font-semibold text-primary font-space font-condensed">Secure & Private</h3>
             <p className="text-xs text-muted-foreground font-overused font-condensed">
-              All your notes, entries, and confessions are stored locally on your device. Nothing is sent to external servers.
+              Your data is securely stored in the cloud with end-to-end encryption. Only you can access your notes, entries, and confessions.
             </p>
           </div>
         </div>

@@ -5,37 +5,27 @@ import { ContentCard } from "@/components/ContentCard";
 import { FolderManager } from "@/components/FolderManager";
 import { Search } from "lucide-react";
 import useLocalStorage from "@/hooks/useLocalStorage";
-
-interface Note {
-  id: string;
-  content: string;
-  timestamp: Date;
-  folder?: string;
-}
+import { useNotes } from "@/hooks/useSupabaseData";
 
 const QykNote = () => {
-  const [notes, setNotes] = useLocalStorage<Note[]>("qyk-notes", []);
+  const { notes, loading, addNote, deleteNote } = useNotes();
   const [currentNote, setCurrentNote] = useState("");
   const [newItemIds, setNewItemIds] = useState<string[]>([]);
   const [folders, setFolders] = useLocalStorage<string[]>("qyk-note-folders", ["General"]);
   const [selectedFolder, setSelectedFolder] = useLocalStorage<string>("qyk-note-selected-folder", "General");
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (currentNote.trim() && currentNote.length <= 200) {
-      const newNote: Note = {
-        id: Date.now().toString(),
-        content: currentNote.trim(),
-        timestamp: new Date(),
-        folder: selectedFolder,
-      };
-      setNotes([newNote, ...notes]);
-      setCurrentNote("");
-      setNewItemIds(prev => [...prev, newNote.id]);
+      const newNote = await addNote(currentNote.trim(), selectedFolder);
+      if (newNote) {
+        setCurrentNote("");
+        setNewItemIds(prev => [...prev, newNote.id]);
+      }
     }
   };
 
-  const deleteNote = (id: string) => {
-    setNotes(notes.filter(note => note.id !== id));
+  const handleDelete = (id: string) => {
+    deleteNote(id);
   };
 
   const filteredNotes = notes.filter(note => 
@@ -100,14 +90,14 @@ const QykNote = () => {
                 style={{ '--stagger-delay': index } as React.CSSProperties}
                 className="animate-slide-up"
               >
-                <ContentCard
-                  title="QykNote"
-                  content={note.content}
-                  timestamp={note.timestamp}
-                  onDelete={() => deleteNote(note.id)}
-                  type="note"
-                  isNew={newItemIds.includes(note.id)}
-                />
+                 <ContentCard
+                   title="QykNote"
+                   content={note.content}
+                   timestamp={new Date(note.created_at)}
+                   onDelete={() => handleDelete(note.id)}
+                   type="note"
+                   isNew={newItemIds.includes(note.id)}
+                 />
               </div>
             ))
           )}

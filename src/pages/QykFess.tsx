@@ -5,37 +5,27 @@ import { ContentCard } from "@/components/ContentCard";
 import { FolderManager } from "@/components/FolderManager";
 import { Search, Lock } from "lucide-react";
 import useLocalStorage from "@/hooks/useLocalStorage";
-
-interface Confession {
-  id: string;
-  content: string;
-  timestamp: Date;
-  folder?: string;
-}
+import { useConfessions } from "@/hooks/useSupabaseData";
 
 const QykFess = () => {
-  const [confessions, setConfessions] = useLocalStorage<Confession[]>("qyk-confessions", []);
+  const { confessions, loading, addConfession, deleteConfession } = useConfessions();
   const [currentConfession, setCurrentConfession] = useState("");
   const [newItemIds, setNewItemIds] = useState<string[]>([]);
   const [folders, setFolders] = useLocalStorage<string[]>("qyk-fess-folders", ["Private", "Secrets", "Thoughts"]);
   const [selectedFolder, setSelectedFolder] = useLocalStorage<string>("qyk-fess-selected-folder", "Private");
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (currentConfession.trim() && currentConfession.length <= 350) {
-      const newConfession: Confession = {
-        id: Date.now().toString(),
-        content: currentConfession.trim(),
-        timestamp: new Date(),
-        folder: selectedFolder,
-      };
-      setConfessions([newConfession, ...confessions]);
-      setCurrentConfession("");
-      setNewItemIds(prev => [...prev, newConfession.id]);
+      const newConfession = await addConfession(currentConfession.trim(), selectedFolder);
+      if (newConfession) {
+        setCurrentConfession("");
+        setNewItemIds(prev => [...prev, newConfession.id]);
+      }
     }
   };
 
-  const deleteConfession = (id: string) => {
-    setConfessions(confessions.filter(confession => confession.id !== id));
+  const handleDelete = (id: string) => {
+    deleteConfession(id);
   };
 
   const filteredConfessions = confessions.filter(confession => 
@@ -110,14 +100,14 @@ const QykFess = () => {
                 style={{ '--stagger-delay': index } as React.CSSProperties}
                 className="animate-slide-up"
               >
-                <ContentCard
-                  title="Anonymous Confession"
-                  content={confession.content}
-                  timestamp={confession.timestamp}
-                  onDelete={() => deleteConfession(confession.id)}
-                  type="confession"
-                  isNew={newItemIds.includes(confession.id)}
-                />
+                 <ContentCard
+                   title="Anonymous Confession"
+                   content={confession.content}
+                   timestamp={new Date(confession.created_at)}
+                   onDelete={() => handleDelete(confession.id)}
+                   type="confession"
+                   isNew={newItemIds.includes(confession.id)}
+                 />
               </div>
             ))
           )}
