@@ -20,7 +20,9 @@ const FolderManager = ({ folders, selectedFolder, onFolderSelect, onFoldersChang
   const createFolder = () => {
     const name = newFolderName.trim();
     if (name && !folders.includes(name)) {
-      onFoldersChange([...folders, name]);
+      const newFolders = [...folders, name];
+      onFoldersChange(newFolders);
+      onFolderSelect(name); // Auto-select the new folder
       setNewFolderName("");
       setIsCreating(false);
     }
@@ -42,9 +44,11 @@ const FolderManager = ({ folders, selectedFolder, onFolderSelect, onFoldersChang
   const deleteFolder = (folderName: string) => {
     const newFolders = folders.filter(f => f !== folderName);
     onFoldersChange(newFolders);
-    if (selectedFolder === folderName && newFolders.length > 0) {
-      onFolderSelect(newFolders[0]);
-    }
+      if (selectedFolder === folderName && newFolders.length > 0) {
+        onFolderSelect(newFolders[0]);
+      } else if (selectedFolder === folderName) {
+        onFolderSelect("");
+      }
   };
 
   const startEdit = (folderName: string) => {
@@ -60,83 +64,91 @@ const FolderManager = ({ folders, selectedFolder, onFolderSelect, onFoldersChang
       </div>
       
       <div className="flex flex-wrap gap-2 stagger-animation">
-        {folders.map((folder, index) => (
-          <div
-            key={folder}
-            style={{ '--stagger-delay': index } as React.CSSProperties}
-            className="animate-fade-in"
-          >
-            {isEditing === folder ? (
-              <div className="flex items-center gap-1">
-                <Input
-                  value={editFolderName}
-                  onChange={(e) => setEditFolderName(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') renameFolder(folder);
-                    if (e.key === 'Escape') setIsEditing(null);
-                  }}
-                  className="h-8 w-24 text-xs rounded-full border-primary/50"
-                  autoFocus
-                />
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-6 w-6 p-0"
-                  onClick={() => renameFolder(folder)}
-                >
-                  ✓
-                </Button>
-              </div>
-            ) : (
-              <div className="flex items-center gap-1">
-                <Button
-                  variant={selectedFolder === folder ? "default" : "outline"}
-                  size="sm"
-                  className="rounded-full h-8 px-4 text-xs font-overused font-condensed hover-lift"
-                  onClick={() => onFolderSelect(folder)}
-                >
-                  {folder}
-                </Button>
-                
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
-                    >
-                      <Edit2 className="w-3 h-3" />
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="sm:max-w-md">
-                    <DialogHeader>
-                      <DialogTitle className="font-space">Manage Folder</DialogTitle>
-                    </DialogHeader>
-                    <div className="space-y-4">
-                      <Button
-                        variant="outline"
-                        onClick={() => startEdit(folder)}
-                        className="w-full justify-start"
-                      >
-                        <Edit2 className="w-4 h-4 mr-2" />
-                        Rename
-                      </Button>
-                      <Button
-                        variant="destructive"
-                        onClick={() => deleteFolder(folder)}
-                        className="w-full justify-start"
-                        disabled={folders.length === 1}
-                      >
-                        <Trash2 className="w-4 h-4 mr-2" />
-                        Delete
-                      </Button>
-                    </div>
-                  </DialogContent>
-                </Dialog>
-              </div>
-            )}
+        {folders.length === 0 ? (
+          <div className="text-center w-full mb-4">
+            <p className="text-sm text-muted-foreground font-overused font-condensed mb-2">
+              No folders yet. Create your first one!
+            </p>
           </div>
-        ))}
+        ) : (
+          folders.map((folder, index) => (
+            <div
+              key={folder}
+              style={{ '--stagger-delay': index } as React.CSSProperties}
+              className="animate-fade-in"
+            >
+              {isEditing === folder ? (
+                <div className="flex items-center gap-1">
+                  <Input
+                    value={editFolderName}
+                    onChange={(e) => setEditFolderName(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') renameFolder(folder);
+                      if (e.key === 'Escape') setIsEditing(null);
+                    }}
+                    className="h-8 w-24 text-xs rounded-full border-primary/50"
+                    autoFocus
+                  />
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-6 w-6 p-0"
+                    onClick={() => renameFolder(folder)}
+                  >
+                    ✓
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex items-center gap-1 group">
+                  <Button
+                    variant={selectedFolder === folder ? "default" : "outline"}
+                    size="sm"
+                    className="rounded-full h-8 px-4 text-xs font-overused font-condensed hover-lift"
+                    onClick={() => onFolderSelect(folder)}
+                  >
+                    {folder}
+                  </Button>
+                  
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <Edit2 className="w-3 h-3" />
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-md">
+                      <DialogHeader>
+                        <DialogTitle className="font-space">Manage Folder</DialogTitle>
+                      </DialogHeader>
+                      <div className="space-y-4">
+                        <Button
+                          variant="outline"
+                          onClick={() => startEdit(folder)}
+                          className="w-full justify-start"
+                        >
+                          <Edit2 className="w-4 h-4 mr-2" />
+                          Rename
+                        </Button>
+                        <Button
+                          variant="destructive"
+                          onClick={() => deleteFolder(folder)}
+                          className="w-full justify-start"
+                          disabled={folders.length === 1}
+                        >
+                          <Trash2 className="w-4 h-4 mr-2" />
+                          Delete
+                        </Button>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                </div>
+              )}
+            </div>
+          ))
+        )}
 
         {isCreating ? (
           <div className="flex items-center gap-1 animate-scale-in">

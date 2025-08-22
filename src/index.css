@@ -228,6 +228,44 @@ All colors MUST be HSL.
     animation: pulse-glow 2s infinite;
   }
 
+  /* Colored outlines for new posts across all themes */
+  .theme-light .animate-pulse-glow {
+    animation: pulse-glow 2s infinite;
+    border-color: hsl(var(--primary) / 0.6);
+  }
+
+  .theme-pink .animate-pulse-glow {
+    animation: pulse-glow 2s infinite;
+    border-color: hsl(340, 75%, 55% / 0.6);
+  }
+
+  .theme-iridescent .animate-pulse-glow {
+    animation: pulse-glow 2s infinite;
+    border-color: hsl(320, 65%, 65% / 0.6);
+  }
+
+  .theme-dark .animate-pulse-glow {
+    animation: pulse-glow 2s infinite;
+    border-color: hsl(var(--primary) / 0.6);
+  }
+
+  /* Enhanced ring colors for new items */
+  .theme-light .ring-primary\/60 {
+    --tw-ring-color: hsl(222.2 47.4% 11.2% / 0.6);
+  }
+
+  .theme-pink .ring-primary\/60 {
+    --tw-ring-color: hsl(340 75% 55% / 0.6);
+  }
+
+  .theme-iridescent .ring-primary\/60 {
+    --tw-ring-color: hsl(320 65% 65% / 0.6);
+  }
+
+  .theme-dark .ring-primary\/60 {
+    --tw-ring-color: hsl(210 40% 98% / 0.6);
+  }
+
   /* Stagger animation utility */
   .stagger-animation > * {
     animation-delay: calc(var(--stagger-delay, 0) * 100ms);

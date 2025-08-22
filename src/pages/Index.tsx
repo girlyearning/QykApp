@@ -2,11 +2,13 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { StickyNote, BookOpen, Lock, Sparkles, Settings } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+import { useProfile } from "@/hooks/useProfile";
 import { useNotes, useEntries, useConfessions } from "@/hooks/useSupabaseData";
 
 const Index = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { profile } = useProfile();
   const { notes } = useNotes();
   const { entries } = useEntries();
   const { confessions } = useConfessions();
@@ -68,7 +70,7 @@ const Index = () => {
             </Button>
           </div>
           <p className="text-lg text-muted-foreground font-medium font-overused font-condensed">
-            Welcome back, {user?.email?.split('@')[0]}!
+            Welcome back, {profile?.display_name || user?.email?.split('@')[0]}!
           </p>
           <p className="text-sm text-muted-foreground max-w-md mx-auto font-overused font-condensed">
             Your personal writing sanctuary in the cloud
