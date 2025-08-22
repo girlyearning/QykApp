@@ -43,7 +43,7 @@ const QykWrite = () => {
         <div className="flex items-center justify-between pt-safe animate-fade-in">
           <div className="text-center flex-1">
             <h1 className="text-3xl font-bold text-primary font-space font-extra-condensed">QykWrite</h1>
-            <p className="text-sm text-muted-foreground font-medium font-overused font-condensed">
+            <p className="text-sm text-muted-foreground font-medium font-condensed">
               {selectedFolder ? `Folder: ${selectedFolder}` : "Long-form journal entries and thoughts"}
             </p>
           </div>
@@ -63,7 +63,7 @@ const QykWrite = () => {
             value={currentTitle}
             onChange={(e) => setCurrentTitle(e.target.value)}
             placeholder="Entry title..."
-            className="border-0 bg-muted/50 rounded-2xl h-12 px-4 text-base font-medium placeholder:text-muted-foreground/70 font-overused font-condensed"
+            className="border-0 bg-muted/50 rounded-2xl h-12 px-4 text-base font-medium placeholder:text-muted-foreground/70 font-condensed"
           />
           
           <QykInput
@@ -75,13 +75,13 @@ const QykWrite = () => {
           />
           
           <div className="flex justify-between items-center">
-            <span className="text-xs text-muted-foreground font-overused font-condensed">
+            <span className="text-xs text-muted-foreground font-condensed">
               {currentContent.length} characters
             </span>
             <Button 
               onClick={handleSubmit}
               disabled={!currentTitle.trim() || !currentContent.trim()}
-              className="rounded-full px-6 h-9 font-overused font-condensed hover:scale-105 transition-transform duration-200"
+              className="rounded-full px-6 h-9 font-condensed hover:scale-105 transition-transform duration-200"
             >
               Save Entry
             </Button>
@@ -95,7 +95,7 @@ const QykWrite = () => {
               <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse-glow">
                 <BookOpen className="w-8 h-8 text-muted-foreground" />
               </div>
-              <p className="text-muted-foreground font-overused font-condensed">No entries yet. Start your writing journey!</p>
+              <p className="text-muted-foreground font-condensed">No entries yet. Start your writing journey!</p>
             </div>
           ) : (
             filteredEntries.map((entry, index) => (

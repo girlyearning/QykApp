@@ -69,10 +69,10 @@ const Index = () => {
               <Settings className="w-5 h-5" />
             </Button>
           </div>
-          <p className="text-lg text-muted-foreground font-medium font-overused font-condensed">
+          <p className="text-lg text-muted-foreground font-medium font-condensed">
             Welcome back, {profile?.display_name || user?.email?.split('@')[0]}!
           </p>
-          <p className="text-sm text-muted-foreground max-w-md mx-auto font-overused font-condensed">
+          <p className="text-sm text-muted-foreground max-w-md mx-auto font-condensed">
             Your personal writing sanctuary in the cloud
           </p>
         </div>
@@ -94,7 +94,7 @@ const Index = () => {
                   <h3 className="text-xl font-bold text-foreground font-space font-condensed">
                     {service.title}
                   </h3>
-                  <p className="text-sm text-muted-foreground font-medium font-overused font-condensed">
+                  <p className="text-sm text-muted-foreground font-medium font-condensed">
                     {service.description}
                   </p>
                 </div>
@@ -109,15 +109,15 @@ const Index = () => {
           <div className="grid grid-cols-3 gap-4">
             <div className="text-center">
               <div className="text-2xl font-bold text-primary font-space">{todaysNotes}</div>
-              <div className="text-xs text-muted-foreground font-overused font-condensed">Notes</div>
+              <div className="text-xs text-muted-foreground font-condensed">Notes</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-primary font-space">{todaysEntries}</div>
-              <div className="text-xs text-muted-foreground font-overused font-condensed">Entries</div>
+              <div className="text-xs text-muted-foreground font-condensed">Entries</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-primary font-space">{todaysConfessions}</div>
-              <div className="text-xs text-muted-foreground font-overused font-condensed">Confessions</div>
+              <div className="text-xs text-muted-foreground font-condensed">Confessions</div>
             </div>
           </div>
         </div>

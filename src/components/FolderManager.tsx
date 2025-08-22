@@ -66,7 +66,7 @@ const FolderManager = ({ folders, selectedFolder, onFolderSelect, onFoldersChang
       <div className="flex flex-wrap gap-2 stagger-animation">
         {folders.length === 0 ? (
           <div className="text-center w-full mb-4">
-            <p className="text-sm text-muted-foreground font-overused font-condensed mb-2">
+            <p className="text-sm text-muted-foreground font-condensed mb-2">
               No folders yet. Create your first one!
             </p>
           </div>
@@ -103,7 +103,7 @@ const FolderManager = ({ folders, selectedFolder, onFolderSelect, onFoldersChang
                   <Button
                     variant={selectedFolder === folder ? "default" : "outline"}
                     size="sm"
-                    className="rounded-full h-8 px-4 text-xs font-overused font-condensed hover-lift"
+                    className="rounded-full h-8 px-4 text-xs font-condensed hover-lift"
                     onClick={() => onFolderSelect(folder)}
                   >
                     {folder}

@@ -35,7 +35,7 @@ const QykFessFolders = () => {
         <div className="flex items-center justify-between pt-safe animate-fade-in">
           <div className="text-center flex-1">
             <h1 className="text-3xl font-bold text-primary font-space font-extra-condensed">Fess Folders</h1>
-            <p className="text-sm text-muted-foreground font-medium font-overused font-condensed">
+            <p className="text-sm text-muted-foreground font-medium font-condensed">
               Organize your private confessions
             </p>
           </div>
@@ -53,7 +53,7 @@ const QykFessFolders = () => {
         <div className="glass-card p-4 rounded-3xl bg-primary/5 border border-primary/20 animate-slide-down">
           <div className="flex items-center gap-2 text-primary">
             <Lock className="w-4 h-4" />
-            <span className="text-sm font-medium font-overused font-condensed">
+            <span className="text-sm font-medium font-condensed">
               Your confessions are private and secure
             </span>
           </div>
@@ -85,7 +85,7 @@ const QykFessFolders = () => {
               <h3 className="font-semibold text-foreground font-space font-condensed text-base">
                 All Confessions
               </h3>
-              <p className="text-sm text-muted-foreground font-overused font-condensed">
+              <p className="text-sm text-muted-foreground font-condensed">
                 {confessions.length} Total Confessions
               </p>
             </div>
@@ -99,7 +99,7 @@ const QykFessFolders = () => {
               <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse-glow">
                 <Plus className="w-8 h-8 text-muted-foreground" />
               </div>
-              <p className="text-muted-foreground font-overused font-condensed">No folders yet. Create your first one!</p>
+              <p className="text-muted-foreground font-condensed">No folders yet. Create your first one!</p>
             </div>
           ) : (
             folders.map((folder, index) => (

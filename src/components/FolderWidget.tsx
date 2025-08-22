@@ -49,7 +49,7 @@ const FolderWidget = ({ name, count, type, onSelect }: FolderWidgetProps) => {
           <h3 className="font-semibold text-foreground font-space font-condensed text-base">
             {name}
           </h3>
-          <p className="text-sm text-muted-foreground font-overused font-condensed">
+          <p className="text-sm text-muted-foreground font-condensed">
             {count} {getTypeLabel()}
           </p>
         </div>

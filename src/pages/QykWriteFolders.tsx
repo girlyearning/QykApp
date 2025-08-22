@@ -35,7 +35,7 @@ const QykWriteFolders = () => {
         <div className="flex items-center justify-between pt-safe animate-fade-in">
           <div className="text-center flex-1">
             <h1 className="text-3xl font-bold text-primary font-space font-extra-condensed">Write Folders</h1>
-            <p className="text-sm text-muted-foreground font-medium font-overused font-condensed">
+            <p className="text-sm text-muted-foreground font-medium font-condensed">
               Organize your journal entries
             </p>
           </div>
@@ -75,7 +75,7 @@ const QykWriteFolders = () => {
               <h3 className="font-semibold text-foreground font-space font-condensed text-base">
                 All Entries
               </h3>
-              <p className="text-sm text-muted-foreground font-overused font-condensed">
+              <p className="text-sm text-muted-foreground font-condensed">
                 {entries.length} Total Entries
               </p>
             </div>
@@ -89,7 +89,7 @@ const QykWriteFolders = () => {
               <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse-glow">
                 <Plus className="w-8 h-8 text-muted-foreground" />
               </div>
-              <p className="text-muted-foreground font-overused font-condensed">No folders yet. Create your first one!</p>
+              <p className="text-muted-foreground font-condensed">No folders yet. Create your first one!</p>
             </div>
           ) : (
             folders.map((folder, index) => (

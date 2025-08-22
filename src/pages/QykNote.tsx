@@ -40,7 +40,7 @@ const QykNote = () => {
         <div className="flex items-center justify-between pt-safe animate-fade-in">
           <div className="text-center flex-1">
             <h1 className="text-3xl font-bold text-primary font-space font-extra-condensed">QykNote</h1>
-            <p className="text-sm text-muted-foreground font-medium font-overused font-condensed">
+            <p className="text-sm text-muted-foreground font-medium font-condensed">
               {selectedFolder ? `Folder: ${selectedFolder}` : "Quick 200-character thoughts and updates"}
             </p>
           </div>
@@ -64,13 +64,13 @@ const QykNote = () => {
             rows={3}
           />
           <div className="flex justify-between items-center mt-4">
-            <span className="text-xs text-muted-foreground font-overused font-condensed">
+            <span className="text-xs text-muted-foreground font-condensed">
               {currentNote.length}/200 characters
             </span>
             <Button 
               onClick={handleSubmit}
               disabled={!currentNote.trim() || currentNote.length > 200}
-              className="rounded-full px-6 h-9 font-overused font-condensed hover:scale-105 transition-transform duration-200"
+              className="rounded-full px-6 h-9 font-condensed hover:scale-105 transition-transform duration-200"
             >
               Post Note
             </Button>
@@ -84,7 +84,7 @@ const QykNote = () => {
               <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse-glow">
                 <Search className="w-8 h-8 text-muted-foreground" />
               </div>
-              <p className="text-muted-foreground font-overused font-condensed">No notes yet. Share your first thought!</p>
+              <p className="text-muted-foreground font-condensed">No notes yet. Share your first thought!</p>
             </div>
           ) : (
             filteredNotes.map((note, index) => (

@@ -38,7 +38,7 @@ const BottomNavigation = () => {
               }
             >
               <item.icon className="w-5 h-5" />
-              <span className="text-xs font-medium font-overused font-condensed">{item.label}</span>
+              <span className="text-xs font-medium font-condensed">{item.label}</span>
             </NavLink>
           ))}
         </div>

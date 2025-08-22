@@ -74,7 +74,7 @@ const Settings = () => {
         <div className="flex items-center gap-4 pt-safe animate-fade-in">
           <div>
             <h1 className="text-3xl font-bold text-primary font-space font-extra-condensed">Settings</h1>
-            <p className="text-sm text-muted-foreground font-medium font-overused font-condensed">
+            <p className="text-sm text-muted-foreground font-medium font-condensed">
               Customize your QYK experience
             </p>
           </div>
@@ -84,12 +84,12 @@ const Settings = () => {
         <Card className="glass-card border-0 animate-slide-up">
           <CardHeader>
             <CardTitle className="font-space font-condensed">Account</CardTitle>
-            <CardDescription className="font-overused font-condensed">
+            <CardDescription className="font-condensed">
               Manage your account and sign out
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="space-y-4 font-overused font-condensed">
+            <div className="space-y-4 font-condensed">
               <div className="flex justify-between items-center">
                 <span className="text-muted-foreground">Email</span>
                 <span className="text-sm">{user?.email}</span>
@@ -118,7 +118,7 @@ const Settings = () => {
             <Button
               variant="outline"
               onClick={handleLogout}
-              className="w-full rounded-2xl font-overused font-condensed hover-lift"
+              className="w-full rounded-2xl font-condensed hover-lift"
             >
               <LogOut className="w-4 h-4 mr-2" />
               Sign Out
@@ -130,7 +130,7 @@ const Settings = () => {
         <Card className="glass-card border-0 animate-slide-up">
           <CardHeader>
             <CardTitle className="font-space font-condensed">Theme Selection</CardTitle>
-            <CardDescription className="font-overused font-condensed">
+            <CardDescription className="font-condensed">
               Choose your preferred visual style for the app
             </CardDescription>
           </CardHeader>
@@ -155,12 +155,12 @@ const Settings = () => {
         <Card className="glass-card border-0 animate-slide-up">
           <CardHeader>
             <CardTitle className="font-space font-condensed">About QYK</CardTitle>
-            <CardDescription className="font-overused font-condensed">
+            <CardDescription className="font-condensed">
               Your personal writing sanctuary
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="text-sm space-y-2 font-overused font-condensed">
+            <div className="text-sm space-y-2 font-condensed">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Version</span>
                 <span>1.0.0</span>
@@ -181,7 +181,7 @@ const Settings = () => {
         <div className="glass-card p-4 rounded-3xl bg-primary/5 border border-primary/20 animate-scale-in">
           <div className="text-center space-y-2">
             <h3 className="font-semibold text-primary font-space font-condensed">Secure & Private</h3>
-            <p className="text-xs text-muted-foreground font-overused font-condensed">
+            <p className="text-xs text-muted-foreground font-condensed">
               Your data is securely stored in the cloud with end-to-end encryption. Only you can access your notes, entries, and confessions.
             </p>
           </div>

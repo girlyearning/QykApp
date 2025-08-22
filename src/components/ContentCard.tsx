@@ -49,7 +49,7 @@ const ContentCard = ({ title, content, timestamp, onDelete, type, isNew = false 
           <h4 className="font-medium text-foreground text-sm mb-1 font-space font-condensed">{title}</h4>
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
             <Clock className="w-3 h-3" />
-            <span className="font-overused font-condensed">{formatTimestamp(timestamp)}</span>
+            <span className="font-condensed">{formatTimestamp(timestamp)}</span>
           </div>
         </div>
         <Button
@@ -62,7 +62,7 @@ const ContentCard = ({ title, content, timestamp, onDelete, type, isNew = false 
         </Button>
       </div>
       
-      <div className="text-sm text-foreground/90 leading-relaxed font-overused font-condensed">
+      <div className="text-sm text-foreground/90 leading-relaxed font-condensed">
         {getDisplayContent()}
       </div>
     </div>

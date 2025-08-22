@@ -64,14 +64,14 @@ const Auth = () => {
           <CardTitle className="text-2xl font-bold text-primary font-space font-extra-condensed">
             {isLogin ? "Welcome Back" : "Create Account"}
           </CardTitle>
-          <CardDescription className="font-overused font-condensed">
+          <CardDescription className="font-condensed">
             {isLogin ? "Sign in to access your QYK data" : "Join QYK to save your thoughts securely"}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email" className="font-overused font-condensed">Email</Label>
+              <Label htmlFor="email" className="font-condensed">Email</Label>
               <div className="relative">
                 <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                 <Input
@@ -80,13 +80,13 @@ const Auth = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your email"
-                  className="pl-10 rounded-xl font-overused font-condensed"
+                  className="pl-10 rounded-xl font-condensed"
                   required
                 />
               </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password" className="font-overused font-condensed">Password</Label>
+              <Label htmlFor="password" className="font-condensed">Password</Label>
               <div className="relative">
                 <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                 <Input
@@ -95,7 +95,7 @@ const Auth = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter your password"
-                  className="pl-10 rounded-xl font-overused font-condensed"
+                  className="pl-10 rounded-xl font-condensed"
                   required
                   minLength={6}
                 />
@@ -103,7 +103,7 @@ const Auth = () => {
             </div>
             <Button
               type="submit"
-              className="w-full rounded-xl font-overused font-condensed"
+              className="w-full rounded-xl font-condensed"
               disabled={loading}
             >
               {loading ? "Loading..." : (isLogin ? "Sign In" : "Sign Up")}
@@ -113,7 +113,7 @@ const Auth = () => {
             <button
               type="button"
               onClick={() => setIsLogin(!isLogin)}
-              className="text-sm text-primary hover:underline font-overused font-condensed"
+              className="text-sm text-primary hover:underline font-condensed"
             >
               {isLogin ? "Don't have an account? Sign up" : "Already have an account? Sign in"}
             </button>

@@ -40,7 +40,7 @@ const QykFess = () => {
         <div className="flex items-center justify-between pt-safe animate-fade-in">
           <div className="text-center flex-1">
             <h1 className="text-3xl font-bold text-primary font-space font-extra-condensed">QykFess</h1>
-            <p className="text-sm text-muted-foreground font-medium font-overused font-condensed">
+            <p className="text-sm text-muted-foreground font-medium font-condensed">
               {selectedFolder ? `Folder: ${selectedFolder}` : "Private confessions and secret thoughts (350 chars)"}
             </p>
           </div>
@@ -58,7 +58,7 @@ const QykFess = () => {
         <div className="glass-card p-4 rounded-3xl bg-primary/5 border border-primary/20 animate-slide-down">
           <div className="flex items-center gap-2 text-primary">
             <Lock className="w-4 h-4" />
-            <span className="text-sm font-medium font-overused font-condensed">
+            <span className="text-sm font-medium font-condensed">
               Your confessions are private and secure
             </span>
           </div>
@@ -74,13 +74,13 @@ const QykFess = () => {
             rows={4}
           />
           <div className="flex justify-between items-center mt-4">
-            <span className="text-xs text-muted-foreground font-overused font-condensed">
+            <span className="text-xs text-muted-foreground font-condensed">
               {currentConfession.length}/350 characters
             </span>
             <Button 
               onClick={handleSubmit}
               disabled={!currentConfession.trim() || currentConfession.length > 350}
-              className="rounded-full px-6 h-9 font-overused font-condensed hover:scale-105 transition-transform duration-200"
+              className="rounded-full px-6 h-9 font-condensed hover:scale-105 transition-transform duration-200"
             >
               Confess
             </Button>
@@ -94,7 +94,7 @@ const QykFess = () => {
               <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse-glow">
                 <Lock className="w-8 h-8 text-muted-foreground" />
               </div>
-              <p className="text-muted-foreground font-overused font-condensed">No confessions yet. Share what's on your mind.</p>
+              <p className="text-muted-foreground font-condensed">No confessions yet. Share what's on your mind.</p>
             </div>
           ) : (
             filteredConfessions.map((confession, index) => (
