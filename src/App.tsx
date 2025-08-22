@@ -9,6 +9,9 @@ import Index from "./pages/Index";
 import QykNote from "./pages/QykNote";
 import QykWrite from "./pages/QykWrite";
 import QykFess from "./pages/QykFess";
+import QykNoteFolders from "./pages/QykNoteFolders";
+import QykWriteFolders from "./pages/QykWriteFolders";
+import QykFessFolders from "./pages/QykFessFolders";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
@@ -31,9 +34,12 @@ const AppContent = () => {
         <Routes>
           <Route path="/auth" element={<Auth />} />
           <Route path="/" element={<ProtectedRoute><Index /></ProtectedRoute>} />
-          <Route path="/qyknote" element={<ProtectedRoute><QykNote /></ProtectedRoute>} />
-          <Route path="/qykwrite" element={<ProtectedRoute><QykWrite /></ProtectedRoute>} />
-          <Route path="/qykfess" element={<ProtectedRoute><QykFess /></ProtectedRoute>} />
+          <Route path="/qyk-note" element={<ProtectedRoute><QykNote /></ProtectedRoute>} />
+          <Route path="/qyk-write" element={<ProtectedRoute><QykWrite /></ProtectedRoute>} />
+          <Route path="/qyk-fess" element={<ProtectedRoute><QykFess /></ProtectedRoute>} />
+          <Route path="/qyk-note-folders" element={<ProtectedRoute><QykNoteFolders /></ProtectedRoute>} />
+          <Route path="/qyk-write-folders" element={<ProtectedRoute><QykWriteFolders /></ProtectedRoute>} />
+          <Route path="/qyk-fess-folders" element={<ProtectedRoute><QykFessFolders /></ProtectedRoute>} />
           <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
           <Route path="*" element={<NotFound />} />
         </Routes>

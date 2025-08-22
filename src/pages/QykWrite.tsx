@@ -1,14 +1,15 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { QykInput } from "@/components/QykInput";
 import { ContentCard } from "@/components/ContentCard";
-import { FolderManager } from "@/components/FolderManager";
-import { Search, BookOpen } from "lucide-react";
+import { BookOpen, Folder } from "lucide-react";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { useEntries } from "@/hooks/useSupabaseData";
 
 const QykWrite = () => {
+  const navigate = useNavigate();
   const { entries, loading, addEntry, deleteEntry } = useEntries();
   const [currentTitle, setCurrentTitle] = useState("");
   const [currentContent, setCurrentContent] = useState("");
@@ -39,20 +40,22 @@ const QykWrite = () => {
     <div className="min-h-screen bg-gradient-iridescent p-4 pb-24">
       <div className="max-w-2xl mx-auto space-y-6">
         {/* Header */}
-        <div className="text-center space-y-2 pt-safe animate-fade-in">
-          <h1 className="text-3xl font-bold text-primary font-space font-extra-condensed">QykWrite</h1>
-          <p className="text-sm text-muted-foreground font-medium font-overused font-condensed">
-            Long-form journal entries and thoughts
-          </p>
+        <div className="flex items-center justify-between pt-safe animate-fade-in">
+          <div className="text-center flex-1">
+            <h1 className="text-3xl font-bold text-primary font-space font-extra-condensed">QykWrite</h1>
+            <p className="text-sm text-muted-foreground font-medium font-overused font-condensed">
+              {selectedFolder ? `Folder: ${selectedFolder}` : "Long-form journal entries and thoughts"}
+            </p>
+          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            className="rounded-full w-10 h-10 p-0"
+            onClick={() => navigate('/qyk-write-folders')}
+          >
+            <Folder className="w-4 h-4" />
+          </Button>
         </div>
-
-        {/* Folder Management */}
-        <FolderManager
-          folders={folders}
-          selectedFolder={selectedFolder}
-          onFolderSelect={setSelectedFolder}
-          onFoldersChange={setFolders}
-        />
 
         {/* Input Section */}
         <div className="glass-card p-6 rounded-3xl space-y-4 animate-slide-up hover-lift">

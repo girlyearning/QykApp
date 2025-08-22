@@ -1,13 +1,14 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { QykInput } from "@/components/QykInput";
 import { ContentCard } from "@/components/ContentCard";
-import { FolderManager } from "@/components/FolderManager";
-import { Search, Lock } from "lucide-react";
+import { Lock, Folder } from "lucide-react";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { useConfessions } from "@/hooks/useSupabaseData";
 
 const QykFess = () => {
+  const navigate = useNavigate();
   const { confessions, loading, addConfession, deleteConfession } = useConfessions();
   const [currentConfession, setCurrentConfession] = useState("");
   const [newItemIds, setNewItemIds] = useState<string[]>([]);
@@ -36,11 +37,21 @@ const QykFess = () => {
     <div className="min-h-screen bg-gradient-iridescent p-4 pb-24">
       <div className="max-w-2xl mx-auto space-y-6">
         {/* Header */}
-        <div className="text-center space-y-2 pt-safe animate-fade-in">
-          <h1 className="text-3xl font-bold text-primary font-space font-extra-condensed">QykFess</h1>
-          <p className="text-sm text-muted-foreground font-medium font-overused font-condensed">
-            Private confessions and secret thoughts (350 chars)
-          </p>
+        <div className="flex items-center justify-between pt-safe animate-fade-in">
+          <div className="text-center flex-1">
+            <h1 className="text-3xl font-bold text-primary font-space font-extra-condensed">QykFess</h1>
+            <p className="text-sm text-muted-foreground font-medium font-overused font-condensed">
+              {selectedFolder ? `Folder: ${selectedFolder}` : "Private confessions and secret thoughts (350 chars)"}
+            </p>
+          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            className="rounded-full w-10 h-10 p-0"
+            onClick={() => navigate('/qyk-fess-folders')}
+          >
+            <Folder className="w-4 h-4" />
+          </Button>
         </div>
 
         {/* Privacy Notice */}
@@ -48,18 +59,10 @@ const QykFess = () => {
           <div className="flex items-center gap-2 text-primary">
             <Lock className="w-4 h-4" />
             <span className="text-sm font-medium font-overused font-condensed">
-              Your confessions are private and stored locally
+              Your confessions are private and secure
             </span>
           </div>
         </div>
-
-        {/* Folder Management */}
-        <FolderManager
-          folders={folders}
-          selectedFolder={selectedFolder}
-          onFolderSelect={setSelectedFolder}
-          onFoldersChange={setFolders}
-        />
 
         {/* Input Section */}
         <div className="glass-card p-6 rounded-3xl animate-slide-up hover-lift">
