@@ -11,8 +11,8 @@ const QykFess = () => {
   const { confessions, loading, addConfession, deleteConfession } = useConfessions();
   const [currentConfession, setCurrentConfession] = useState("");
   const [newItemIds, setNewItemIds] = useState<string[]>([]);
-  const [folders, setFolders] = useLocalStorage<string[]>("qyk-fess-folders", ["Private", "Secrets", "Thoughts"]);
-  const [selectedFolder, setSelectedFolder] = useLocalStorage<string>("qyk-fess-selected-folder", "Private");
+  const [folders, setFolders] = useLocalStorage<string[]>("qyk-fess-folders", []);
+  const [selectedFolder, setSelectedFolder] = useLocalStorage<string>("qyk-fess-selected-folder", "");
 
   const handleSubmit = async () => {
     if (currentConfession.trim() && currentConfession.length <= 350) {
@@ -100,14 +100,14 @@ const QykFess = () => {
                 style={{ '--stagger-delay': index } as React.CSSProperties}
                 className="animate-slide-up"
               >
-                 <ContentCard
-                   title="Anonymous Confession"
-                   content={confession.content}
-                   timestamp={new Date(confession.created_at)}
-                   onDelete={() => handleDelete(confession.id)}
-                   type="confession"
-                   isNew={newItemIds.includes(confession.id)}
-                 />
+                   <ContentCard
+                    title="QykFess"
+                    content={confession.content}
+                    timestamp={new Date(confession.created_at)}
+                    onDelete={() => handleDelete(confession.id)}
+                    type="confession"
+                    isNew={newItemIds.includes(confession.id)}
+                  />
               </div>
             ))
           )}

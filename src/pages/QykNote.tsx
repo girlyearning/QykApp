@@ -11,8 +11,8 @@ const QykNote = () => {
   const { notes, loading, addNote, deleteNote } = useNotes();
   const [currentNote, setCurrentNote] = useState("");
   const [newItemIds, setNewItemIds] = useState<string[]>([]);
-  const [folders, setFolders] = useLocalStorage<string[]>("qyk-note-folders", ["General"]);
-  const [selectedFolder, setSelectedFolder] = useLocalStorage<string>("qyk-note-selected-folder", "General");
+  const [folders, setFolders] = useLocalStorage<string[]>("qyk-note-folders", []);
+  const [selectedFolder, setSelectedFolder] = useLocalStorage<string>("qyk-note-selected-folder", "");
 
   const handleSubmit = async () => {
     if (currentNote.trim() && currentNote.length <= 200) {

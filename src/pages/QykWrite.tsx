@@ -13,8 +13,8 @@ const QykWrite = () => {
   const [currentTitle, setCurrentTitle] = useState("");
   const [currentContent, setCurrentContent] = useState("");
   const [newItemIds, setNewItemIds] = useState<string[]>([]);
-  const [folders, setFolders] = useLocalStorage<string[]>("qyk-write-folders", ["Personal", "Work", "Ideas"]);
-  const [selectedFolder, setSelectedFolder] = useLocalStorage<string>("qyk-write-selected-folder", "Personal");
+  const [folders, setFolders] = useLocalStorage<string[]>("qyk-write-folders", []);
+  const [selectedFolder, setSelectedFolder] = useLocalStorage<string>("qyk-write-selected-folder", "");
 
   const handleSubmit = async () => {
     if (currentTitle.trim() && currentContent.trim()) {
