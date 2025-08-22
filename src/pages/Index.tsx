@@ -44,7 +44,7 @@ const Index = () => {
               variant="ghost"
               size="sm"
               onClick={() => navigate('/settings')}
-              className="rounded-full p-2 hover-lift"
+              className="rounded-full p-2 hover-lift mt-safe"
             >
               <Settings className="w-5 h-5" />
             </Button>
@@ -78,13 +78,6 @@ const Index = () => {
                     {service.description}
                   </p>
                 </div>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="rounded-full px-4 h-8 font-overused font-condensed hover:scale-105 transition-transform duration-200"
-                >
-                  Open
-                </Button>
               </div>
             </div>
           ))}

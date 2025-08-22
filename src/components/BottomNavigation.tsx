@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { StickyNote, BookOpen, Lock, Settings } from "lucide-react";
+import { StickyNote, BookOpen, Lock } from "lucide-react";
 
 const BottomNavigation = () => {
   const navItems = [
@@ -17,11 +17,6 @@ const BottomNavigation = () => {
       to: "/qykfess",
       icon: Lock,
       label: "QykFess",
-    },
-    {
-      to: "/settings",
-      icon: Settings,
-      label: "Settings",
     },
   ];
 
