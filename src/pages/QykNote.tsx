@@ -16,6 +16,7 @@ interface Note {
 const QykNote = () => {
   const [notes, setNotes] = useLocalStorage<Note[]>("qyk-notes", []);
   const [currentNote, setCurrentNote] = useState("");
+  const [newItemId, setNewItemId] = useState<string | null>(null);
   const [folders, setFolders] = useLocalStorage<string[]>("qyk-note-folders", ["General"]);
   const [selectedFolder, setSelectedFolder] = useLocalStorage<string>("qyk-note-selected-folder", "General");
 
@@ -29,6 +30,9 @@ const QykNote = () => {
       };
       setNotes([newNote, ...notes]);
       setCurrentNote("");
+      setNewItemId(newNote.id);
+      // Clear highlight after 3 seconds
+      setTimeout(() => setNewItemId(null), 3000);
     }
   };
 
@@ -104,6 +108,7 @@ const QykNote = () => {
                   timestamp={note.timestamp}
                   onDelete={() => deleteNote(note.id)}
                   type="note"
+                  isNew={newItemId === note.id}
                 />
               </div>
             ))

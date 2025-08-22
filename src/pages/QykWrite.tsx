@@ -19,6 +19,7 @@ const QykWrite = () => {
   const [entries, setEntries] = useLocalStorage<Entry[]>("qyk-entries", []);
   const [currentTitle, setCurrentTitle] = useState("");
   const [currentContent, setCurrentContent] = useState("");
+  const [newItemId, setNewItemId] = useState<string | null>(null);
   const [folders, setFolders] = useLocalStorage<string[]>("qyk-write-folders", ["Personal", "Work", "Ideas"]);
   const [selectedFolder, setSelectedFolder] = useLocalStorage<string>("qyk-write-selected-folder", "Personal");
 
@@ -34,6 +35,9 @@ const QykWrite = () => {
       setEntries([newEntry, ...entries]);
       setCurrentTitle("");
       setCurrentContent("");
+      setNewItemId(newEntry.id);
+      // Clear highlight after 3 seconds
+      setTimeout(() => setNewItemId(null), 3000);
     }
   };
 
@@ -117,6 +121,7 @@ const QykWrite = () => {
                   timestamp={entry.timestamp}
                   onDelete={() => deleteEntry(entry.id)}
                   type="entry"
+                  isNew={newItemId === entry.id}
                 />
               </div>
             ))

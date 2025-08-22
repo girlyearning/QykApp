@@ -7,9 +7,10 @@ interface ContentCardProps {
   timestamp: Date;
   onDelete: () => void;
   type: "note" | "entry" | "confession";
+  isNew?: boolean;
 }
 
-const ContentCard = ({ title, content, timestamp, onDelete, type }: ContentCardProps) => {
+const ContentCard = ({ title, content, timestamp, onDelete, type, isNew = false }: ContentCardProps) => {
   const formatTimestamp = (date: Date) => {
     const now = new Date();
     const diffInMinutes = Math.floor((now.getTime() - date.getTime()) / (1000 * 60));
@@ -39,7 +40,9 @@ const ContentCard = ({ title, content, timestamp, onDelete, type }: ContentCardP
   };
 
   return (
-    <div className="glass-card p-4 rounded-2xl group hover:shadow-md transition-all duration-300 hover-lift animate-scale-in">
+    <div className={`glass-card p-4 rounded-2xl group hover:shadow-md transition-all duration-300 hover-lift animate-scale-in ${
+      isNew ? 'ring-2 ring-primary animate-pulse-glow border-primary/50' : ''
+    }`}>
       <div className="flex items-start justify-between mb-2">
         <div className="flex-1">
           <h4 className="font-medium text-foreground text-sm mb-1 font-space font-condensed">{title}</h4>
