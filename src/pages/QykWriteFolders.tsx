@@ -2,8 +2,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FolderWidget } from "@/components/FolderWidget";
 import { FolderManager } from "@/components/FolderManager";
+import { ModernTitleWidget } from "@/components/ModernTitleWidget";
 import { Button } from "@/components/ui/button";
-import { Settings, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { useEntries } from "@/hooks/useSupabaseData";
 
@@ -31,22 +32,17 @@ const QykWriteFolders = () => {
   return (
     <div className="min-h-screen bg-gradient-iridescent p-4 pb-24">
       <div className="max-w-2xl mx-auto space-y-6">
-        {/* Header */}
-        <div className="flex items-center justify-between pt-safe animate-fade-in">
-          <div className="text-center flex-1">
-            <h1 className="text-3xl font-bold text-primary font-space font-extra-condensed">Write Folders</h1>
-            <p className="text-sm text-muted-foreground font-medium font-condensed">
-              Organize your journal entries
-            </p>
-          </div>
-          <Button
-            variant="outline"
-            size="sm"
-            className="rounded-full w-10 h-10 p-0"
-            onClick={() => setShowFolderManager(!showFolderManager)}
-          >
-            <Settings className="w-4 h-4" />
-          </Button>
+        {/* Modern Title Widget */}
+        <div className="pt-safe">
+          <ModernTitleWidget
+            title="Write Folders"
+            description="Organize your journal entries"
+            showFolderActions={true}
+            onCreateFolder={() => setShowFolderManager(!showFolderManager)}
+            onViewFolders={() => setShowFolderManager(!showFolderManager)}
+            canGoBack={true}
+            backRoute="/qyk-write"
+          />
         </div>
 
         {/* Folder Manager */}

@@ -2,10 +2,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { ModernTitleWidget } from "@/components/ModernTitleWidget";
 import { useTheme, Theme } from "@/contexts/ThemeContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { useProfile } from "@/hooks/useProfile";
-import { ArrowLeft, LogOut } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { useState, useEffect } from "react";
@@ -70,14 +71,14 @@ const Settings = () => {
   return (
     <div className="min-h-screen bg-gradient-iridescent p-4 pb-24">
       <div className="max-w-2xl mx-auto space-y-6">
-        {/* Header */}
-        <div className="flex items-center gap-4 pt-safe animate-fade-in">
-          <div>
-            <h1 className="text-3xl font-bold text-primary font-space font-extra-condensed">Settings</h1>
-            <p className="text-sm text-muted-foreground font-medium font-condensed">
-              Customize your QYK experience
-            </p>
-          </div>
+        {/* Modern Title Widget */}
+        <div className="pt-safe">
+          <ModernTitleWidget
+            title="Settings"
+            description="Customize your QYK experience"
+            canGoBack={true}
+            backRoute="/"
+          />
         </div>
 
         {/* Authentication */}

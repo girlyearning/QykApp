@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { QykInput } from "@/components/QykInput";
 import { ContentCard } from "@/components/ContentCard";
-import { Lock, Folder } from "lucide-react";
+import { ModernTitleWidget } from "@/components/ModernTitleWidget";
+import { Lock } from "lucide-react";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { useConfessions } from "@/hooks/useSupabaseData";
 
@@ -33,25 +34,31 @@ const QykFess = () => {
     !selectedFolder || confession.folder === selectedFolder
   );
 
+  const handleCreateFolder = () => {
+    const folderName = prompt("Enter folder name:");
+    if (folderName && folderName.trim() && !folders.includes(folderName.trim())) {
+      setFolders([...folders, folderName.trim()]);
+    }
+  };
+
+  const handleViewFolders = () => {
+    navigate('/qyk-fess-folders');
+  };
+
   return (
     <div className="min-h-screen bg-gradient-iridescent p-4 pb-24">
       <div className="max-w-2xl mx-auto space-y-6">
-        {/* Header */}
-        <div className="flex items-center justify-between pt-safe animate-fade-in">
-          <div className="text-center flex-1">
-            <h1 className="text-3xl font-bold text-primary font-space font-extra-condensed">QykFess</h1>
-            <p className="text-sm text-muted-foreground font-medium font-condensed">
-              {selectedFolder ? `Folder: ${selectedFolder}` : "Private confessions and secret thoughts (350 chars)"}
-            </p>
-          </div>
-          <Button
-            variant="outline"
-            size="sm"
-            className="rounded-full w-10 h-10 p-0"
-            onClick={() => navigate('/qyk-fess-folders')}
-          >
-            <Folder className="w-4 h-4" />
-          </Button>
+        {/* Modern Title Widget */}
+        <div className="pt-safe">
+          <ModernTitleWidget
+            title="QykFess"
+            description={selectedFolder ? `Folder: ${selectedFolder}` : "Private confessions and secret thoughts (350 chars)"}
+            showFolderActions={true}
+            onCreateFolder={handleCreateFolder}
+            onViewFolders={handleViewFolders}
+            canGoBack={true}
+            backRoute="/"
+          />
         </div>
 
         {/* Privacy Notice */}
