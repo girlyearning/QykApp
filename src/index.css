@@ -184,7 +184,7 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground font-space;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.025em;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -193,11 +193,11 @@ All colors MUST be HSL.
   }
 
   .font-condensed {
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
   }
 
   .font-extra-condensed {
-    letter-spacing: -0.03em;
+    letter-spacing: -0.04em;
   }
 
   /* Smooth transitions for interactive elements */

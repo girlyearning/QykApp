@@ -63,24 +63,24 @@ const ModernTitleWidget = ({
         {/* Navigation Buttons - Top Left */}
         <div className="absolute top-4 left-4 flex gap-2">
           {canGoBack && (
-            <Button
-              variant="outline"
-              size="sm"
-              className="rounded-full w-8 h-8 p-0 bg-background/50 hover:bg-background/80"
-              onClick={handleBack}
-            >
-              <ArrowLeft className="w-4 h-4" />
-            </Button>
-          )}
-          {canGoForward && (
-            <Button
-              variant="outline"
-              size="sm"
-              className="rounded-full w-8 h-8 p-0 bg-background/50 hover:bg-background/80"
-              onClick={handleForward}
-            >
-              <ArrowRight className="w-4 h-4" />
-            </Button>
+            <>
+              <Button
+                variant="outline"
+                size="sm"
+                className="rounded-full w-8 h-8 p-0 bg-background/50 hover:bg-background/80"
+                onClick={handleBack}
+              >
+                <ArrowLeft className="w-4 h-4" />
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                className="rounded-full w-8 h-8 p-0 bg-background/50 hover:bg-background/80"
+                onClick={handleForward}
+              >
+                <ArrowRight className="w-4 h-4" />
+              </Button>
+            </>
           )}
         </div>
 
