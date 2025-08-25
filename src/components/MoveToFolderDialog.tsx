@@ -42,9 +42,14 @@ const MoveToFolderDialog = ({
   console.log("MoveToFolderDialog - itemType:", itemType);
   console.log("MoveToFolderDialog - currentFolder:", currentFolder);
 
+  // Convert currentFolder for comparison (empty string becomes "main")
+  const currentFolderValue = currentFolder || "main";
+
   const handleConfirm = () => {
-    if (selectedFolder !== currentFolder) {
-      onConfirm(selectedFolder);
+    if (selectedFolder !== currentFolderValue) {
+      // Convert "main" back to empty string for the API
+      const folderToMove = selectedFolder === "main" ? "" : selectedFolder;
+      onConfirm(folderToMove);
     }
     onClose();
   };
@@ -97,7 +102,7 @@ const MoveToFolderDialog = ({
               <SelectValue placeholder={availableFolders.length === 0 ? "No folders available" : "Choose a folder..."} />
             </SelectTrigger>
             <SelectContent className="bg-background border border-border/50 rounded-xl z-[9999] shadow-lg" sideOffset={5}>
-              <SelectItem value="" className="rounded-lg">
+              <SelectItem value="main" className="rounded-lg">
                 No folder (Main)
               </SelectItem>
               {availableFolders.length > 0 ? (
@@ -106,7 +111,7 @@ const MoveToFolderDialog = ({
                     key={folder} 
                     value={folder}
                     className="rounded-lg"
-                    disabled={folder === currentFolder}
+                    disabled={folder === currentFolder || (currentFolder === null && selectedFolder === "main")}
                   >
                     {folder}
                     {folder === currentFolder && " (current)"}
@@ -131,7 +136,7 @@ const MoveToFolderDialog = ({
           </Button>
           <Button
             onClick={handleConfirm}
-            disabled={selectedFolder === currentFolder}
+            disabled={selectedFolder === currentFolderValue}
             className="flex-1 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-medium"
           >
             Move
