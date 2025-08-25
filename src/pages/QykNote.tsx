@@ -61,7 +61,7 @@ const QykNote = () => {
         <div className="pt-safe">
           <ModernTitleWidget
             title="QykNote"
-            description={selectedFolder ? `Folder: ${selectedFolder}` : "Quick 200-character thoughts and updates"}
+            description={selectedFolder ? `Folder: ${selectedFolder}` : "Your low-effort thoughts & updates"}
             showFolderActions={true}
             onCreateFolder={handleCreateFolder}
             onViewFolders={handleViewFolders}

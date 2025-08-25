@@ -64,7 +64,7 @@ const QykWrite = () => {
         <div className="pt-safe">
           <ModernTitleWidget
             title="QykWrite"
-            description={selectedFolder ? `Folder: ${selectedFolder}` : "Long-form journal entries and thoughts"}
+            description={selectedFolder ? `Folder: ${selectedFolder}` : "Your long-form journal entries"}
             showFolderActions={true}
             onCreateFolder={handleCreateFolder}
             onViewFolders={handleViewFolders}

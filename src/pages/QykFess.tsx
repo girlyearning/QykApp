@@ -61,7 +61,7 @@ const QykFess = () => {
         <div className="pt-safe">
           <ModernTitleWidget
             title="QykFess"
-            description={selectedFolder ? `Folder: ${selectedFolder}` : "Private confessions and secret thoughts (350 chars)"}
+            description={selectedFolder ? `Folder: ${selectedFolder}` : "Your private confessions"}
             showFolderActions={true}
             onCreateFolder={handleCreateFolder}
             onViewFolders={handleViewFolders}
