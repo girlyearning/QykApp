@@ -30,7 +30,7 @@ export interface Confession {
 
 export const useNotes = () => {
   const [notes, setNotes] = useState<Note[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [hasFetched, setHasFetched] = useState(false);
   const { user } = useAuth();
   const { toast } = useToast();
@@ -39,7 +39,10 @@ export const useNotes = () => {
     if (!user || hasFetched) return;
     
     try {
-      setLoading(true);
+      // Only show loading if we don't have any data yet
+      if (notes.length === 0) {
+        setLoading(true);
+      }
       const { data, error } = await supabase
         .from('notes')
         .select('*')
@@ -138,7 +141,7 @@ export const useNotes = () => {
       setLoading(false);
       setHasFetched(false);
     }
-  }, [user]);
+  }, [user, hasFetched]);
 
   const refetchNotes = async () => {
     setHasFetched(false);
@@ -150,7 +153,7 @@ export const useNotes = () => {
 
 export const useEntries = () => {
   const [entries, setEntries] = useState<Entry[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [hasFetched, setHasFetched] = useState(false);
   const { user } = useAuth();
   const { toast } = useToast();
@@ -159,7 +162,10 @@ export const useEntries = () => {
     if (!user || hasFetched) return;
     
     try {
-      setLoading(true);
+      // Only show loading if we don't have any data yet
+      if (entries.length === 0) {
+        setLoading(true);
+      }
       const { data, error } = await supabase
         .from('entries')
         .select('*')
@@ -259,7 +265,7 @@ export const useEntries = () => {
       setLoading(false);
       setHasFetched(false);
     }
-  }, [user]);
+  }, [user, hasFetched]);
 
   const refetchEntries = async () => {
     setHasFetched(false);
@@ -271,7 +277,7 @@ export const useEntries = () => {
 
 export const useConfessions = () => {
   const [confessions, setConfessions] = useState<Confession[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [hasFetched, setHasFetched] = useState(false);
   const { user } = useAuth();
   const { toast } = useToast();
@@ -280,7 +286,10 @@ export const useConfessions = () => {
     if (!user || hasFetched) return;
     
     try {
-      setLoading(true);
+      // Only show loading if we don't have any data yet
+      if (confessions.length === 0) {
+        setLoading(true);
+      }
       const { data, error } = await supabase
         .from('confessions')
         .select('*')
@@ -379,7 +388,7 @@ export const useConfessions = () => {
       setLoading(false);
       setHasFetched(false);
     }
-  }, [user]);
+  }, [user, hasFetched]);
 
   const refetchConfessions = async () => {
     setHasFetched(false);
