@@ -42,7 +42,7 @@ const Index = () => {
     color: "text-purple-600"
   }, {
     title: "QykFess",
-    description: "Private confessions (350 chars)",
+    description: "Private 350-character confessions",
     icon: Lock,
     route: "/qyk-fess",
     color: "text-indigo-600"
