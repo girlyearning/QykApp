@@ -182,12 +182,12 @@ All colors MUST be HSL.
     --foreground: 260 10% 95%;
     --primary: 261 80% 50%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 261 40% 15%;
-    --secondary-foreground: 260 10% 90%;
+    --secondary: 270 60% 75%;
+    --secondary-foreground: 260 30% 15%;
     --muted: 261 20% 12%;
     --muted-foreground: 261 15% 70%;
-    --accent: 280 50% 25%;
-    --accent-foreground: 260 10% 95%;
+    --accent: 280 50% 65%;
+    --accent-foreground: 260 30% 15%;
     --border: 261 30% 18%;
     --input: 261 30% 18%;
   }
