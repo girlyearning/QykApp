@@ -30,7 +30,7 @@ const Index = () => {
   const todaysConfessions = confessions.filter(confession => new Date(confession.created_at).toDateString() === today).length;
   const services = [{
     title: "QykNote",
-    description: "Quick 200-character thoughts",
+    description: "Low-effort, 200-character thoughts",
     icon: StickyNote,
     route: "/qyk-note",
     color: "text-pink-600"
