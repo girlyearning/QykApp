@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FolderWidget } from "@/components/FolderWidget";
 import { ModernTitleWidget } from "@/components/ModernTitleWidget";
+import { CreateFolderDialog } from "@/components/CreateFolderDialog";
 import { Button } from "@/components/ui/button";
 import { Plus, Lock } from "lucide-react";
 import { useConfessions } from "@/hooks/useSupabaseData";
@@ -13,9 +14,10 @@ const QykFessFolders = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { confessions } = useConfessions();
-  const { folders, removeFolder } = useUserFolders('confession');
+  const { folders, removeFolder, addFolder } = useUserFolders('confession');
   const { getSelectedFolder, setSelectedFolder } = useUserSettings();
   const [showFolderManager, setShowFolderManager] = useState(false);
+  const [showCreateDialog, setShowCreateDialog] = useState(false);
 
   const selectedFolder = getSelectedFolder('confession');
 
@@ -31,6 +33,14 @@ const QykFessFolders = () => {
   const handleViewAll = async () => {
     await setSelectedFolder('confession', '');
     navigate('/qyk-fess');
+  };
+
+  const handleCreateFolder = () => {
+    setShowCreateDialog(true);
+  };
+
+  const handleConfirmCreate = async (folderName: string) => {
+    await addFolder(folderName);
   };
 
   const handleDeleteFolder = async (folderName: string) => {
@@ -69,7 +79,7 @@ const QykFessFolders = () => {
             title="Fess Folders"
             description="Organize your private confessions"
             showFolderActions={true}
-            onCreateFolder={() => setShowFolderManager(!showFolderManager)}
+            onCreateFolder={handleCreateFolder}
             onViewFolders={() => setShowFolderManager(!showFolderManager)}
             canGoBack={true}
             backRoute="/qyk-fess"
@@ -146,6 +156,14 @@ const QykFessFolders = () => {
           )}
         </div>
       </div>
+
+      <CreateFolderDialog
+        isOpen={showCreateDialog}
+        onClose={() => setShowCreateDialog(false)}
+        onConfirm={handleConfirmCreate}
+        title="Create New Fess Folder"
+        description="Enter a name for your new confession folder"
+      />
     </div>
   );
 };

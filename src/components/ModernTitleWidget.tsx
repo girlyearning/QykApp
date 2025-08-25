@@ -59,7 +59,7 @@ const ModernTitleWidget = ({
 
   return (
     <div className="relative w-full max-w-2xl mx-auto mb-6 animate-fade-in">
-      <div className="glass-card p-6 rounded-3xl border-2 border-primary/30 bg-gradient-to-r from-primary/5 via-secondary/5 to-accent/5 shadow-lg">
+      <div className="glass-card p-6 rounded-3xl border-2 border-primary/50 bg-gradient-to-r from-primary/5 via-secondary/5 to-accent/5 shadow-lg ring-1 ring-primary/20">
         {/* Navigation Buttons - Top Left */}
         <div className="absolute top-4 left-4 flex gap-2">
           {canGoBack && (

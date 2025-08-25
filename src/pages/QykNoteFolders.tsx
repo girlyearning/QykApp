@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FolderWidget } from "@/components/FolderWidget";
 import { ModernTitleWidget } from "@/components/ModernTitleWidget";
+import { CreateFolderDialog } from "@/components/CreateFolderDialog";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { useNotes } from "@/hooks/useSupabaseData";
@@ -13,9 +14,10 @@ const QykNoteFolders = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { notes } = useNotes();
-  const { folders, removeFolder } = useUserFolders('note');
+  const { folders, removeFolder, addFolder } = useUserFolders('note');
   const { getSelectedFolder, setSelectedFolder } = useUserSettings();
   const [showFolderManager, setShowFolderManager] = useState(false);
+  const [showCreateDialog, setShowCreateDialog] = useState(false);
 
   const selectedFolder = getSelectedFolder('note');
 
@@ -31,6 +33,14 @@ const QykNoteFolders = () => {
   const handleViewAll = async () => {
     await setSelectedFolder('note', '');
     navigate('/qyk-note');
+  };
+
+  const handleCreateFolder = () => {
+    setShowCreateDialog(true);
+  };
+
+  const handleConfirmCreate = async (folderName: string) => {
+    await addFolder(folderName);
   };
 
   const handleDeleteFolder = async (folderName: string) => {
@@ -76,7 +86,7 @@ const QykNoteFolders = () => {
             title="Note Folders"
             description="Organize your quick thoughts"
             showFolderActions={true}
-            onCreateFolder={() => setShowFolderManager(!showFolderManager)}
+            onCreateFolder={handleCreateFolder}
             onViewFolders={() => setShowFolderManager(!showFolderManager)}
             canGoBack={true}
             backRoute="/qyk-note"
@@ -143,6 +153,14 @@ const QykNoteFolders = () => {
           )}
         </div>
       </div>
+
+      <CreateFolderDialog
+        isOpen={showCreateDialog}
+        onClose={() => setShowCreateDialog(false)}
+        onConfirm={handleConfirmCreate}
+        title="Create New Note Folder"
+        description="Enter a name for your new note folder"
+      />
     </div>
   );
 };

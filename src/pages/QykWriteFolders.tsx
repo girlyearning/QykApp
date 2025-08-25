@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FolderWidget } from "@/components/FolderWidget";
 import { ModernTitleWidget } from "@/components/ModernTitleWidget";
+import { CreateFolderDialog } from "@/components/CreateFolderDialog";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { useEntries } from "@/hooks/useSupabaseData";
@@ -13,9 +14,10 @@ const QykWriteFolders = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { entries } = useEntries();
-  const { folders, removeFolder } = useUserFolders('entry');
+  const { folders, removeFolder, addFolder } = useUserFolders('entry');
   const { getSelectedFolder, setSelectedFolder } = useUserSettings();
   const [showFolderManager, setShowFolderManager] = useState(false);
+  const [showCreateDialog, setShowCreateDialog] = useState(false);
 
   const selectedFolder = getSelectedFolder('entry');
 
@@ -31,6 +33,14 @@ const QykWriteFolders = () => {
   const handleViewAll = async () => {
     await setSelectedFolder('entry', '');
     navigate('/qyk-write');
+  };
+
+  const handleCreateFolder = () => {
+    setShowCreateDialog(true);
+  };
+
+  const handleConfirmCreate = async (folderName: string) => {
+    await addFolder(folderName);
   };
 
   const handleDeleteFolder = async (folderName: string) => {
@@ -69,7 +79,7 @@ const QykWriteFolders = () => {
             title="Write Folders"
             description="Organize your journal entries"
             showFolderActions={true}
-            onCreateFolder={() => setShowFolderManager(!showFolderManager)}
+            onCreateFolder={handleCreateFolder}
             onViewFolders={() => setShowFolderManager(!showFolderManager)}
             canGoBack={true}
             backRoute="/qyk-write"
@@ -136,6 +146,14 @@ const QykWriteFolders = () => {
           )}
         </div>
       </div>
+
+      <CreateFolderDialog
+        isOpen={showCreateDialog}
+        onClose={() => setShowCreateDialog(false)}
+        onConfirm={handleConfirmCreate}
+        title="Create New Write Folder"
+        description="Enter a name for your new journal folder"
+      />
     </div>
   );
 };
