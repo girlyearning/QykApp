@@ -175,6 +175,58 @@ All colors MUST be HSL.
       hsl(222, 50%, 8%) 100%
     );
   }
+
+  /* Dark Purple Theme */
+  .theme-dark-purple {
+    --background: 260 15% 6%;
+    --foreground: 260 10% 95%;
+    --primary: 261 80% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 261 40% 15%;
+    --secondary-foreground: 260 10% 90%;
+    --muted: 261 20% 12%;
+    --muted-foreground: 261 15% 70%;
+    --accent: 280 50% 25%;
+    --accent-foreground: 260 10% 95%;
+    --border: 261 30% 18%;
+    --input: 261 30% 18%;
+  }
+
+  .theme-dark-purple .bg-gradient-iridescent {
+    background: linear-gradient(135deg, 
+      hsl(260, 40%, 8%) 0%,
+      hsl(270, 50%, 12%) 25%,
+      hsl(280, 45%, 10%) 50%,
+      hsl(250, 50%, 12%) 75%,
+      hsl(260, 40%, 8%) 100%
+    );
+  }
+
+  /* Lime Green Theme */
+  .theme-lime-green {
+    --background: 85 30% 98%;
+    --foreground: 85 50% 10%;
+    --primary: 85 62% 45%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 85 40% 85%;
+    --secondary-foreground: 85 50% 20%;
+    --muted: 85 25% 92%;
+    --muted-foreground: 85 35% 35%;
+    --accent: 75 45% 75%;
+    --accent-foreground: 85 50% 20%;
+    --border: 85 30% 80%;
+    --input: 85 30% 80%;
+  }
+
+  .theme-lime-green .bg-gradient-iridescent {
+    background: linear-gradient(135deg, 
+      hsl(85, 50%, 95%) 0%,
+      hsl(75, 45%, 92%) 25%,
+      hsl(95, 40%, 90%) 50%,
+      hsl(105, 45%, 92%) 75%,
+      hsl(85, 50%, 95%) 100%
+    );
+  }
 }
 
 @layer base {
@@ -249,6 +301,16 @@ All colors MUST be HSL.
     border-color: hsl(var(--primary) / 0.6);
   }
 
+  .theme-dark-purple .animate-pulse-glow {
+    animation: pulse-glow 2s infinite;
+    border-color: hsl(261, 80%, 50% / 0.6);
+  }
+
+  .theme-lime-green .animate-pulse-glow {
+    animation: pulse-glow 2s infinite;
+    border-color: hsl(85, 62%, 45% / 0.6);
+  }
+
   /* Enhanced ring colors for new items */
   .theme-light .ring-primary\/60 {
     --tw-ring-color: hsl(222.2 47.4% 11.2% / 0.6);
@@ -264,6 +326,14 @@ All colors MUST be HSL.
 
   .theme-dark .ring-primary\/60 {
     --tw-ring-color: hsl(210 40% 98% / 0.6);
+  }
+
+  .theme-dark-purple .ring-primary\/60 {
+    --tw-ring-color: hsl(261 80% 50% / 0.6);
+  }
+
+  .theme-lime-green .ring-primary\/60 {
+    --tw-ring-color: hsl(85 62% 45% / 0.6);
   }
 
   /* Stagger animation utility */

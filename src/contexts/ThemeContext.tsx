@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect } from 'react';
 import useLocalStorage from '@/hooks/useLocalStorage';
 
-export type Theme = 'light' | 'pink' | 'iridescent' | 'dark';
+export type Theme = 'light' | 'pink' | 'iridescent' | 'dark' | 'dark-purple' | 'lime-green';
 
 interface ThemeContextType {
   theme: Theme;
@@ -17,7 +17,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const root = document.documentElement;
     
     // Remove all theme classes
-    root.classList.remove('theme-light', 'theme-pink', 'theme-iridescent', 'theme-dark');
+    root.classList.remove('theme-light', 'theme-pink', 'theme-iridescent', 'theme-dark', 'theme-dark-purple', 'theme-lime-green');
     
     // Add current theme class
     root.classList.add(`theme-${theme}`);

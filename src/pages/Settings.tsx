@@ -50,11 +50,13 @@ const Settings = () => {
     }
   };
 
-  const themes: { id: Theme; name: string }[] = [
-    { id: 'light', name: 'Light Mode' },
-    { id: 'pink', name: 'Pink Bliss' },
-    { id: 'iridescent', name: 'Iridescent Dreams' },
-    { id: 'dark', name: 'Midnight Mode' }
+  const themes: { id: Theme; name: string; preview: string }[] = [
+    { id: 'light', name: 'Light Mode', preview: 'bg-slate-100 border-slate-300' },
+    { id: 'pink', name: 'Pink Bliss', preview: 'bg-pink-100 border-pink-300' },
+    { id: 'iridescent', name: 'Iridescent Dreams', preview: 'bg-purple-100 border-purple-300' },
+    { id: 'dark', name: 'Midnight Mode', preview: 'bg-slate-800 border-slate-600' },
+    { id: 'dark-purple', name: 'Dark Purple', preview: 'bg-purple-600 border-purple-400' },
+    { id: 'lime-green', name: 'Lime Green', preview: 'bg-lime-300 border-lime-500' }
   ];
 
   const handleThemeChange = (newTheme: Theme) => {
@@ -153,7 +155,10 @@ const Settings = () => {
                 onClick={() => handleThemeChange(themeOption.id)}
                 style={{ '--stagger-delay': index } as React.CSSProperties}
               >
-                <span className="font-space font-condensed">{themeOption.name}</span>
+                <div className="flex items-center gap-3">
+                  <div className={`w-4 h-4 rounded-full ${themeOption.preview}`}></div>
+                  <span className="font-space font-condensed">{themeOption.name}</span>
+                </div>
               </Button>
             ))}
           </CardContent>
