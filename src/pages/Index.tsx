@@ -48,15 +48,8 @@ const Index = () => {
   }];
   return <div className="min-h-screen bg-gradient-iridescent p-4 pb-24">
       <div className="max-w-2xl mx-auto space-y-8">
-        {/* Header Text */}
-        <div className="pt-safe animate-fade-in">
-          <p className="text-sm text-muted-foreground font-medium font-condensed mb-2">
-            Your personal writing sanctuary
-          </p>
-        </div>
-
         {/* Main Header */}
-        <div className="text-center space-y-4 animate-fade-in">
+        <div className="text-center space-y-4 pt-safe animate-fade-in">
           <div className="flex items-center justify-between mb-4">
             <div></div>
             <div className="flex items-center justify-center gap-2">
@@ -69,6 +62,13 @@ const Index = () => {
           </div>
           <p className="text-lg text-muted-foreground font-medium font-condensed">
             Welcome back, {profile?.display_name || user?.email?.split('@')[0]}!
+          </p>
+        </div>
+
+        {/* Header Text */}
+        <div className="text-left animate-fade-in">
+          <p className="text-sm text-muted-foreground font-medium font-condensed">
+            Your personal writing sanctuary
           </p>
         </div>
 
