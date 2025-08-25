@@ -35,17 +35,17 @@ const Index = () => {
     route: "/qyk-note",
     color: "text-pink-600"
   }, {
-    title: "QykWrite",
-    description: "Long-form journal entries",
-    icon: BookOpen,
-    route: "/qyk-write",
-    color: "text-purple-600"
-  }, {
     title: "QykFess",
     description: "Private 350-character confessions",
     icon: Lock,
     route: "/qyk-fess",
     color: "text-indigo-600"
+  }, {
+    title: "QykWrite",
+    description: "Long-form journal entries",
+    icon: BookOpen,
+    route: "/qyk-write",
+    color: "text-purple-600"
   }];
   return <div className="min-h-screen bg-gradient-iridescent p-4 pb-safe">
       <div className="max-w-2xl mx-auto space-y-8">
@@ -98,12 +98,12 @@ const Index = () => {
               <div className="text-xs text-muted-foreground font-condensed">Notes</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-primary font-space">{todaysEntries}</div>
-              <div className="text-xs text-muted-foreground font-condensed">Entries</div>
-            </div>
-            <div className="text-center">
               <div className="text-2xl font-bold text-primary font-space">{todaysConfessions}</div>
               <div className="text-xs text-muted-foreground font-condensed">Confessions</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-primary font-space">{todaysEntries}</div>
+              <div className="text-xs text-muted-foreground font-condensed">Entries</div>
             </div>
           </div>
         </div>
