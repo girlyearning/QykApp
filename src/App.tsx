@@ -15,7 +15,6 @@ import QykFessFolders from "./pages/QykFessFolders";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
-import BottomNavigation from "./components/BottomNavigation";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
@@ -23,8 +22,6 @@ const queryClient = new QueryClient();
 const AppContent = () => {
   const location = useLocation();
   const isAuthPage = location.pathname === "/auth";
-  const isHomePage = location.pathname === "/";
-  const showNavigation = !isAuthPage && !isHomePage;
 
   return (
     <div className="min-h-screen bg-background pt-safe">
@@ -96,7 +93,6 @@ const AppContent = () => {
         />
         <Route path="*" element={<NotFound />} />
       </Routes>
-      {showNavigation && <BottomNavigation />}
     </div>
   );
 };
