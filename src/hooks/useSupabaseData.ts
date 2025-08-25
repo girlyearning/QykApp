@@ -31,13 +31,15 @@ export interface Confession {
 export const useNotes = () => {
   const [notes, setNotes] = useState<Note[]>([]);
   const [loading, setLoading] = useState(true);
+  const [hasFetched, setHasFetched] = useState(false);
   const { user } = useAuth();
   const { toast } = useToast();
 
   const fetchNotes = async () => {
-    if (!user) return;
+    if (!user || hasFetched) return;
     
     try {
+      setLoading(true);
       const { data, error } = await supabase
         .from('notes')
         .select('*')
@@ -45,6 +47,7 @@ export const useNotes = () => {
 
       if (error) throw error;
       setNotes(data || []);
+      setHasFetched(true);
     } catch (error: any) {
       toast({
         title: "Error",
@@ -128,24 +131,35 @@ export const useNotes = () => {
   };
 
   useEffect(() => {
-    if (user) {
+    if (user && !hasFetched) {
       fetchNotes();
+    } else if (!user) {
+      setNotes([]);
+      setLoading(false);
+      setHasFetched(false);
     }
   }, [user]);
 
-  return { notes, loading, addNote, deleteNote, moveNote, refetch: fetchNotes };
+  const refetchNotes = async () => {
+    setHasFetched(false);
+    await fetchNotes();
+  };
+
+  return { notes, loading, addNote, deleteNote, moveNote, refetch: refetchNotes };
 };
 
 export const useEntries = () => {
   const [entries, setEntries] = useState<Entry[]>([]);
   const [loading, setLoading] = useState(true);
+  const [hasFetched, setHasFetched] = useState(false);
   const { user } = useAuth();
   const { toast } = useToast();
 
   const fetchEntries = async () => {
-    if (!user) return;
+    if (!user || hasFetched) return;
     
     try {
+      setLoading(true);
       const { data, error } = await supabase
         .from('entries')
         .select('*')
@@ -153,6 +167,7 @@ export const useEntries = () => {
 
       if (error) throw error;
       setEntries(data || []);
+      setHasFetched(true);
     } catch (error: any) {
       toast({
         title: "Error",
@@ -237,24 +252,35 @@ export const useEntries = () => {
   };
 
   useEffect(() => {
-    if (user) {
+    if (user && !hasFetched) {
       fetchEntries();
+    } else if (!user) {
+      setEntries([]);
+      setLoading(false);
+      setHasFetched(false);
     }
   }, [user]);
 
-  return { entries, loading, addEntry, deleteEntry, moveEntry, refetch: fetchEntries };
+  const refetchEntries = async () => {
+    setHasFetched(false);
+    await fetchEntries();
+  };
+
+  return { entries, loading, addEntry, deleteEntry, moveEntry, refetch: refetchEntries };
 };
 
 export const useConfessions = () => {
   const [confessions, setConfessions] = useState<Confession[]>([]);
   const [loading, setLoading] = useState(true);
+  const [hasFetched, setHasFetched] = useState(false);
   const { user } = useAuth();
   const { toast } = useToast();
 
   const fetchConfessions = async () => {
-    if (!user) return;
+    if (!user || hasFetched) return;
     
     try {
+      setLoading(true);
       const { data, error } = await supabase
         .from('confessions')
         .select('*')
@@ -262,6 +288,7 @@ export const useConfessions = () => {
 
       if (error) throw error;
       setConfessions(data || []);
+      setHasFetched(true);
     } catch (error: any) {
       toast({
         title: "Error",
@@ -345,10 +372,19 @@ export const useConfessions = () => {
   };
 
   useEffect(() => {
-    if (user) {
+    if (user && !hasFetched) {
       fetchConfessions();
+    } else if (!user) {
+      setConfessions([]);
+      setLoading(false);
+      setHasFetched(false);
     }
   }, [user]);
 
-  return { confessions, loading, addConfession, deleteConfession, moveConfession, refetch: fetchConfessions };
+  const refetchConfessions = async () => {
+    setHasFetched(false);
+    await fetchConfessions();
+  };
+
+  return { confessions, loading, addConfession, deleteConfession, moveConfession, refetch: refetchConfessions };
 };

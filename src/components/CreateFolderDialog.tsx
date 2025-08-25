@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -28,6 +28,13 @@ const CreateFolderDialog = ({
 }: CreateFolderDialogProps) => {
   const [folderName, setFolderName] = useState("");
 
+  // Reset form when dialog opens/closes
+  useEffect(() => {
+    if (!isOpen) {
+      setFolderName("");
+    }
+  }, [isOpen]);
+
   const handleConfirm = () => {
     if (folderName.trim()) {
       onConfirm(folderName.trim());
@@ -42,9 +49,11 @@ const CreateFolderDialog = ({
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && folderName.trim()) {
+      e.preventDefault();
       handleConfirm();
     } else if (e.key === "Escape") {
+      e.preventDefault();
       handleCancel();
     }
   };
@@ -71,8 +80,9 @@ const CreateFolderDialog = ({
             onChange={(e) => setFolderName(e.target.value)}
             onKeyDown={handleKeyPress}
             placeholder="Enter folder name..."
-            className="mt-2 bg-background/50 border-border/50 focus:border-primary focus:ring-primary/20 rounded-xl"
+            className="mt-2 bg-background/50 border-border/50 focus:border-primary focus:ring-primary/20 rounded-xl keyboard-aware-content"
             autoFocus
+            autoComplete="off"
           />
         </div>
 

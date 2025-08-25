@@ -409,16 +409,62 @@ All colors MUST be HSL.
     outline: none;
     border-color: hsl(var(--primary));
     box-shadow: 0 0 0 2px hsl(var(--primary) / 0.2);
-    transform: translateY(-2px);
+    transform: translateY(-1px);
     transition: all 0.2s ease-in-out;
   }
 
   /* Smooth transitions for keyboard animation */
   .keyboard-aware-content {
-    transition: padding-bottom 0.3s ease-in-out;
+    transition: padding-bottom 0.3s ease-in-out, transform 0.2s ease-in-out;
+    will-change: transform, padding;
   }
 
   body.keyboard-open .keyboard-aware-content {
     padding-bottom: calc(var(--keyboard-height, 0px) + 1rem);
+  }
+
+  /* Performance optimizations */
+  .glass-card {
+    contain: layout style paint;
+    will-change: transform;
+  }
+
+  /* Smooth transitions for count changes */
+  .animate-count-change {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: pulse 0.6s ease-in-out;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+
+  /* Prevent layout shifts during loading */
+  .skeleton-shimmer {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--muted)) 0%,
+      hsl(var(--muted-foreground) / 0.1) 50%,
+      hsl(var(--muted)) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  .animate-pulse {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--muted)) 0%,
+      hsl(var(--muted-foreground) / 0.1) 50%,
+      hsl(var(--muted)) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
   }
 }
