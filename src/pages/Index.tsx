@@ -111,6 +111,25 @@ const Index = () => {
           </p>
         </div>
 
+        {/* Today's Writing Stats */}
+        <div className="glass-card p-6 rounded-3xl animate-scale-in">
+          <h3 className="text-lg font-bold text-foreground mb-4 font-space font-condensed">Today's Writing</h3>
+          <div className="grid grid-cols-3 gap-4">
+            <div className="text-center">
+              <div className="text-2xl font-bold text-primary font-space">{todaysNotes}</div>
+              <div className="text-xs text-muted-foreground font-condensed">Notes</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-primary font-space">{todaysConfessions}</div>
+              <div className="text-xs text-muted-foreground font-condensed">Confessions</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-primary font-space">{todaysEntries}</div>
+              <div className="text-xs text-muted-foreground font-condensed">Entries</div>
+            </div>
+          </div>
+        </div>
+
         {/* Service Cards */}
         <div className="space-y-4 stagger-animation">
           {services.map((service, index) => <div key={service.title} style={{
@@ -135,25 +154,6 @@ const Index = () => {
                 </div>
               </div>
             </div>)}
-        </div>
-
-        {/* Quick Stats */}
-        <div className="glass-card p-6 rounded-3xl animate-scale-in">
-          <h3 className="text-lg font-bold text-foreground mb-4 font-space font-condensed">Today's Writing</h3>
-          <div className="grid grid-cols-3 gap-4">
-            <div className="text-center">
-              <div className="text-2xl font-bold text-primary font-space">{todaysNotes}</div>
-              <div className="text-xs text-muted-foreground font-condensed">Notes</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-primary font-space">{todaysConfessions}</div>
-              <div className="text-xs text-muted-foreground font-condensed">Confessions</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-primary font-space">{todaysEntries}</div>
-              <div className="text-xs text-muted-foreground font-condensed">Entries</div>
-            </div>
-          </div>
         </div>
       </div>
     </div>;
