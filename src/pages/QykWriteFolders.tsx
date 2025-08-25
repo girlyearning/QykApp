@@ -13,7 +13,7 @@ const QykWriteFolders = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { entries } = useEntries();
-  const { folders } = useUserFolders('entry');
+  const { folders, removeFolder } = useUserFolders('entry');
   const { getSelectedFolder, setSelectedFolder } = useUserSettings();
   const [showFolderManager, setShowFolderManager] = useState(false);
 
@@ -31,6 +31,16 @@ const QykWriteFolders = () => {
   const handleViewAll = async () => {
     await setSelectedFolder('entry', '');
     navigate('/qyk-write');
+  };
+
+  const handleDeleteFolder = async (folderName: string) => {
+    // Delete the folder
+    const success = await removeFolder(folderName);
+    
+    // If we're currently viewing this folder, switch to all entries
+    if (success && selectedFolder === folderName) {
+      await setSelectedFolder('entry', '');
+    }
   };
 
   if (!user) {
@@ -119,6 +129,7 @@ const QykWriteFolders = () => {
                   count={getFolderCount(folder)}
                   type="entry"
                   onSelect={() => handleFolderSelect(folder)}
+                  onDelete={() => handleDeleteFolder(folder)}
                 />
               </div>
             ))

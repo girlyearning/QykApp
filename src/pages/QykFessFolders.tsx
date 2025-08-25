@@ -13,7 +13,7 @@ const QykFessFolders = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { confessions } = useConfessions();
-  const { folders } = useUserFolders('confession');
+  const { folders, removeFolder } = useUserFolders('confession');
   const { getSelectedFolder, setSelectedFolder } = useUserSettings();
   const [showFolderManager, setShowFolderManager] = useState(false);
 
@@ -31,6 +31,16 @@ const QykFessFolders = () => {
   const handleViewAll = async () => {
     await setSelectedFolder('confession', '');
     navigate('/qyk-fess');
+  };
+
+  const handleDeleteFolder = async (folderName: string) => {
+    // Delete the folder
+    const success = await removeFolder(folderName);
+    
+    // If we're currently viewing this folder, switch to all confessions
+    if (success && selectedFolder === folderName) {
+      await setSelectedFolder('confession', '');
+    }
   };
 
   if (!user) {
@@ -129,6 +139,7 @@ const QykFessFolders = () => {
                   count={getFolderCount(folder)}
                   type="confession"
                   onSelect={() => handleFolderSelect(folder)}
+                  onDelete={() => handleDeleteFolder(folder)}
                 />
               </div>
             ))
