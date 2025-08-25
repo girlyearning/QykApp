@@ -30,7 +30,7 @@ const Index = () => {
   if (!user) {
     return (
       <div className="min-h-screen bg-gradient-iridescent p-4 pb-safe">
-        <div className="max-w-2xl mx-auto space-y-8">
+        <div className="max-w-2xl mx-auto space-y-8 pt-8">
           {/* Main Header */}
           <div className="text-center space-y-4 pt-safe animate-fade-in">
             <div className="flex items-center justify-center mb-4">
@@ -89,7 +89,7 @@ const Index = () => {
     count: entries.length
   }], [notes.length, entries.length, confessions.length]);
   return <div className="min-h-screen bg-gradient-iridescent p-4 pb-safe">
-      <div className="max-w-2xl mx-auto space-y-8">
+      <div className="max-w-2xl mx-auto space-y-8 pt-8">
         {/* Main Header */}
         <div className="text-center space-y-4 pt-safe animate-fade-in">
           <div className="flex items-center justify-center mb-4">
