@@ -19,7 +19,7 @@ const ContentMenu = ({ onMoveToFolder, onDelete }: ContentMenuProps) => {
         <Button
           variant="ghost"
           size="sm"
-          className="opacity-0 group-hover:opacity-100 transition-all duration-200 h-8 w-8 p-0 text-muted-foreground hover:text-foreground hover:scale-110"
+          className="opacity-60 group-hover:opacity-100 hover:bg-muted/50 transition-all duration-200 h-8 w-8 p-0 text-muted-foreground hover:text-foreground hover:scale-110 border border-transparent hover:border-border/30 rounded-lg"
         >
           <MoreVertical className="w-4 h-4" />
         </Button>

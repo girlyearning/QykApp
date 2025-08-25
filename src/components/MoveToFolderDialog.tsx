@@ -87,21 +87,27 @@ const MoveToFolderDialog = ({
             <SelectTrigger className="mt-2 bg-background/50 border-border/50 focus:border-primary focus:ring-primary/20 rounded-xl">
               <SelectValue placeholder="Choose a folder..." />
             </SelectTrigger>
-            <SelectContent className="bg-background border border-border/50 rounded-xl">
+            <SelectContent className="bg-background border border-border/50 rounded-xl z-50">
               <SelectItem value="" className="rounded-lg">
                 No folder (Main)
               </SelectItem>
-              {availableFolders.map((folder) => (
-                <SelectItem 
-                  key={folder} 
-                  value={folder}
-                  className="rounded-lg"
-                  disabled={folder === currentFolder}
-                >
-                  {folder}
-                  {folder === currentFolder && " (current)"}
+              {availableFolders.length > 0 ? (
+                availableFolders.map((folder) => (
+                  <SelectItem 
+                    key={folder} 
+                    value={folder}
+                    className="rounded-lg"
+                    disabled={folder === currentFolder}
+                  >
+                    {folder}
+                    {folder === currentFolder && " (current)"}
+                  </SelectItem>
+                ))
+              ) : (
+                <SelectItem value="no-folders" disabled className="rounded-lg text-muted-foreground">
+                  No folders available - create one first
                 </SelectItem>
-              ))}
+              )}
             </SelectContent>
           </Select>
         </div>
