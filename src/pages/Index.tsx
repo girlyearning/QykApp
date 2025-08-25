@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { StickyNote, BookOpen, Lock, Sparkles, Settings } from "lucide-react";
+import { StickyNote, BookOpen, Lock, Zap, Settings } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useProfile } from "@/hooks/useProfile";
 import { useNotes, useEntries, useConfessions } from "@/hooks/useSupabaseData";
@@ -48,13 +48,20 @@ const Index = () => {
   }];
   return <div className="min-h-screen bg-gradient-iridescent p-4 pb-24">
       <div className="max-w-2xl mx-auto space-y-8">
-        {/* Header */}
-        <div className="text-center space-y-4 pt-safe animate-fade-in">
+        {/* Header Text */}
+        <div className="pt-safe animate-fade-in">
+          <p className="text-sm text-muted-foreground font-medium font-condensed mb-2">
+            Your personal writing sanctuary
+          </p>
+        </div>
+
+        {/* Main Header */}
+        <div className="text-center space-y-4 animate-fade-in">
           <div className="flex items-center justify-between mb-4">
             <div></div>
             <div className="flex items-center justify-center gap-2">
-              
               <h1 className="text-4xl font-bold text-primary font-space font-extra-condensed">QYK</h1>
+              <Zap className="w-6 h-6 text-primary" />
             </div>
             <Button variant="ghost" size="sm" onClick={() => navigate('/settings')} className="rounded-full p-2 hover-lift mt-safe">
               <Settings className="w-5 h-5" />
@@ -63,7 +70,6 @@ const Index = () => {
           <p className="text-lg text-muted-foreground font-medium font-condensed">
             Welcome back, {profile?.display_name || user?.email?.split('@')[0]}!
           </p>
-          <p className="text-sm text-muted-foreground max-w-md mx-auto font-condensed">Your personal writing sanctuary</p>
         </div>
 
         {/* Service Cards */}
