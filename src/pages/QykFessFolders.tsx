@@ -1,33 +1,54 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FolderWidget } from "@/components/FolderWidget";
-import { FolderManager } from "@/components/FolderManager";
 import { ModernTitleWidget } from "@/components/ModernTitleWidget";
 import { Button } from "@/components/ui/button";
 import { Plus, Lock } from "lucide-react";
-import useLocalStorage from "@/hooks/useLocalStorage";
 import { useConfessions } from "@/hooks/useSupabaseData";
+import { useUserFolders } from "@/hooks/useUserFolders";
+import { useUserSettings } from "@/hooks/useUserSettings";
+import { useAuth } from "@/contexts/AuthContext";
 
 const QykFessFolders = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const { confessions } = useConfessions();
-  const [folders, setFolders] = useLocalStorage<string[]>("qyk-fess-folders", []);
-  const [selectedFolder, setSelectedFolder] = useLocalStorage<string>("qyk-fess-selected-folder", "");
+  const { folders } = useUserFolders('confession');
+  const { getSelectedFolder, setSelectedFolder } = useUserSettings();
   const [showFolderManager, setShowFolderManager] = useState(false);
+
+  const selectedFolder = getSelectedFolder('confession');
 
   const getFolderCount = (folderName: string) => {
     return confessions.filter(confession => confession.folder === folderName).length;
   };
 
-  const handleFolderSelect = (folderName: string) => {
-    setSelectedFolder(folderName);
+  const handleFolderSelect = async (folderName: string) => {
+    await setSelectedFolder('confession', folderName);
     navigate('/qyk-fess');
   };
 
-  const handleViewAll = () => {
-    setSelectedFolder("");
+  const handleViewAll = async () => {
+    await setSelectedFolder('confession', '');
     navigate('/qyk-fess');
   };
+
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-gradient-iridescent p-4 pb-safe">
+        <div className="max-w-2xl mx-auto space-y-6">
+          <div className="text-center py-12 animate-fade-in">
+            <h2 className="text-xl font-bold text-foreground mb-2 font-space font-condensed">
+              Sign in to access folders
+            </h2>
+            <Button onClick={() => navigate('/auth')} className="rounded-full px-6">
+              Sign In
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-iridescent p-4 pb-safe">
@@ -58,14 +79,11 @@ const QykFessFolders = () => {
         {/* Folder Manager */}
         {showFolderManager && (
           <div className="animate-slide-down">
-        <FolderManager
-          folders={folders}
-          selectedFolder={selectedFolder}
-          onFolderSelect={setSelectedFolder}
-          onFoldersChange={setFolders}
-          folderType="confession"
-          getItemCount={getFolderCount}
-        />
+            <div className="glass-card p-4 rounded-2xl">
+              <p className="text-sm text-muted-foreground font-condensed mb-2">
+                Use the folder menu (folder icon) in the main QykFess page to create new folders
+              </p>
+            </div>
           </div>
         )}
 

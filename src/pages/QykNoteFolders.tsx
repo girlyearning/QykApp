@@ -5,29 +5,51 @@ import { FolderManager } from "@/components/FolderManager";
 import { ModernTitleWidget } from "@/components/ModernTitleWidget";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-import useLocalStorage from "@/hooks/useLocalStorage";
 import { useNotes } from "@/hooks/useSupabaseData";
+import { useUserFolders } from "@/hooks/useUserFolders";
+import { useUserSettings } from "@/hooks/useUserSettings";
+import { useAuth } from "@/contexts/AuthContext";
 
 const QykNoteFolders = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const { notes } = useNotes();
-  const [folders, setFolders] = useLocalStorage<string[]>("qyk-note-folders", []);
-  const [selectedFolder, setSelectedFolder] = useLocalStorage<string>("qyk-note-selected-folder", "");
+  const { folders } = useUserFolders('note');
+  const { getSelectedFolder, setSelectedFolder } = useUserSettings();
   const [showFolderManager, setShowFolderManager] = useState(false);
+
+  const selectedFolder = getSelectedFolder('note');
 
   const getFolderCount = (folderName: string) => {
     return notes.filter(note => note.folder === folderName).length;
   };
 
-  const handleFolderSelect = (folderName: string) => {
-    setSelectedFolder(folderName);
+  const handleFolderSelect = async (folderName: string) => {
+    await setSelectedFolder('note', folderName);
     navigate('/qyk-note');
   };
 
-  const handleViewAll = () => {
-    setSelectedFolder("");
+  const handleViewAll = async () => {
+    await setSelectedFolder('note', '');
     navigate('/qyk-note');
   };
+
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-gradient-iridescent p-4 pb-safe">
+        <div className="max-w-2xl mx-auto space-y-6">
+          <div className="text-center py-12 animate-fade-in">
+            <h2 className="text-xl font-bold text-foreground mb-2 font-space font-condensed">
+              Sign in to access folders
+            </h2>
+            <Button onClick={() => navigate('/auth')} className="rounded-full px-6">
+              Sign In
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-iridescent p-4 pb-safe">
@@ -48,20 +70,17 @@ const QykNoteFolders = () => {
         {/* Folder Manager */}
         {showFolderManager && (
           <div className="animate-slide-down">
-        <FolderManager
-          folders={folders}
-          selectedFolder={selectedFolder}
-          onFolderSelect={setSelectedFolder}
-          onFoldersChange={setFolders}
-          folderType="note"
-          getItemCount={getFolderCount}
-        />
+            <div className="glass-card p-4 rounded-2xl">
+              <p className="text-sm text-muted-foreground font-condensed mb-2">
+                Use the folder menu (folder icon) in the main QykNote page to create new folders
+              </p>
+            </div>
           </div>
         )}
 
         {/* View All Notes Button */}
         <Button
-          variant="outline"
+          variant={!selectedFolder ? "default" : "outline"}
           className="glass-card p-4 h-auto flex items-center justify-between w-full hover-lift rounded-3xl animate-fade-in"
           onClick={handleViewAll}
         >
@@ -74,7 +93,7 @@ const QykNoteFolders = () => {
                 All Notes
               </h3>
               <p className="text-sm text-muted-foreground font-condensed">
-                {notes.length} Total Notes
+                {notes.length} Total Notes {!selectedFolder ? "(Currently viewing)" : ""}
               </p>
             </div>
           </div>
