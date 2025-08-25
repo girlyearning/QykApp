@@ -37,6 +37,11 @@ const MoveToFolderDialog = ({
 }: MoveToFolderDialogProps) => {
   const [selectedFolder, setSelectedFolder] = useState<string>("");
 
+  // Debug log to see what folders are available
+  console.log("MoveToFolderDialog - availableFolders:", availableFolders);
+  console.log("MoveToFolderDialog - itemType:", itemType);
+  console.log("MoveToFolderDialog - currentFolder:", currentFolder);
+
   const handleConfirm = () => {
     if (selectedFolder !== currentFolder) {
       onConfirm(selectedFolder);
@@ -64,7 +69,7 @@ const MoveToFolderDialog = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="glass-card bg-background/95 backdrop-blur-sm border-2 border-primary/30 rounded-3xl max-w-md mx-auto">
+      <DialogContent className="glass-card bg-background/95 backdrop-blur-sm border-2 border-primary/30 rounded-3xl max-w-md mx-auto z-[9998]">
         <DialogHeader className="text-center">
           <div className="flex justify-center mb-4">
             <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
@@ -83,11 +88,15 @@ const MoveToFolderDialog = ({
           <Label htmlFor="folder-select" className="text-sm font-medium text-foreground font-condensed">
             Select Folder
           </Label>
+          <div className="text-xs text-muted-foreground mb-2">
+            Available folders: {availableFolders.length} 
+            {availableFolders.length > 0 && ` - ${availableFolders.join(', ')}`}
+          </div>
           <Select value={selectedFolder} onValueChange={setSelectedFolder}>
             <SelectTrigger className="mt-2 bg-background/50 border-border/50 focus:border-primary focus:ring-primary/20 rounded-xl">
-              <SelectValue placeholder="Choose a folder..." />
+              <SelectValue placeholder={availableFolders.length === 0 ? "No folders available" : "Choose a folder..."} />
             </SelectTrigger>
-            <SelectContent className="bg-background border border-border/50 rounded-xl z-50">
+            <SelectContent className="bg-background border border-border/50 rounded-xl z-[9999] shadow-lg" sideOffset={5}>
               <SelectItem value="" className="rounded-lg">
                 No folder (Main)
               </SelectItem>
@@ -104,7 +113,7 @@ const MoveToFolderDialog = ({
                   </SelectItem>
                 ))
               ) : (
-                <SelectItem value="no-folders" disabled className="rounded-lg text-muted-foreground">
+                <SelectItem value="no-folders-placeholder" disabled className="rounded-lg text-muted-foreground">
                   No folders available - create one first
                 </SelectItem>
               )}
