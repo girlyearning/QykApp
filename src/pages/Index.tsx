@@ -50,23 +50,18 @@ const Index = () => {
       <div className="max-w-2xl mx-auto space-y-8">
         {/* Main Header */}
         <div className="text-center space-y-4 pt-safe animate-fade-in">
-          <div className="flex items-center justify-between mb-4">
-            <div></div>
-            <div className="flex items-center justify-center gap-2">
+          <div className="flex items-center justify-center mb-4">
+            <div className="flex items-center gap-2">
               <h1 className="text-4xl font-bold text-primary font-space font-extra-condensed">QYK</h1>
               <Zap className="w-6 h-6 text-primary" />
             </div>
-            <Button variant="ghost" size="sm" onClick={() => navigate('/settings')} className="rounded-full p-2 hover-lift mt-safe">
+            <Button variant="ghost" size="sm" onClick={() => navigate('/settings')} className="absolute top-safe right-4 rounded-full p-2 hover-lift">
               <Settings className="w-5 h-5" />
             </Button>
           </div>
           <p className="text-lg text-muted-foreground font-medium font-condensed">
             Welcome back, {profile?.display_name || user?.email?.split('@')[0]}!
           </p>
-        </div>
-
-        {/* Header Text */}
-        <div className="text-left animate-fade-in">
           <p className="text-sm text-muted-foreground font-medium font-condensed">
             Your personal writing sanctuary
           </p>

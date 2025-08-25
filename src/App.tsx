@@ -23,7 +23,8 @@ const queryClient = new QueryClient();
 const AppContent = () => {
   const location = useLocation();
   const isAuthPage = location.pathname === "/auth";
-  const showNavigation = !isAuthPage;
+  const isHomePage = location.pathname === "/";
+  const showNavigation = !isAuthPage && !isHomePage;
 
   return (
     <div className="min-h-screen bg-background pt-safe">
