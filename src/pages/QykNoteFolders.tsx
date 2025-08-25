@@ -48,12 +48,14 @@ const QykNoteFolders = () => {
         {/* Folder Manager */}
         {showFolderManager && (
           <div className="animate-slide-down">
-            <FolderManager
-              folders={folders}
-              selectedFolder={selectedFolder}
-              onFolderSelect={setSelectedFolder}
-              onFoldersChange={setFolders}
-            />
+        <FolderManager
+          folders={folders}
+          selectedFolder={selectedFolder}
+          onFolderSelect={setSelectedFolder}
+          onFoldersChange={setFolders}
+          folderType="note"
+          getItemCount={getFolderCount}
+        />
           </div>
         )}
 

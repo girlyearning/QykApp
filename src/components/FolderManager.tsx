@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { ConfirmDeleteDialog } from "@/components/ConfirmDeleteDialog";
 import { Folder, Plus, Edit2, Trash2, X } from "lucide-react";
 
 interface FolderManagerProps {
@@ -9,13 +10,23 @@ interface FolderManagerProps {
   selectedFolder: string;
   onFolderSelect: (folder: string) => void;
   onFoldersChange: (folders: string[]) => void;
+  folderType?: "note" | "entry" | "confession";
+  getItemCount?: (folderName: string) => number;
 }
 
-const FolderManager = ({ folders, selectedFolder, onFolderSelect, onFoldersChange }: FolderManagerProps) => {
+const FolderManager = ({ 
+  folders, 
+  selectedFolder, 
+  onFolderSelect, 
+  onFoldersChange,
+  folderType = "note",
+  getItemCount 
+}: FolderManagerProps) => {
   const [isCreating, setIsCreating] = useState(false);
   const [isEditing, setIsEditing] = useState<string | null>(null);
   const [newFolderName, setNewFolderName] = useState("");
   const [editFolderName, setEditFolderName] = useState("");
+  const [folderToDelete, setFolderToDelete] = useState<string | null>(null);
 
   const createFolder = () => {
     const name = newFolderName.trim();
@@ -44,16 +55,40 @@ const FolderManager = ({ folders, selectedFolder, onFolderSelect, onFoldersChang
   const deleteFolder = (folderName: string) => {
     const newFolders = folders.filter(f => f !== folderName);
     onFoldersChange(newFolders);
-      if (selectedFolder === folderName && newFolders.length > 0) {
-        onFolderSelect(newFolders[0]);
-      } else if (selectedFolder === folderName) {
-        onFolderSelect("");
-      }
+    if (selectedFolder === folderName && newFolders.length > 0) {
+      onFolderSelect(newFolders[0]);
+    } else if (selectedFolder === folderName) {
+      onFolderSelect("");
+    }
+  };
+
+  const handleDeleteClick = (folderName: string) => {
+    setFolderToDelete(folderName);
+  };
+
+  const handleConfirmDelete = () => {
+    if (folderToDelete) {
+      deleteFolder(folderToDelete);
+      setFolderToDelete(null);
+    }
   };
 
   const startEdit = (folderName: string) => {
     setEditFolderName(folderName);
     setIsEditing(folderName);
+  };
+
+  const getFolderItemCount = (folderName: string) => {
+    return getItemCount ? getItemCount(folderName) : 0;
+  };
+
+  const getDeleteWarningMessage = (folderName: string) => {
+    const itemCount = getFolderItemCount(folderName);
+    if (itemCount === 0) {
+      return `Are you sure you want to delete the "${folderName}" folder?`;
+    }
+    const itemType = folderType === "note" ? "notes" : folderType === "entry" ? "entries" : "confessions";
+    return `Are you sure you want to delete the "${folderName}" folder? It contains ${itemCount} ${itemType} that will be moved to the main folder.`;
   };
 
   return (
@@ -134,12 +169,11 @@ const FolderManager = ({ folders, selectedFolder, onFolderSelect, onFoldersChang
                         </Button>
                         <Button
                           variant="destructive"
-                          onClick={() => deleteFolder(folder)}
+                          onClick={() => handleDeleteClick(folder)}
                           className="w-full justify-start"
-                          disabled={folders.length === 1}
                         >
                           <Trash2 className="w-4 h-4 mr-2" />
-                          Delete
+                          Delete Folder
                         </Button>
                       </div>
                     </DialogContent>
@@ -191,6 +225,15 @@ const FolderManager = ({ folders, selectedFolder, onFolderSelect, onFoldersChang
           </Button>
         )}
       </div>
+
+      <ConfirmDeleteDialog
+        isOpen={folderToDelete !== null}
+        onClose={() => setFolderToDelete(null)}
+        onConfirm={handleConfirmDelete}
+        itemType={folderType}
+        title={`Delete ${folderToDelete} folder?`}
+        description={folderToDelete ? getDeleteWarningMessage(folderToDelete) : ""}
+      />
     </div>
   );
 };

@@ -14,6 +14,8 @@ interface ConfirmDeleteDialogProps {
   onClose: () => void;
   onConfirm: () => void;
   itemType: "note" | "entry" | "confession";
+  title?: string;
+  description?: string;
 }
 
 const ConfirmDeleteDialog = ({
@@ -21,6 +23,8 @@ const ConfirmDeleteDialog = ({
   onClose,
   onConfirm,
   itemType,
+  title,
+  description,
 }: ConfirmDeleteDialogProps) => {
   const handleConfirm = () => {
     onConfirm();
@@ -40,6 +44,9 @@ const ConfirmDeleteDialog = ({
     }
   };
 
+  const defaultTitle = `Delete ${getItemTypeName()}?`;
+  const defaultDescription = `Are you sure you want to delete this ${getItemTypeName()}? This action cannot be undone.`;
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="glass-card bg-background/95 backdrop-blur-sm border-2 border-destructive/30 rounded-3xl max-w-md mx-auto">
@@ -50,10 +57,10 @@ const ConfirmDeleteDialog = ({
             </div>
           </div>
           <DialogTitle className="text-xl font-bold text-foreground font-space font-condensed">
-            Delete {getItemTypeName()}?
+            {title || defaultTitle}
           </DialogTitle>
           <DialogDescription className="text-sm text-muted-foreground font-condensed">
-            Are you sure you want to delete this {getItemTypeName()}? This action cannot be undone.
+            {description || defaultDescription}
           </DialogDescription>
         </DialogHeader>
 
