@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight, Folder, Plus, Eye } from "lucide-react";
+import { ArrowLeft, Folder, Plus, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -15,11 +15,8 @@ interface ModernTitleWidgetProps {
   onViewFolders?: () => void;
   showFolderActions?: boolean;
   canGoBack?: boolean;
-  canGoForward?: boolean;
   onBack?: () => void;
-  onForward?: () => void;
   backRoute?: string;
-  forwardRoute?: string;
 }
 
 const ModernTitleWidget = ({
@@ -29,11 +26,8 @@ const ModernTitleWidget = ({
   onViewFolders,
   showFolderActions = false,
   canGoBack = false,
-  canGoForward = false,
   onBack,
-  onForward,
   backRoute,
-  forwardRoute,
 }: ModernTitleWidgetProps) => {
   const navigate = useNavigate();
 
@@ -47,15 +41,6 @@ const ModernTitleWidget = ({
     }
   };
 
-  const handleForward = () => {
-    if (onForward) {
-      onForward();
-    } else if (forwardRoute) {
-      navigate(forwardRoute);
-    } else {
-      navigate(1);
-    }
-  };
 
   return (
     <div className="relative w-full max-w-2xl mx-auto mb-6 animate-fade-in">
@@ -63,24 +48,14 @@ const ModernTitleWidget = ({
         {/* Navigation Buttons - Top Left */}
         <div className="absolute top-4 left-4 flex gap-2">
           {canGoBack && (
-            <>
-              <Button
-                variant="outline"
-                size="sm"
-                className="rounded-full w-8 h-8 p-0 bg-background/50 hover:bg-background/80"
-                onClick={handleBack}
-              >
-                <ArrowLeft className="w-4 h-4" />
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                className="rounded-full w-8 h-8 p-0 bg-background/50 hover:bg-background/80"
-                onClick={handleForward}
-              >
-                <ArrowRight className="w-4 h-4" />
-              </Button>
-            </>
+            <Button
+              variant="outline"
+              size="sm"
+              className="rounded-full w-8 h-8 p-0 bg-background/50 hover:bg-background/80"
+              onClick={handleBack}
+            >
+              <ArrowLeft className="w-4 h-4" />
+            </Button>
           )}
         </div>
 

@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const TopNavigation = () => {
@@ -14,9 +14,6 @@ const TopNavigation = () => {
     }
   };
 
-  const handleForward = () => {
-    navigate(1);
-  };
 
   // Don't show on home page
   if (location.pathname === '/') {
@@ -34,14 +31,6 @@ const TopNavigation = () => {
             className="rounded-full p-2 hover-lift"
           >
             <ArrowLeft className="w-4 h-4" />
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={handleForward}
-            className="rounded-full p-2 hover-lift"
-          >
-            <ArrowRight className="w-4 h-4" />
           </Button>
         </div>
       </div>
