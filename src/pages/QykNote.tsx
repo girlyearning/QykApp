@@ -120,7 +120,25 @@ const QykNote = () => {
           </div>
         )}
 
-        {/* Input Section */}
+        {/* Debug Info - Temporary */}
+        <div className="glass-card p-4 rounded-2xl mb-4 bg-yellow-500/10 border border-yellow-500/20">
+          <div className="text-xs space-y-1">
+            <div>Total notes: {notes.length}</div>
+            <div>Filtered notes: {filteredNotes.length}</div>
+            <div>Selected folder: "{selectedFolder}" (empty = all notes)</div>
+            <div>Available folders: {folders.join(', ') || 'none'}</div>
+          </div>
+        </div>
+
+        {/* Emergency Reset Button */}
+        <div className="glass-card p-4 rounded-2xl mb-4">
+          <Button
+            onClick={() => setSelectedFolder('note', '')}
+            className="w-full rounded-xl bg-red-500 hover:bg-red-600 text-white"
+          >
+            🚨 EMERGENCY: Show All My Notes
+          </Button>
+        </div>
         <div className="glass-card p-6 rounded-3xl animate-slide-up hover-lift">
           <QykInput
             value={currentNote}
