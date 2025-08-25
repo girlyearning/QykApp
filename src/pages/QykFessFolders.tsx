@@ -30,7 +30,7 @@ const QykFessFolders = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-iridescent p-4 pb-24">
+    <div className="min-h-screen bg-gradient-iridescent p-4 pb-safe">
       <div className="max-w-2xl mx-auto space-y-6">
         {/* Modern Title Widget */}
         <div className="pt-safe">

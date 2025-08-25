@@ -41,8 +41,8 @@ const ContentCard = ({ title, content, timestamp, onDelete, type, isNew = false 
   };
 
   return (
-    <div className={`glass-card p-4 rounded-2xl group hover:shadow-md transition-all duration-300 hover-lift animate-scale-in border border-border/50 ${
-      isNew ? 'ring-2 ring-primary/60 animate-pulse-glow border-primary/30 bg-primary/5' : ''
+    <div className={`glass-card p-4 rounded-2xl group hover:shadow-md transition-all duration-300 hover-lift animate-scale-in border-2 ${
+      isNew ? 'border-primary animate-pulse-glow bg-primary/5' : 'border-primary/60'
     }`}>
       <div className="flex items-start justify-between mb-2">
         <div className="flex-1">
