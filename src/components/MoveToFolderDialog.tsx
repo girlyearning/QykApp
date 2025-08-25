@@ -37,11 +37,6 @@ const MoveToFolderDialog = ({
 }: MoveToFolderDialogProps) => {
   const [selectedFolder, setSelectedFolder] = useState<string>("");
 
-  // Debug log to see what folders are available
-  console.log("MoveToFolderDialog - availableFolders:", availableFolders);
-  console.log("MoveToFolderDialog - itemType:", itemType);
-  console.log("MoveToFolderDialog - currentFolder:", currentFolder);
-
   // Convert currentFolder for comparison (empty string becomes "main")
   const currentFolderValue = currentFolder || "main";
 

@@ -6,21 +6,26 @@ import { ContentCard } from "@/components/ContentCard";
 import { ModernTitleWidget } from "@/components/ModernTitleWidget";
 import { CreateFolderDialog } from "@/components/CreateFolderDialog";
 import { Search } from "lucide-react";
-import useLocalStorage from "@/hooks/useLocalStorage";
 import { useNotes } from "@/hooks/useSupabaseData";
+import { useUserFolders } from "@/hooks/useUserFolders";
+import { useUserSettings } from "@/hooks/useUserSettings";
+import { useAuth } from "@/contexts/AuthContext";
 
 const QykNote = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const { notes, loading, addNote, deleteNote, moveNote } = useNotes();
+  const { folders, addFolder } = useUserFolders('note');
+  const { getSelectedFolder, setSelectedFolder } = useUserSettings();
   const [currentNote, setCurrentNote] = useState("");
   const [newItemIds, setNewItemIds] = useState<string[]>([]);
-  const [folders, setFolders] = useLocalStorage<string[]>("qyk-note-folders", []);
-  const [selectedFolder, setSelectedFolder] = useLocalStorage<string>("qyk-note-selected-folder", "");
   const [showCreateDialog, setShowCreateDialog] = useState(false);
+
+  const selectedFolder = getSelectedFolder('note');
 
   const handleSubmit = async () => {
     if (currentNote.trim() && currentNote.length <= 200) {
-      const newNote = await addNote(currentNote.trim(), selectedFolder);
+      const newNote = await addNote(currentNote.trim(), selectedFolder || undefined);
       if (newNote) {
         setCurrentNote("");
         setNewItemIds(prev => [...prev, newNote.id]);
@@ -44,15 +49,41 @@ const QykNote = () => {
     setShowCreateDialog(true);
   };
 
-  const handleConfirmCreate = (folderName: string) => {
-    if (!folders.includes(folderName)) {
-      setFolders([...folders, folderName]);
+  const handleConfirmCreate = async (folderName: string) => {
+    const success = await addFolder(folderName);
+    if (success) {
+      // Optionally switch to the new folder
+      await setSelectedFolder('note', folderName);
     }
   };
 
   const handleViewFolders = () => {
     navigate('/qyk-note-folders');
   };
+
+  // Show login prompt if not authenticated
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-gradient-iridescent p-4 pb-safe">
+        <div className="max-w-2xl mx-auto space-y-6">
+          <div className="text-center py-12 animate-fade-in">
+            <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
+              <Search className="w-8 h-8 text-muted-foreground" />
+            </div>
+            <h2 className="text-xl font-bold text-foreground mb-2 font-space font-condensed">
+              Sign in to access QykNote
+            </h2>
+            <p className="text-muted-foreground font-condensed mb-6">
+              Your notes are synced across all your devices
+            </p>
+            <Button onClick={() => navigate('/auth')} className="rounded-full px-6">
+              Sign In
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-iridescent p-4 pb-safe">

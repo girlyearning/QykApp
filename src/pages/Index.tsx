@@ -29,6 +29,45 @@ const Index = () => {
   const todaysNotes = notes.filter(note => new Date(note.created_at).toDateString() === today).length;
   const todaysEntries = entries.filter(entry => new Date(entry.created_at).toDateString() === today).length;
   const todaysConfessions = confessions.filter(confession => new Date(confession.created_at).toDateString() === today).length;
+  // Show sign-in prompt if not authenticated
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-gradient-iridescent p-4 pb-safe">
+        <div className="max-w-2xl mx-auto space-y-8">
+          {/* Main Header */}
+          <div className="text-center space-y-4 pt-safe animate-fade-in">
+            <div className="flex items-center justify-center mb-4">
+              <div className="flex items-center gap-2">
+                <h1 className="text-4xl font-bold text-primary font-space font-extra-condensed">QYK</h1>
+                <Zap className="w-6 h-6 text-primary" />
+              </div>
+            </div>
+            <p className="text-lg text-muted-foreground font-medium font-condensed">
+              Your personal writing sanctuary
+            </p>
+            <p className="text-sm text-muted-foreground font-medium font-condensed">
+              Sign in to sync your data across all devices
+            </p>
+          </div>
+
+          {/* Sign In Card */}
+          <div className="glass-card p-8 rounded-3xl text-center animate-slide-up">
+            <Lock className="w-12 h-12 text-primary mx-auto mb-4" />
+            <h2 className="text-xl font-bold text-foreground mb-4 font-space font-condensed">
+              Sign In Required
+            </h2>
+            <p className="text-muted-foreground font-condensed mb-6">
+              Access QykNote, QykFess, and QykWrite with cloud sync
+            </p>
+            <Button onClick={() => navigate('/auth')} className="rounded-full px-8 py-3 text-lg">
+              Sign In / Sign Up
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   const services = [{
     title: "QykNote",
     description: "Low-effort, 200-character thoughts",

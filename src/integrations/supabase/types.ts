@@ -122,6 +122,66 @@ export type Database = {
         }
         Relationships: []
       }
+      user_folders: {
+        Row: {
+          created_at: string
+          folder_name: string
+          id: string
+          section: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          folder_name: string
+          id?: string
+          section: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          folder_name?: string
+          id?: string
+          section?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_settings: {
+        Row: {
+          created_at: string
+          id: string
+          selected_confession_folder: string | null
+          selected_entry_folder: string | null
+          selected_note_folder: string | null
+          theme: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          selected_confession_folder?: string | null
+          selected_entry_folder?: string | null
+          selected_note_folder?: string | null
+          theme?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          selected_confession_folder?: string | null
+          selected_entry_folder?: string | null
+          selected_note_folder?: string | null
+          theme?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
