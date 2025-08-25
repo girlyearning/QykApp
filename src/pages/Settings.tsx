@@ -14,10 +14,10 @@ import { useState, useEffect } from "react";
 const Settings = () => {
   const { theme, setTheme } = useTheme();
   const { signOut, user } = useAuth();
-  const { profile, updateProfile } = useProfile();
+  const { profile, displayName: profileDisplayName, updateProfile } = useProfile();
   const { toast } = useToast();
   const navigate = useNavigate();
-  const [displayName, setDisplayName] = useState(profile?.display_name || "");
+  const [displayName, setDisplayName] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
 
   const handleDisplayNameUpdate = async () => {
@@ -65,8 +65,10 @@ const Settings = () => {
   useEffect(() => {
     if (profile?.display_name) {
       setDisplayName(profile.display_name);
+    } else if (profileDisplayName && !displayName) {
+      setDisplayName(profileDisplayName);
     }
-  }, [profile]);
+  }, [profile, profileDisplayName, displayName]);
 
   return (
     <div className="min-h-screen bg-gradient-iridescent p-4 pb-safe">
@@ -94,6 +96,11 @@ const Settings = () => {
               <div className="flex justify-between items-center">
                 <span className="text-muted-foreground">Email</span>
                 <span className="text-sm">{user?.email}</span>
+              </div>
+              
+              <div className="flex justify-between items-center">
+                <span className="text-muted-foreground">Welcome Message</span>
+                <span className="text-sm">Welcome back, {profileDisplayName}!</span>
               </div>
               
               <div className="space-y-2">

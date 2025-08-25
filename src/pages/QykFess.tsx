@@ -11,7 +11,7 @@ import { useConfessions } from "@/hooks/useSupabaseData";
 
 const QykFess = () => {
   const navigate = useNavigate();
-  const { confessions, loading, addConfession, deleteConfession } = useConfessions();
+  const { confessions, loading, addConfession, deleteConfession, moveConfession } = useConfessions();
   const [currentConfession, setCurrentConfession] = useState("");
   const [newItemIds, setNewItemIds] = useState<string[]>([]);
   const [folders, setFolders] = useLocalStorage<string[]>("qyk-fess-folders", []);
@@ -30,6 +30,10 @@ const QykFess = () => {
 
   const handleDelete = (id: string) => {
     deleteConfession(id);
+  };
+
+  const handleMove = (id: string) => (newFolder: string) => {
+    moveConfession(id, newFolder);
   };
 
   const filteredConfessions = confessions.filter(confession => 
@@ -120,8 +124,11 @@ const QykFess = () => {
                     content={confession.content}
                     timestamp={new Date(confession.created_at)}
                     onDelete={() => handleDelete(confession.id)}
+                    onMove={handleMove(confession.id)}
                     type="confession"
                     isNew={newItemIds.includes(confession.id)}
+                    folder={confession.folder}
+                    availableFolders={folders}
                   />
               </div>
             ))

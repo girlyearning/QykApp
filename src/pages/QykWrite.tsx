@@ -12,7 +12,7 @@ import { useEntries } from "@/hooks/useSupabaseData";
 
 const QykWrite = () => {
   const navigate = useNavigate();
-  const { entries, loading, addEntry, deleteEntry } = useEntries();
+  const { entries, loading, addEntry, deleteEntry, moveEntry } = useEntries();
   const [currentTitle, setCurrentTitle] = useState("");
   const [currentContent, setCurrentContent] = useState("");
   const [newItemIds, setNewItemIds] = useState<string[]>([]);
@@ -33,6 +33,10 @@ const QykWrite = () => {
 
   const handleDelete = (id: string) => {
     deleteEntry(id);
+  };
+
+  const handleMove = (id: string) => (newFolder: string) => {
+    moveEntry(id, newFolder);
   };
 
   const filteredEntries = entries.filter(entry => 
@@ -121,8 +125,11 @@ const QykWrite = () => {
                    content={entry.content}
                    timestamp={new Date(entry.created_at)}
                    onDelete={() => handleDelete(entry.id)}
+                   onMove={handleMove(entry.id)}
                    type="entry"
                    isNew={newItemIds.includes(entry.id)}
+                   folder={entry.folder}
+                   availableFolders={folders}
                  />
               </div>
             ))

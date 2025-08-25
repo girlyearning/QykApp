@@ -14,8 +14,18 @@ interface Profile {
 export const useProfile = () => {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
+  const [displayName, setDisplayName] = useState<string>("");
   const { user } = useAuth();
   const { toast } = useToast();
+
+  // Set initial display name to prevent flash
+  useEffect(() => {
+    if (user) {
+      // Use profile display_name if available, otherwise use email prefix without showing email
+      const emailPrefix = user.email?.split('@')[0] || '';
+      setDisplayName(emailPrefix);
+    }
+  }, [user]);
 
   const fetchProfile = async () => {
     if (!user) {
@@ -35,6 +45,10 @@ export const useProfile = () => {
       }
 
       setProfile(data);
+      // Update display name only if profile has a display_name
+      if (data?.display_name) {
+        setDisplayName(data.display_name);
+      }
     } catch (error) {
       console.error('Error fetching profile:', error);
       toast({
@@ -63,6 +77,9 @@ export const useProfile = () => {
       if (error) throw error;
 
       setProfile(data);
+      if (data?.display_name) {
+        setDisplayName(data.display_name);
+      }
       toast({
         title: "Success",
         description: "Profile updated successfully",
@@ -87,6 +104,7 @@ export const useProfile = () => {
   return {
     profile,
     loading,
+    displayName,
     updateProfile,
     refetch: fetchProfile,
   };

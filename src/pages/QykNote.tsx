@@ -11,7 +11,7 @@ import { useNotes } from "@/hooks/useSupabaseData";
 
 const QykNote = () => {
   const navigate = useNavigate();
-  const { notes, loading, addNote, deleteNote } = useNotes();
+  const { notes, loading, addNote, deleteNote, moveNote } = useNotes();
   const [currentNote, setCurrentNote] = useState("");
   const [newItemIds, setNewItemIds] = useState<string[]>([]);
   const [folders, setFolders] = useLocalStorage<string[]>("qyk-note-folders", []);
@@ -30,6 +30,10 @@ const QykNote = () => {
 
   const handleDelete = (id: string) => {
     deleteNote(id);
+  };
+
+  const handleMove = (id: string) => (newFolder: string) => {
+    moveNote(id, newFolder);
   };
 
   const filteredNotes = notes.filter(note => 
@@ -110,8 +114,11 @@ const QykNote = () => {
                    content={note.content}
                    timestamp={new Date(note.created_at)}
                    onDelete={() => handleDelete(note.id)}
+                   onMove={handleMove(note.id)}
                    type="note"
                    isNew={newItemIds.includes(note.id)}
+                   folder={note.folder}
+                   availableFolders={folders}
                  />
               </div>
             ))

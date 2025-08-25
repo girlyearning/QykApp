@@ -10,7 +10,8 @@ const Index = () => {
     user
   } = useAuth();
   const {
-    profile
+    profile,
+    displayName
   } = useProfile();
   const {
     notes
@@ -60,7 +61,7 @@ const Index = () => {
             </Button>
           </div>
           <p className="text-lg text-muted-foreground font-medium font-condensed">
-            Welcome back, {profile?.display_name || user?.email?.split('@')[0]}!
+            Welcome back, {profile?.display_name || displayName}!
           </p>
           <p className="text-sm text-muted-foreground font-medium font-condensed">
             Your personal writing sanctuary

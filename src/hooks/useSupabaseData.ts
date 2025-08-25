@@ -101,13 +101,39 @@ export const useNotes = () => {
     }
   };
 
+  const moveNote = async (id: string, newFolder: string) => {
+    try {
+      const { error } = await supabase
+        .from('notes')
+        .update({ folder: newFolder || null })
+        .eq('id', id);
+
+      if (error) throw error;
+      setNotes(prev => 
+        prev.map(note => 
+          note.id === id ? { ...note, folder: newFolder || undefined } : note
+        )
+      );
+      toast({
+        title: "Success",
+        description: `Note moved to ${newFolder || 'main folder'}`,
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: "Failed to move note",
+        variant: "destructive",
+      });
+    }
+  };
+
   useEffect(() => {
     if (user) {
       fetchNotes();
     }
   }, [user]);
 
-  return { notes, loading, addNote, deleteNote, refetch: fetchNotes };
+  return { notes, loading, addNote, deleteNote, moveNote, refetch: fetchNotes };
 };
 
 export const useEntries = () => {
@@ -184,13 +210,39 @@ export const useEntries = () => {
     }
   };
 
+  const moveEntry = async (id: string, newFolder: string) => {
+    try {
+      const { error } = await supabase
+        .from('entries')
+        .update({ folder: newFolder || null })
+        .eq('id', id);
+
+      if (error) throw error;
+      setEntries(prev => 
+        prev.map(entry => 
+          entry.id === id ? { ...entry, folder: newFolder || undefined } : entry
+        )
+      );
+      toast({
+        title: "Success",
+        description: `Entry moved to ${newFolder || 'main folder'}`,
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: "Failed to move entry",
+        variant: "destructive",
+      });
+    }
+  };
+
   useEffect(() => {
     if (user) {
       fetchEntries();
     }
   }, [user]);
 
-  return { entries, loading, addEntry, deleteEntry, refetch: fetchEntries };
+  return { entries, loading, addEntry, deleteEntry, moveEntry, refetch: fetchEntries };
 };
 
 export const useConfessions = () => {
@@ -266,11 +318,37 @@ export const useConfessions = () => {
     }
   };
 
+  const moveConfession = async (id: string, newFolder: string) => {
+    try {
+      const { error } = await supabase
+        .from('confessions')
+        .update({ folder: newFolder || null })
+        .eq('id', id);
+
+      if (error) throw error;
+      setConfessions(prev => 
+        prev.map(confession => 
+          confession.id === id ? { ...confession, folder: newFolder || undefined } : confession
+        )
+      );
+      toast({
+        title: "Success",
+        description: `Confession moved to ${newFolder || 'main folder'}`,
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: "Failed to move confession",
+        variant: "destructive",
+      });
+    }
+  };
+
   useEffect(() => {
     if (user) {
       fetchConfessions();
     }
   }, [user]);
 
-  return { confessions, loading, addConfession, deleteConfession, refetch: fetchConfessions };
+  return { confessions, loading, addConfession, deleteConfession, moveConfession, refetch: fetchConfessions };
 };
