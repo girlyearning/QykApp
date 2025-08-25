@@ -54,10 +54,7 @@ const QykWrite = () => {
 
   const handleConfirmCreate = async (folderName: string) => {
     const success = await addFolder(folderName);
-    if (success) {
-      // Optionally switch to the new folder
-      await setSelectedFolder('entry', folderName);
-    }
+    // Don't auto-switch to new folder - let user stay in current view
   };
 
   const handleViewFolders = () => {
@@ -103,6 +100,28 @@ const QykWrite = () => {
             backRoute="/"
           />
         </div>
+
+        {/* Folder Navigation Bar */}
+        {selectedFolder && (
+          <div className="glass-card p-4 rounded-2xl animate-slide-down">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-muted-foreground font-condensed">Currently viewing:</span>
+                <span className="text-sm font-medium text-foreground font-condensed bg-primary/10 px-2 py-1 rounded-lg">
+                  {selectedFolder}
+                </span>
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setSelectedFolder('entry', '')}
+                className="rounded-full text-xs font-condensed hover:bg-primary/10"
+              >
+                View All Entries
+              </Button>
+            </div>
+          </div>
+        )}
 
         {/* Input Section */}
         <div className="glass-card p-6 rounded-3xl space-y-4 animate-slide-up hover-lift">
