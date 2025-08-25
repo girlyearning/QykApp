@@ -62,6 +62,7 @@ const QykNote = () => {
           <ModernTitleWidget
             title="QykNote"
             description={selectedFolder ? `Folder: ${selectedFolder}` : "Your low-effort thoughts & updates"}
+            count={notes.length}
             showFolderActions={true}
             onCreateFolder={handleCreateFolder}
             onViewFolders={handleViewFolders}

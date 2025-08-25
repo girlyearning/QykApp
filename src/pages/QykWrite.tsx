@@ -65,6 +65,7 @@ const QykWrite = () => {
           <ModernTitleWidget
             title="QykWrite"
             description={selectedFolder ? `Folder: ${selectedFolder}` : "Your long-form journal entries"}
+            count={entries.length}
             showFolderActions={true}
             onCreateFolder={handleCreateFolder}
             onViewFolders={handleViewFolders}

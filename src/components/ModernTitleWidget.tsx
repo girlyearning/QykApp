@@ -1,5 +1,6 @@
 import { ArrowLeft, ArrowRight, Folder, Plus, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 interface ModernTitleWidgetProps {
   title: string;
   description: string;
+  count?: number;
   onCreateFolder?: () => void;
   onViewFolders?: () => void;
   showFolderActions?: boolean;
@@ -25,6 +27,7 @@ interface ModernTitleWidgetProps {
 const ModernTitleWidget = ({
   title,
   description,
+  count,
   onCreateFolder,
   onViewFolders,
   showFolderActions = false,
@@ -117,9 +120,16 @@ const ModernTitleWidget = ({
 
         {/* Centered Content */}
         <div className="text-center px-12">
-          <h1 className="text-3xl font-bold text-primary font-space font-extra-condensed mb-2">
-            {title}
-          </h1>
+          <div className="flex items-center justify-center gap-3 mb-2">
+            <h1 className="text-3xl font-bold text-primary font-space font-extra-condensed">
+              {title}
+            </h1>
+            {count !== undefined && (
+              <Badge variant="secondary" className="text-xs font-condensed px-2 py-1">
+                {count}
+              </Badge>
+            )}
+          </div>
           <p className="text-sm text-muted-foreground font-medium font-condensed">
             {description}
           </p>
