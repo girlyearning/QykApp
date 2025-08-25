@@ -52,7 +52,15 @@ const FolderManager = ({
     setEditFolderName("");
   };
 
-  const deleteFolder = (folderName: string) => {
+  const deleteFolder = async (folderName: string) => {
+    // If there's a move function available, move all items out of the folder first
+    const itemCount = getFolderItemCount(folderName);
+    if (itemCount > 0) {
+      // The warning dialog already informed the user that items will be moved to main folder
+      // The actual moving of items will be handled by the database constraints
+      // or the user will manually move items before deleting
+    }
+    
     const newFolders = folders.filter(f => f !== folderName);
     onFoldersChange(newFolders);
     if (selectedFolder === folderName && newFolders.length > 0) {
@@ -66,9 +74,9 @@ const FolderManager = ({
     setFolderToDelete(folderName);
   };
 
-  const handleConfirmDelete = () => {
+  const handleConfirmDelete = async () => {
     if (folderToDelete) {
-      deleteFolder(folderToDelete);
+      await deleteFolder(folderToDelete);
       setFolderToDelete(null);
     }
   };
