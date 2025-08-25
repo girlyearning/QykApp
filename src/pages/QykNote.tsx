@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { QykInput } from "@/components/QykInput";
 import { ContentCard } from "@/components/ContentCard";
 import { ModernTitleWidget } from "@/components/ModernTitleWidget";
+import { CreateFolderDialog } from "@/components/CreateFolderDialog";
 import { Search } from "lucide-react";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { useNotes } from "@/hooks/useSupabaseData";
@@ -15,6 +16,7 @@ const QykNote = () => {
   const [newItemIds, setNewItemIds] = useState<string[]>([]);
   const [folders, setFolders] = useLocalStorage<string[]>("qyk-note-folders", []);
   const [selectedFolder, setSelectedFolder] = useLocalStorage<string>("qyk-note-selected-folder", "");
+  const [showCreateDialog, setShowCreateDialog] = useState(false);
 
   const handleSubmit = async () => {
     if (currentNote.trim() && currentNote.length <= 200) {
@@ -35,9 +37,12 @@ const QykNote = () => {
   );
 
   const handleCreateFolder = () => {
-    const folderName = prompt("Enter folder name:");
-    if (folderName && folderName.trim() && !folders.includes(folderName.trim())) {
-      setFolders([...folders, folderName.trim()]);
+    setShowCreateDialog(true);
+  };
+
+  const handleConfirmCreate = (folderName: string) => {
+    if (!folders.includes(folderName)) {
+      setFolders([...folders, folderName]);
     }
   };
 
@@ -113,6 +118,14 @@ const QykNote = () => {
           )}
         </div>
       </div>
+
+      <CreateFolderDialog
+        isOpen={showCreateDialog}
+        onClose={() => setShowCreateDialog(false)}
+        onConfirm={handleConfirmCreate}
+        title="Create New Note Folder"
+        description="Enter a name for your new note folder"
+      />
     </div>
   );
 };

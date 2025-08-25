@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { QykInput } from "@/components/QykInput";
 import { ContentCard } from "@/components/ContentCard";
 import { ModernTitleWidget } from "@/components/ModernTitleWidget";
+import { CreateFolderDialog } from "@/components/CreateFolderDialog";
 import { Lock } from "lucide-react";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { useConfessions } from "@/hooks/useSupabaseData";
@@ -15,6 +16,7 @@ const QykFess = () => {
   const [newItemIds, setNewItemIds] = useState<string[]>([]);
   const [folders, setFolders] = useLocalStorage<string[]>("qyk-fess-folders", []);
   const [selectedFolder, setSelectedFolder] = useLocalStorage<string>("qyk-fess-selected-folder", "");
+  const [showCreateDialog, setShowCreateDialog] = useState(false);
 
   const handleSubmit = async () => {
     if (currentConfession.trim() && currentConfession.length <= 350) {
@@ -35,9 +37,12 @@ const QykFess = () => {
   );
 
   const handleCreateFolder = () => {
-    const folderName = prompt("Enter folder name:");
-    if (folderName && folderName.trim() && !folders.includes(folderName.trim())) {
-      setFolders([...folders, folderName.trim()]);
+    setShowCreateDialog(true);
+  };
+
+  const handleConfirmCreate = (folderName: string) => {
+    if (!folders.includes(folderName)) {
+      setFolders([...folders, folderName]);
     }
   };
 
@@ -123,6 +128,14 @@ const QykFess = () => {
           )}
         </div>
       </div>
+
+      <CreateFolderDialog
+        isOpen={showCreateDialog}
+        onClose={() => setShowCreateDialog(false)}
+        onConfirm={handleConfirmCreate}
+        title="Create New Fess Folder"
+        description="Enter a name for your new confession folder"
+      />
     </div>
   );
 };

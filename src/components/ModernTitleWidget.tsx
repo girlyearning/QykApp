@@ -97,15 +97,15 @@ const ModernTitleWidget = ({
                   <Folder className="w-4 h-4" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="bg-background/95 backdrop-blur-sm border border-border/50">
+              <DropdownMenuContent align="end" className="z-50 bg-background border border-border/50 rounded-xl shadow-lg backdrop-blur-sm">
                 {onCreateFolder && (
-                  <DropdownMenuItem onClick={onCreateFolder} className="cursor-pointer">
+                  <DropdownMenuItem onClick={onCreateFolder} className="cursor-pointer rounded-lg hover:bg-primary/10 focus:bg-primary/10">
                     <Plus className="w-4 h-4 mr-2" />
                     Create New Folder
                   </DropdownMenuItem>
                 )}
                 {onViewFolders && (
-                  <DropdownMenuItem onClick={onViewFolders} className="cursor-pointer">
+                  <DropdownMenuItem onClick={onViewFolders} className="cursor-pointer rounded-lg hover:bg-primary/10 focus:bg-primary/10">
                     <Eye className="w-4 h-4 mr-2" />
                     View Folders
                   </DropdownMenuItem>

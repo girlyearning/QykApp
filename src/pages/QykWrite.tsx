@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { QykInput } from "@/components/QykInput";
 import { ContentCard } from "@/components/ContentCard";
 import { ModernTitleWidget } from "@/components/ModernTitleWidget";
+import { CreateFolderDialog } from "@/components/CreateFolderDialog";
 import { BookOpen } from "lucide-react";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { useEntries } from "@/hooks/useSupabaseData";
@@ -17,6 +18,7 @@ const QykWrite = () => {
   const [newItemIds, setNewItemIds] = useState<string[]>([]);
   const [folders, setFolders] = useLocalStorage<string[]>("qyk-write-folders", []);
   const [selectedFolder, setSelectedFolder] = useLocalStorage<string>("qyk-write-selected-folder", "");
+  const [showCreateDialog, setShowCreateDialog] = useState(false);
 
   const handleSubmit = async () => {
     if (currentTitle.trim() && currentContent.trim()) {
@@ -38,9 +40,12 @@ const QykWrite = () => {
   );
 
   const handleCreateFolder = () => {
-    const folderName = prompt("Enter folder name:");
-    if (folderName && folderName.trim() && !folders.includes(folderName.trim())) {
-      setFolders([...folders, folderName.trim()]);
+    setShowCreateDialog(true);
+  };
+
+  const handleConfirmCreate = (folderName: string) => {
+    if (!folders.includes(folderName)) {
+      setFolders([...folders, folderName]);
     }
   };
 
@@ -124,6 +129,14 @@ const QykWrite = () => {
           )}
         </div>
       </div>
+
+      <CreateFolderDialog
+        isOpen={showCreateDialog}
+        onClose={() => setShowCreateDialog(false)}
+        onConfirm={handleConfirmCreate}
+        title="Create New Write Folder"
+        description="Enter a name for your new journal folder"
+      />
     </div>
   );
 };
