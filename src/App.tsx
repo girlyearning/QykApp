@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { useBackButton } from "@/hooks/useBackButton";
 import Index from "./pages/Index";
 import QykNote from "./pages/QykNote";
 import QykWrite from "./pages/QykWrite";
@@ -22,6 +23,9 @@ const queryClient = new QueryClient();
 const AppContent = () => {
   const location = useLocation();
   const isAuthPage = location.pathname === "/auth";
+  
+  // Handle hardware back button
+  useBackButton();
 
   return (
     <div className="min-h-screen bg-background pt-safe">
