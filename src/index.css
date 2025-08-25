@@ -178,27 +178,27 @@ All colors MUST be HSL.
 
   /* Dark Purple Theme */
   .theme-dark-purple {
-    --background: 260 15% 6%;
-    --foreground: 260 10% 95%;
+    --background: 270 30% 95%;
+    --foreground: 260 40% 15%;
     --primary: 261 80% 50%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 270 60% 75%;
-    --secondary-foreground: 260 30% 15%;
-    --muted: 261 20% 12%;
-    --muted-foreground: 261 15% 70%;
-    --accent: 280 50% 65%;
-    --accent-foreground: 260 30% 15%;
-    --border: 261 30% 18%;
-    --input: 261 30% 18%;
+    --secondary: 270 40% 85%;
+    --secondary-foreground: 260 40% 20%;
+    --muted: 270 25% 90%;
+    --muted-foreground: 260 30% 35%;
+    --accent: 280 50% 80%;
+    --accent-foreground: 260 40% 20%;
+    --border: 270 25% 80%;
+    --input: 270 25% 88%;
   }
 
   .theme-dark-purple .bg-gradient-iridescent {
     background: linear-gradient(135deg, 
-      hsl(260, 40%, 8%) 0%,
-      hsl(270, 50%, 12%) 25%,
-      hsl(280, 45%, 10%) 50%,
-      hsl(250, 50%, 12%) 75%,
-      hsl(260, 40%, 8%) 100%
+      hsl(270, 50%, 92%) 0%,
+      hsl(280, 45%, 90%) 25%,
+      hsl(260, 40%, 88%) 50%,
+      hsl(290, 45%, 90%) 75%,
+      hsl(270, 50%, 92%) 100%
     );
   }
 
