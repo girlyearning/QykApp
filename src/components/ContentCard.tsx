@@ -76,7 +76,7 @@ const ContentCard = ({
     }`}>
       <div className="flex items-start justify-between mb-2">
         <div className="flex-1">
-          <div className="flex items-center justify-center gap-2 mb-2">
+          <div className="flex items-center justify-start gap-2 mb-2">
             <h4 className="font-medium text-foreground text-sm font-space font-condensed">{title}</h4>
             {folder && <FolderTag folderName={folder} />}
           </div>
