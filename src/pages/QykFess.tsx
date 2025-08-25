@@ -62,7 +62,6 @@ const QykFess = () => {
           <ModernTitleWidget
             title="QykFess"
             description={selectedFolder ? `Folder: ${selectedFolder}` : "Your private confessions"}
-            count={confessions.length}
             showFolderActions={true}
             onCreateFolder={handleCreateFolder}
             onViewFolders={handleViewFolders}

@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
 import { StickyNote, BookOpen, Lock, Zap, Settings } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
@@ -33,19 +34,22 @@ const Index = () => {
     description: "Low-effort, 200-character thoughts",
     icon: StickyNote,
     route: "/qyk-note",
-    color: "text-pink-600"
+    color: "text-pink-600",
+    count: notes.length
   }, {
     title: "QykFess",
     description: "Private 350-character confessions",
     icon: Lock,
     route: "/qyk-fess",
-    color: "text-indigo-600"
+    color: "text-indigo-600",
+    count: confessions.length
   }, {
     title: "QykWrite",
     description: "Long-form journal entries",
     icon: BookOpen,
     route: "/qyk-write",
-    color: "text-purple-600"
+    color: "text-purple-600",
+    count: entries.length
   }];
   return <div className="min-h-screen bg-gradient-iridescent p-4 pb-safe">
       <div className="max-w-2xl mx-auto space-y-8">
@@ -78,9 +82,14 @@ const Index = () => {
                   <service.icon className="w-6 h-6" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-xl font-bold text-foreground font-space font-condensed">
-                    {service.title}
-                  </h3>
+                  <div className="flex items-center gap-2 mb-1">
+                    <h3 className="text-xl font-bold text-foreground font-space font-condensed">
+                      {service.title}
+                    </h3>
+                    <Badge variant="secondary" className="text-xs font-condensed px-2 py-1">
+                      {service.count}
+                    </Badge>
+                  </div>
                   <p className="text-sm text-muted-foreground font-medium font-condensed">
                     {service.description}
                   </p>
