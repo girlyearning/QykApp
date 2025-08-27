@@ -8,6 +8,8 @@ import { ModernTitleWidget } from "@/components/ModernTitleWidget";
 import { CreateFolderDialog } from "@/components/CreateFolderDialog";
 import { BookOpen } from "lucide-react";
 import { useEntries } from "@/hooks/useSupabaseData";
+import { useFavorites } from "@/hooks/useFavorites";
+import { useQykStats } from "@/hooks/useQykStats";
 import { useUserFolders } from "@/hooks/useUserFolders";
 import { useUserSettings } from "@/hooks/useUserSettings";
 import { useAuth } from "@/contexts/AuthContext";
@@ -15,7 +17,9 @@ import { useAuth } from "@/contexts/AuthContext";
 const QykWrite = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { entries, loading, addEntry, deleteEntry, moveEntry } = useEntries();
+  const { entries, loading, addEntry, deleteEntry, moveEntry, updateEntry } = useEntries();
+  const { incrementToday } = useQykStats();
+  const { addFavorite, removeFavorite, isFavorited } = useFavorites();
   const { folders, addFolder } = useUserFolders('entry');
   const { getSelectedFolder, setSelectedFolder } = useUserSettings();
   const [currentTitle, setCurrentTitle] = useState("");
@@ -27,11 +31,12 @@ const QykWrite = () => {
 
   const handleSubmit = async () => {
     if (currentTitle.trim() && currentContent.trim()) {
-      const newEntry = await addEntry(currentContent.trim(), currentTitle.trim(), selectedFolder || undefined);
+      const newEntry = await addEntry(currentContent, currentTitle, selectedFolder || undefined);
       if (newEntry) {
         setCurrentTitle("");
         setCurrentContent("");
         setNewItemIds(prev => [...prev, newEntry.id]);
+        incrementToday('entries');
       }
     }
   };
@@ -70,7 +75,7 @@ const QykWrite = () => {
             <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
               <BookOpen className="w-8 h-8 text-muted-foreground" />
             </div>
-            <h2 className="text-xl font-bold text-foreground mb-2 font-space font-condensed">
+            <h2 className="text-xl font-bold text-foreground mb-2 font-display font-condensed">
               Sign in to access QykWrite
             </h2>
             <p className="text-muted-foreground font-condensed mb-6">
@@ -89,7 +94,7 @@ const QykWrite = () => {
     <div className="min-h-screen bg-gradient-iridescent p-4 pb-safe">
       <div className="max-w-2xl mx-auto space-y-6">
         {/* Modern Title Widget */}
-        <div className="pt-safe">
+        <div className="pt-safe pl-safe pr-safe">
           <ModernTitleWidget
             title="QykWrite"
             description={selectedFolder ? `Folder: ${selectedFolder}` : "Your long-form journal entries"}
@@ -98,6 +103,7 @@ const QykWrite = () => {
             onViewFolders={handleViewFolders}
             canGoBack={true}
             backRoute="/"
+            onOpenFavorites={() => navigate('/favorites')}
           />
         </div>
 
@@ -180,6 +186,11 @@ const QykWrite = () => {
                    isNew={newItemIds.includes(entry.id)}
                    folder={entry.folder}
                    availableFolders={folders}
+                   onUpdate={async (newContent) => {
+                     await updateEntry(entry.id, newContent);
+                   }}
+                   onAddFavorite={!isFavorited('entry', entry.id) ? () => addFavorite('entry', entry.id) : undefined}
+                   onRemoveFavorite={isFavorited('entry', entry.id) ? () => removeFavorite('entry', entry.id) : undefined}
                  />
               </div>
             ))

@@ -1,11 +1,15 @@
 import { Toaster } from "@/components/ui/toaster";
+import { useEffect } from "react";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, HashRouter, Routes, Route, useLocation } from "react-router-dom";
+import { Capacitor } from '@capacitor/core';
 import { ThemeProvider } from "@/contexts/ThemeContext";
+import { useUserSettings } from "@/hooks/useUserSettings";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { useBackButton } from "@/hooks/useBackButton";
+import { useKeyboard } from "@/hooks/useKeyboard";
 import Index from "./pages/Index";
 import QykNote from "./pages/QykNote";
 import QykWrite from "./pages/QykWrite";
@@ -14,6 +18,9 @@ import QykNoteFolders from "./pages/QykNoteFolders";
 import QykWriteFolders from "./pages/QykWriteFolders";
 import QykFessFolders from "./pages/QykFessFolders";
 import Settings from "./pages/Settings";
+import ThemePicker from "./pages/ThemePicker";
+import QykQuestions from "./pages/QykQuestions";
+import Favorites from "./pages/Favorites";
 import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -23,12 +30,42 @@ const queryClient = new QueryClient();
 const AppContent = () => {
   const location = useLocation();
   const isAuthPage = location.pathname === "/auth";
-  
+  const { settings } = useUserSettings();
+  useKeyboard();
+
   // Handle hardware back button
   useBackButton();
 
+  // Apply font scale only when it changes to avoid reflow thrash on re-renders
+  useEffect(() => {
+    const root = document.documentElement;
+    const scale =
+      settings.font_scale === ("smallest" as any)
+        ? "small"
+        : settings.font_scale;
+    root.classList.remove(
+      "font-scale-small",
+      "font-scale-default",
+      "font-scale-large",
+      "font-scale-xlarge"
+    );
+    root.classList.add(
+      scale === "small"
+        ? "font-scale-small"
+        : scale === "large"
+        ? "font-scale-large"
+        : scale === "xlarge"
+        ? "font-scale-xlarge"
+        : "font-scale-default"
+    );
+    // Toggle home-screen-only minus-one for Default scale on the Index route
+    const onHome = location.pathname === "/";
+    if (onHome && scale === "default")
+      root.classList.add("home-default-minus-one");
+    else root.classList.remove("home-default-minus-one");
+  }, [settings.font_scale, location.pathname]);
   return (
-    <div className="min-h-screen bg-background pt-safe">
+    <div className={`min-h-screen bg-background pt-safe`}>
       <Routes>
         <Route path="/auth" element={<Auth />} />
         <Route
@@ -80,6 +117,14 @@ const AppContent = () => {
           }
         />
         <Route
+          path="/qyk-questions"
+          element={
+            <ProtectedRoute>
+              <QykQuestions />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/qyk-fess-folders"
           element={
             <ProtectedRoute>
@@ -95,26 +140,54 @@ const AppContent = () => {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/settings/theme"
+          element={
+            <ProtectedRoute>
+              <ThemePicker />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/favorites"
+          element={
+            <ProtectedRoute>
+              <Favorites />
+            </ProtectedRoute>
+          }
+        />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   );
 };
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <ThemeProvider>
-      <AuthProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <AppContent />
-          </BrowserRouter>
-        </TooltipProvider>
-      </AuthProvider>
-    </ThemeProvider>
-  </QueryClientProvider>
-);
+const App = () => {
+  // Use HashRouter for native (Capacitor) AND standalone PWA installs
+  // Standalone PWA detection: display-mode media query or iOS navigator.standalone
+  const isStandalonePWA =
+    typeof window !== "undefined" &&
+    ((window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) ||
+      (navigator as any).standalone === true);
+
+  const Router = (Capacitor.isNativePlatform() || isStandalonePWA)
+    ? HashRouter
+    : BrowserRouter;
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider>
+        <AuthProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <Router>
+              <AppContent />
+            </Router>
+          </TooltipProvider>
+        </AuthProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;

@@ -14,7 +14,7 @@ const QykFessFolders = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { confessions } = useConfessions();
-  const { folders, removeFolder, addFolder } = useUserFolders('confession');
+  const { folders, removeFolder, addFolder, renameFolder } = useUserFolders('confession');
   const { getSelectedFolder, setSelectedFolder } = useUserSettings();
   const [showFolderManager, setShowFolderManager] = useState(false);
   const [showCreateDialog, setShowCreateDialog] = useState(false);
@@ -58,7 +58,7 @@ const QykFessFolders = () => {
       <div className="min-h-screen bg-gradient-iridescent p-4 pb-safe">
         <div className="max-w-2xl mx-auto space-y-6">
           <div className="text-center py-12 animate-fade-in">
-            <h2 className="text-xl font-bold text-foreground mb-2 font-space font-condensed">
+            <h2 className="text-xl font-bold text-foreground mb-2 font-display font-condensed">
               Sign in to access folders
             </h2>
             <Button onClick={() => navigate('/auth')} className="rounded-full px-6">
@@ -118,7 +118,7 @@ const QykFessFolders = () => {
               <Plus className="w-5 h-5" />
             </div>
             <div className="text-left">
-              <h3 className="font-semibold text-foreground font-space font-condensed text-base">
+              <h3 className="font-semibold text-foreground font-display font-condensed text-base">
                 All Confessions
               </h3>
               <p className="text-sm text-muted-foreground font-condensed">
@@ -150,6 +150,7 @@ const QykFessFolders = () => {
                   type="confession"
                   onSelect={() => handleFolderSelect(folder)}
                   onDelete={() => handleDeleteFolder(folder)}
+                  onRename={async (newName) => { await renameFolder(folder, newName); }}
                 />
               </div>
             ))

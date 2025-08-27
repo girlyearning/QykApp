@@ -1,4 +1,6 @@
 import type { Config } from "tailwindcss";
+import tailwindcssAnimate from "tailwindcss-animate";
+import typography from "@tailwindcss/typography";
 
 export default {
 	darkMode: ["class"],
@@ -18,9 +20,24 @@ export default {
 			}
 		},
 		extend: {
-			fontFamily: {
-				'space': ['Space Grotesk', 'sans-serif'],
-				'overused': ['Overused Grotesk', 'sans-serif'],
+            fontFamily: {
+                'body': ['MozillaText', 'sans-serif'],
+                'display': ['Space Grotesk Medium', 'sans-serif'],
+            },
+			fontSize: {
+				'xs': ['0.875rem', { lineHeight: '1.25rem' }],   // 14px (keeping xs same for minimal text)
+				'sm': ['1.125rem', { lineHeight: '1.5rem' }],    // 16px -> 18px
+				'base': ['1.25rem', { lineHeight: '1.625rem' }], // 18px -> 20px
+				'lg': ['1.375rem', { lineHeight: '1.75rem' }],   // 20px -> 22px
+				'xl': ['1.5rem', { lineHeight: '1.875rem' }],    // 22px -> 24px
+				'2xl': ['1.75rem', { lineHeight: '2.125rem' }],  // 26px -> 28px
+				'3xl': ['2.125rem', { lineHeight: '2.375rem' }], // 32px -> 34px
+				'4xl': ['2.625rem', { lineHeight: '2.875rem' }], // 40px -> 42px
+				'5xl': ['3.375rem', { lineHeight: '1' }],        // 52px -> 54px
+				'6xl': ['4.125rem', { lineHeight: '1' }],        // 64px -> 66px
+				// Title widget preserved sizes
+				'title-sm': ['1rem', { lineHeight: '1.375rem' }],      // Original sm for title widget description
+				'title-3xl': ['2rem', { lineHeight: '2.25rem' }],      // Original 3xl for title widget title
 			},
 			colors: {
 				border: 'hsl(var(--border))',
@@ -135,5 +152,5 @@ export default {
 			}
 		}
 	},
-	plugins: [require("tailwindcss-animate")],
+	plugins: [tailwindcssAnimate, typography],
 } satisfies Config;

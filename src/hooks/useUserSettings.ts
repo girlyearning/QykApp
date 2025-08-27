@@ -8,6 +8,7 @@ interface UserSettings {
   selected_entry_folder?: string;
   selected_confession_folder?: string;
   theme?: string;
+  font_scale?: 'small' | 'default' | 'large' | 'xlarge';
 }
 
 export const useUserSettings = () => {
@@ -44,17 +45,28 @@ export const useUserSettings = () => {
     if (!user) return false;
 
     try {
-      const { error } = await supabase
+      // Check for existing row by user_id
+      const { data: existing, error: fetchErr } = await supabase
         .from('user_settings')
-        .upsert({
-          user_id: user.id,
-          ...settings,
-          ...newSettings,
-        }, {
-          onConflict: 'user_id'
-        });
+        .select('id')
+        .eq('user_id', user.id)
+        .maybeSingle();
 
-      if (error) throw error;
+      if (fetchErr) throw fetchErr;
+
+      if (existing) {
+        const { error } = await supabase
+          .from('user_settings')
+          .update({ ...newSettings })
+          .eq('user_id', user.id);
+        if (error) throw error;
+      } else {
+        const { error } = await supabase
+          .from('user_settings')
+          .insert({ user_id: user.id, ...newSettings });
+        if (error) throw error;
+      }
+
       setSettings(prev => ({ ...prev, ...newSettings }));
       return true;
     } catch (error: any) {

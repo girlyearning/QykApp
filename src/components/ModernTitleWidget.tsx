@@ -1,4 +1,4 @@
-import { ArrowLeft, Folder, Plus, Eye } from "lucide-react";
+import { ArrowLeft, Folder, Plus, Eye, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -17,6 +17,7 @@ interface ModernTitleWidgetProps {
   canGoBack?: boolean;
   onBack?: () => void;
   backRoute?: string;
+  onOpenFavorites?: () => void;
 }
 
 const ModernTitleWidget = ({
@@ -28,6 +29,7 @@ const ModernTitleWidget = ({
   canGoBack = false,
   onBack,
   backRoute,
+  onOpenFavorites,
 }: ModernTitleWidgetProps) => {
   const navigate = useNavigate();
 
@@ -61,7 +63,7 @@ const ModernTitleWidget = ({
 
         {/* Folder Actions - Top Right */}
         {showFolderActions && (
-          <div className="absolute top-4 right-4">
+          <div className="absolute top-4 right-4 flex flex-col items-center gap-2">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
@@ -87,17 +89,44 @@ const ModernTitleWidget = ({
                 )}
               </DropdownMenuContent>
             </DropdownMenu>
+            {onOpenFavorites && (
+              <Button
+                variant="outline"
+                size="sm"
+                className="rounded-full w-8 h-8 p-0 bg-background/60 hover:bg-background/80"
+                onClick={onOpenFavorites}
+                title="Open Favorites"
+              >
+                <Heart className="w-4 h-4" />
+              </Button>
+            )}
+          </div>
+        )}
+
+        {/* Top-right Favorites button when no folder actions */}
+        {!showFolderActions && onOpenFavorites && (
+          <div className="absolute top-4 right-4">
+            <Button
+              variant="outline"
+              size="sm"
+              className="rounded-full w-8 h-8 p-0 bg-background/60 hover:bg-background/80"
+              onClick={onOpenFavorites}
+              title="Open Favorites"
+            >
+              <Heart className="w-4 h-4" />
+            </Button>
           </div>
         )}
 
         {/* Centered Content */}
         <div className="text-center px-12">
-          <h1 className="text-3xl font-bold text-primary font-space font-extra-condensed mb-2">
+          <h1 className="text-title-3xl font-bold text-primary font-display font-extra-condensed mb-2">
             {title}
           </h1>
-          <p className="text-sm text-muted-foreground font-medium font-condensed">
+          <p className="text-title-sm text-muted-foreground font-medium font-condensed">
             {description}
           </p>
+          
         </div>
       </div>
     </div>

@@ -61,7 +61,7 @@ const Auth = () => {
           <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
             <Lock className="w-8 h-8 text-primary" />
           </div>
-          <CardTitle className="text-2xl font-bold text-primary font-space font-extra-condensed">
+          <CardTitle className="text-2xl font-bold text-primary font-display font-extra-condensed">
             {isLogin ? "Welcome Back" : "Create Account"}
           </CardTitle>
           <CardDescription className="font-condensed">
@@ -109,7 +109,7 @@ const Auth = () => {
               {loading ? "Loading..." : (isLogin ? "Sign In" : "Sign Up")}
             </Button>
           </form>
-          <div className="text-center mt-4">
+          <div className="text-center mt-4 space-y-2">
             <button
               type="button"
               onClick={() => setIsLogin(!isLogin)}
@@ -117,6 +117,11 @@ const Auth = () => {
             >
               {isLogin ? "Don't have an account? Sign up" : "Already have an account? Sign in"}
             </button>
+            {!isLogin && (
+              <div className="text-xs text-muted-foreground font-condensed">
+                After confirming your email, return to this page to sign in
+              </div>
+            )}
           </div>
         </CardContent>
       </Card>

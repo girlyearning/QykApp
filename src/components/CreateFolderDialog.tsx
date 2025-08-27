@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+// import keyboard helpers only at the app level to avoid double listeners
 import {
   Dialog,
   DialogContent,
@@ -27,6 +28,18 @@ const CreateFolderDialog = ({
   description = "Enter a name for your new folder",
 }: CreateFolderDialogProps) => {
   const [folderName, setFolderName] = useState("");
+  const dialogRef = useRef<HTMLDivElement>(null);
+  // Avoid attaching extra keyboard listeners at the dialog level
+
+  // Focus input after opening
+  useEffect(() => {
+    if (!isOpen) return;
+    const timer = setTimeout(() => {
+      const input = document.getElementById('folder-name') as HTMLInputElement | null;
+      input?.focus();
+    }, 100);
+    return () => clearTimeout(timer);
+  }, [isOpen]);
 
   // Reset form when dialog opens/closes
   useEffect(() => {
@@ -60,9 +73,12 @@ const CreateFolderDialog = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="glass-card bg-background/95 backdrop-blur-sm border-2 border-primary/30 rounded-3xl max-w-md mx-auto">
+      <DialogContent 
+        ref={dialogRef}
+        className="glass-card bg-background/95 backdrop-blur-sm border-2 border-primary/30 rounded-3xl max-w-md mx-auto ios-keyboard-fix folder-dialog"
+      >
         <DialogHeader className="text-center">
-          <DialogTitle className="text-xl font-bold text-primary font-space font-condensed">
+          <DialogTitle className="text-xl font-bold text-primary font-display font-condensed">
             {title}
           </DialogTitle>
           <DialogDescription className="text-sm text-muted-foreground font-condensed">
@@ -80,9 +96,9 @@ const CreateFolderDialog = ({
             onChange={(e) => setFolderName(e.target.value)}
             onKeyDown={handleKeyPress}
             placeholder="Enter folder name..."
-            className="mt-2 bg-background/50 border-border/50 focus:border-primary focus:ring-primary/20 rounded-xl keyboard-aware-content"
-            autoFocus
+            className="mt-2 bg-background/50 border-border/50 focus:border-primary focus:ring-primary/20 rounded-xl"
             autoComplete="off"
+            inputMode="text"
           />
         </div>
 

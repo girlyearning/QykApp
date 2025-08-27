@@ -66,18 +66,23 @@ All colors MUST be HSL.
 
   /* Pink Theme */
   .theme-pink {
-    --background: 350 100% 98%;
+    /* Background set to white */
+    --background: 0 0% 100%;
     --foreground: 340 60% 15%;
-    --primary: 340 75% 55%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 340 30% 90%;
-    --secondary-foreground: 340 60% 25%;
-    --muted: 340 20% 95%;
-    --muted-foreground: 340 30% 45%;
-    --accent: 340 40% 85%;
-    --accent-foreground: 340 60% 25%;
-    --border: 340 20% 88%;
-    --input: 340 20% 88%;
+    /* Primary set to #f05dc4 */
+    --primary: 318 83% 65%;
+    --primary-foreground: 0 0% 15%;
+    /* Secondary stays in the same family, slightly darker for surfaces */
+    --secondary: 315 60% 72%;
+    --secondary-foreground: 0 0% 15%;
+    /* Subtle backgrounds and text */
+    --muted: 314 60% 96%;
+    --muted-foreground: 320 30% 40%;
+    --accent: 315 65% 78%;
+    --accent-foreground: 0 0% 15%;
+    /* Borders and inputs tinted to the accent */
+    --border: 315 55% 80%;
+    --input: 315 55% 80%;
   }
 
   /* Iridescent Theme */
@@ -146,13 +151,7 @@ All colors MUST be HSL.
   }
 
   .theme-pink .bg-gradient-iridescent {
-    background: linear-gradient(135deg, 
-      hsl(340, 70%, 95%) 0%,
-      hsl(320, 60%, 92%) 25%,
-      hsl(300, 50%, 90%) 50%,
-      hsl(280, 60%, 92%) 75%,
-      hsl(340, 70%, 95%) 100%
-    );
+    background: hsl(0 0% 100%);
   }
 
   .theme-iridescent .bg-gradient-iridescent {
@@ -175,6 +174,87 @@ All colors MUST be HSL.
       hsl(222, 50%, 8%) 100%
     );
   }
+
+  /* BlackOut Theme: pure blacks and dark grays */
+  .theme-blackout {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
+    --card: 0 0% 7%;
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 7%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 0 0% 100%;
+    --primary-foreground: 0 0% 0%;
+    --secondary: 0 0% 10%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 80%;
+    --accent: 0 0% 15%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: 0 0% 100%;
+    --sidebar-background: 0 0% 0%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 0 0% 100%;
+    --sidebar-primary-foreground: 0 0% 0%;
+    --sidebar-accent: 0 0% 12%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 0 0% 12%;
+    --sidebar-ring: 0 0% 100%;
+  }
+
+  .theme-blackout .bg-gradient-iridescent {
+    background: linear-gradient(180deg,
+      hsl(0, 0%, 0%) 0%,
+      hsl(0, 0%, 3%) 30%,
+      hsl(0, 0%, 6%) 60%,
+      hsl(0, 0%, 0%) 100%
+    );
+  }
+
+  /* Pink BlackOut Theme: black background, hot pink accents */
+  .theme-pink-blackout {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
+    --card: 0 0% 7%;
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 7%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 318 83% 65%;              /* #f05dc4 */
+    --primary-foreground: 0 0% 0%;
+    --secondary: 318 40% 18%;            /* deep pink for surfaces */
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 80%;
+    --accent: 318 50% 25%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 318 60% 30%;
+    --input: 0 0% 15%;
+    --ring: 318 83% 65%;
+    --sidebar-background: 0 0% 0%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 318 83% 65%;
+    --sidebar-primary-foreground: 0 0% 0%;
+    --sidebar-accent: 318 50% 20%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 318 60% 30%;
+    --sidebar-ring: 318 83% 65%;
+  }
+
+  .theme-pink-blackout .bg-gradient-iridescent {
+    background: linear-gradient(180deg,
+      hsl(0, 0%, 0%) 0%,
+      hsl(318, 40%, 10%) 40%,
+      hsl(0, 0%, 0%) 100%
+    );
+  }
+
+  /* Obsidian Rose removed */
 
   /* Dark Purple Theme */
   .theme-dark-purple {
@@ -202,9 +282,48 @@ All colors MUST be HSL.
     );
   }
 
+  /* Dark Purple Night: black/dark gray surfaces with purple accents */
+  .theme-dark-purple-night {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 98%;
+    --card: 270 8% 10%;          /* deep dark gray with purple tint */
+    --card-foreground: 0 0% 98%;
+    --popover: 270 8% 10%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 261 80% 50%;       /* keep dark purple accent */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 270 25% 18%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 270 15% 16%;
+    --muted-foreground: 0 0% 80%;
+    --accent: 270 35% 24%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 270 15% 20%;
+    --input: 270 15% 20%;
+    --ring: 261 80% 50%;
+    --sidebar-background: 0 0% 0%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 261 80% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 270 25% 18%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 270 15% 20%;
+    --sidebar-ring: 261 80% 50%;
+  }
+
+  .theme-dark-purple-night .bg-gradient-iridescent {
+    background: linear-gradient(180deg,
+      hsl(0, 0%, 0%) 0%,
+      hsl(270, 15%, 10%) 40%,
+      hsl(0, 0%, 0%) 100%
+    );
+  }
+
   /* Lime Green Theme */
   .theme-lime-green {
-    --background: 85 30% 98%;
+    --background: 0 0% 100%;
     --foreground: 85 50% 10%;
     --primary: 85 62% 45%;
     --primary-foreground: 0 0% 100%;
@@ -218,13 +337,96 @@ All colors MUST be HSL.
     --input: 85 30% 80%;
   }
 
+  /* Hot Pink Paradise Theme */
+  .theme-hot-pink-paradise {
+    --background: 318 85% 97%;
+    --foreground: 220 15% 15%;
+    --primary: 318 91% 78%;
+    --primary-foreground: 220 15% 15%;
+    --secondary: 133 90% 85%;
+    --secondary-foreground: 220 15% 15%;
+    --muted: 318 40% 92%;
+    --muted-foreground: 220 20% 45%;
+    --accent: 133 70% 75%;
+    --accent-foreground: 220 15% 15%;
+    --border: 318 50% 85%;
+    --input: 318 30% 90%;
+    --card: 318 60% 96%;
+    --card-foreground: 220 15% 15%;
+    --popover: 318 70% 98%;
+    --popover-foreground: 220 15% 15%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --ring: 318 91% 78%;
+    --sidebar-background: 318 70% 95%;
+    --sidebar-foreground: 220 15% 15%;
+    --sidebar-primary: 318 91% 78%;
+    --sidebar-primary-foreground: 220 15% 15%;
+    --sidebar-accent: 133 60% 88%;
+    --sidebar-accent-foreground: 220 15% 15%;
+    --sidebar-border: 318 50% 85%;
+    --sidebar-ring: 318 91% 78%;
+  }
+
   .theme-lime-green .bg-gradient-iridescent {
+    background: hsl(0 0% 100%);
+  }
+
+  /* Baby Blue Theme */
+  .theme-baby-blue {
+    --background: 0 0% 100%;       /* set to white */
+    --foreground: 210 30% 15%;
+    --primary: 196 85% 78%;          /* #98daf5 as primary */
+    --primary-foreground: 210 40% 15%;
+    --secondary: 200 65% 90%;        /* soft blue surface */
+    --secondary-foreground: 210 30% 20%;
+    --muted: 200 40% 92%;
+    --muted-foreground: 210 25% 40%;
+    --accent: 205 70% 80%;           /* accent blue */
+    --accent-foreground: 210 35% 20%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 200 30% 85%;
+    --input: 200 30% 85%;
+    --ring: 196 85% 78%;
+    --sidebar-background: 198 78% 96%;
+    --sidebar-foreground: 210 30% 15%;
+    --sidebar-primary: 196 85% 78%;
+    --sidebar-primary-foreground: 210 40% 15%;
+    --sidebar-accent: 200 65% 90%;
+    --sidebar-accent-foreground: 210 30% 20%;
+    --sidebar-border: 200 30% 85%;
+    --sidebar-ring: 196 85% 78%;
+  }
+
+  .theme-baby-blue .bg-gradient-iridescent {
+    background: hsl(0 0% 100%);
+  }
+
+  .theme-hot-pink-paradise .bg-gradient-iridescent {
     background: linear-gradient(135deg, 
-      hsl(85, 50%, 95%) 0%,
-      hsl(75, 45%, 92%) 25%,
-      hsl(95, 40%, 90%) 50%,
-      hsl(105, 45%, 92%) 75%,
-      hsl(85, 50%, 95%) 100%
+      hsl(318, 80%, 96%) 0%,
+      hsl(330, 70%, 94%) 15%,
+      hsl(133, 60%, 92%) 30%,
+      hsl(145, 65%, 94%) 45%,
+      hsl(318, 75%, 95%) 60%,
+      hsl(305, 70%, 93%) 75%,
+      hsl(133, 55%, 91%) 90%,
+      hsl(318, 80%, 96%) 100%
+    );
+  }
+
+  /* Global Hot Pink Paradise gradient utility for use across all screens */
+  .bg-gradient-hot-pink-paradise {
+    background: linear-gradient(135deg,
+      hsl(318, 80%, 96%) 0%,
+      hsl(330, 70%, 94%) 15%,
+      hsl(133, 60%, 92%) 30%,
+      hsl(145, 65%, 94%) 45%,
+      hsl(318, 75%, 95%) 60%,
+      hsl(305, 70%, 93%) 75%,
+      hsl(133, 55%, 91%) 90%,
+      hsl(318, 80%, 96%) 100%
     );
   }
 }
@@ -235,13 +437,69 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground font-space;
-    letter-spacing: -0.025em;
+    @apply bg-background text-foreground font-body;
+    letter-spacing: 0.02em;
+    font-weight: normal;
   }
 
+  /* Font scale tokens applied at root for rem-based scaling */
+  html.font-scale-small { font-size: 14px; }
+  /* Default now matches previous Large */
+  html.font-scale-default { font-size: 16px; }
+  /* Large bumped by one */
+  html.font-scale-large { font-size: 17px; }
+  /* Extra Large bumped by one */
+  html.font-scale-xlarge { font-size: 18px; }
+
+  /* Home screen special-case: when Default scale is active, use one point smaller on Home only */
+  html.home-default-minus-one.font-scale-default { font-size: 15px; }
+
   h1, h2, h3, h4, h5, h6 {
-    @apply font-space;
+    @apply font-display;
     letter-spacing: -0.02em;
+    font-weight: 500;
+  }
+
+  /* Thin colored outline shadow for sent posts (does not affect layout) */
+  .card-outline-glow {
+    box-shadow:
+      0 0 0 1px hsl(var(--primary) / 0.35),
+      0 2px 4px hsl(var(--primary) / 0.10);
+  }
+
+  /* Tailwind Typography overrides for post content only */
+  .prose-post {
+    --tw-prose-body: hsl(var(--foreground));
+    --tw-prose-headings: hsl(var(--foreground));
+  }
+  .prose-post :where(p):not(:where([class~="not-prose"] *)) {
+    font-size: 1.0625rem; /* ~17px body */
+    line-height: 1.7;
+  }
+  /* In Small font mode, bump sent post body one step for readability */
+  html.font-scale-small .prose-post :where(p):not(:where([class~="not-prose"] *)) {
+    /* 17px target on 14px root => 17/14 rem */
+    font-size: 1.2142857rem;
+  }
+  .prose-post :where(h1):not(:where([class~="not-prose"] *)) {
+    font-size: 1.25rem; /* 20px */
+    line-height: 1.3;
+  }
+  .prose-post :where(h2):not(:where([class~="not-prose"] *)) {
+    font-size: 1.125rem; /* 18px */
+    line-height: 1.35;
+  }
+  .prose-post :where(h3):not(:where([class~="not-prose"] *)) {
+    font-size: 1.0625rem; /* 17px */
+    line-height: 1.4;
+  }
+  .prose-post :where(h4,h5,h6):not(:where([class~="not-prose"] *)) {
+    font-size: 1rem; /* 16px */
+    line-height: 1.4;
+  }
+  .prose-post :where(li):not(:where([class~="not-prose"] *)) {
+    margin-top: 0.125rem;
+    margin-bottom: 0.125rem;
   }
 
   .font-condensed {
@@ -311,6 +569,11 @@ All colors MUST be HSL.
     border-color: hsl(85, 62%, 45% / 0.6);
   }
 
+  .theme-hot-pink-paradise .animate-pulse-glow {
+    animation: pulse-glow 2s infinite;
+    border-color: hsl(318, 91%, 78% / 0.6);
+  }
+
   /* Enhanced ring colors for new items */
   .theme-light .ring-primary\/60 {
     --tw-ring-color: hsl(222.2 47.4% 11.2% / 0.6);
@@ -334,6 +597,39 @@ All colors MUST be HSL.
 
   .theme-lime-green .ring-primary\/60 {
     --tw-ring-color: hsl(85 62% 45% / 0.6);
+  }
+
+  .theme-hot-pink-paradise .ring-primary\/60 {
+    --tw-ring-color: hsl(318 91% 78% / 0.6);
+  }
+
+  /* Coffee Core Theme */
+  .theme-coffee-core {
+    --background: 40 50% 95%;          /* cream base */
+    --foreground: 30 30% 15%;          /* dark coffee text */
+    --primary: 30 35% 20%;             /* deep coffee accent */
+    --primary-foreground: 0 0% 98%;
+    --secondary: 36 85% 14%;           /* #402b06 -> hsl(36, 85%, 14%) */
+    --secondary-foreground: 40 50% 96%;
+    --muted: 35 35% 90%;               /* soft cream */
+    --muted-foreground: 32 25% 35%;
+    --accent: 36 85% 14%;              /* #402b06 as accent */
+    --accent-foreground: 40 50% 96%;
+    --border: 35 30% 85%;
+    --input: 35 30% 85%;
+    --ring: 36 85% 14%;
+    --card: 40 45% 97%;
+    --card-foreground: 30 30% 15%;
+  }
+
+  .theme-coffee-core .bg-gradient-iridescent {
+    background: linear-gradient(135deg,
+      hsl(40 50% 96%) 0%,
+      hsl(38 45% 94%) 25%,
+      hsl(40 48% 95%) 50%,
+      hsl(42 52% 96%) 75%,
+      hsl(40 50% 96%) 100%
+    );
   }
 
   /* Stagger animation utility */
@@ -377,31 +673,59 @@ All colors MUST be HSL.
 
   /* Safe area support */
   .pt-safe {
-    padding-top: env(safe-area-inset-top, 1rem);
+    padding-top: max(env(safe-area-inset-top, 0), 1rem);
   }
 
   .pb-safe {
-    padding-bottom: env(safe-area-inset-bottom, 1rem);
+    padding-bottom: max(env(safe-area-inset-bottom, 0), 1rem);
   }
 
   .pl-safe {
-    padding-left: env(safe-area-inset-left, 0);
+    padding-left: max(env(safe-area-inset-left, 0), 1rem);
   }
 
   .pr-safe {
-    padding-right: env(safe-area-inset-right, 0);
+    padding-right: max(env(safe-area-inset-right, 0), 1rem);
   }
 
-  /* Keyboard state management */
+  /* Top safe area with minimal padding for status bar */
+  .top-safe {
+    padding-top: max(env(safe-area-inset-top, 0), 0.5rem);
+  }
+
+  /* Safe area margins for absolute positioned elements */
+  .mt-safe {
+    margin-top: env(safe-area-inset-top, 0);
+  }
+
+  .mb-safe {
+    margin-bottom: env(safe-area-inset-bottom, 0);
+  }
+
+  .ml-safe {
+    margin-left: env(safe-area-inset-left, 0);
+  }
+
+  .mr-safe {
+    margin-right: env(safe-area-inset-right, 0);
+  }
+
+  /* Keyboard state management - don't lock scrolling */
   body.keyboard-open {
-    height: 100vh;
-    height: calc(100vh - var(--keyboard-height, 0px));
-    overflow: hidden;
+    overflow-y: auto;
   }
 
   .keyboard-spacer {
     height: var(--keyboard-height, 0px);
     transition: height 0.3s ease-in-out;
+  }
+
+  /* Remove global dialog keyboard nudge to avoid jumpiness across screens */
+  body.keyboard-open .keyboard-aware-content { }
+
+  /* Remove iOS fixed positioning to avoid scroll lock */
+  @supports (-webkit-touch-callout: none) {
+    body.keyboard-open .keyboard-aware-content { }
   }
 
   /* Enhanced input focus styles */

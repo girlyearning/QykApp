@@ -15,8 +15,11 @@ export const useKeyboard = () => {
     const handleResize = () => {
       // Detect keyboard open/close on mobile devices
       const windowHeight = window.innerHeight;
-      const documentHeight = document.documentElement.clientHeight;
-      const heightDifference = documentHeight - windowHeight;
+      const documentHeight = Math.max(
+        document.documentElement.clientHeight,
+        document.body.clientHeight
+      );
+      const heightDifference = Math.max(0, documentHeight - windowHeight);
       
       // Threshold to determine if keyboard is open (adjust as needed)
       const keyboardThreshold = 150;
@@ -40,8 +43,8 @@ export const useKeyboard = () => {
     // Initial check
     handleResize();
 
-    // Listen for resize events
-    window.addEventListener('resize', handleResize);
+    // Listen for resize events (passive for perf)
+    window.addEventListener('resize', handleResize, { passive: true });
     window.addEventListener('orientationchange', handleResize);
 
     // Visual viewport API support for better keyboard detection
@@ -70,7 +73,7 @@ export const useKeyboard = () => {
       
       return () => {
         visualViewport.removeEventListener('resize', handleViewportChange);
-        window.removeEventListener('resize', handleResize);
+        window.removeEventListener('resize', handleResize as any);
         window.removeEventListener('orientationchange', handleResize);
         document.body.classList.remove('keyboard-open');
         document.body.style.removeProperty('--keyboard-height');
@@ -78,7 +81,7 @@ export const useKeyboard = () => {
     }
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('resize', handleResize as any);
       window.removeEventListener('orientationchange', handleResize);
       document.body.classList.remove('keyboard-open');
       document.body.style.removeProperty('--keyboard-height');

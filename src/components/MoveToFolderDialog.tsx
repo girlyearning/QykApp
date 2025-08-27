@@ -76,7 +76,7 @@ const MoveToFolderDialog = ({
               <FolderOpen className="w-6 h-6 text-primary" />
             </div>
           </div>
-          <DialogTitle className="text-xl font-bold text-primary font-space font-condensed">
+          <DialogTitle className="text-xl font-bold text-primary font-display font-condensed">
             Move {getItemTypeName()}
           </DialogTitle>
           <DialogDescription className="text-sm text-muted-foreground font-condensed">

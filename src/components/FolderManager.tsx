@@ -103,7 +103,7 @@ const FolderManager = ({
     <div className="glass-card p-4 rounded-3xl animate-slide-up">
       <div className="flex items-center gap-2 mb-3">
         <Folder className="w-4 h-4 text-primary" />
-        <span className="text-sm font-medium text-foreground font-space font-condensed">Folders</span>
+        <span className="text-sm font-medium text-foreground font-display font-condensed">Folders</span>
       </div>
       
       <div className="flex flex-wrap gap-2 stagger-animation">
@@ -164,7 +164,7 @@ const FolderManager = ({
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-md">
                       <DialogHeader>
-                        <DialogTitle className="font-space">Manage Folder</DialogTitle>
+                        <DialogTitle className="font-display">Manage Folder</DialogTitle>
                       </DialogHeader>
                       <div className="space-y-4">
                         <Button

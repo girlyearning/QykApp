@@ -9,6 +9,7 @@ export interface Note {
   folder?: string;
   created_at: string;
   updated_at: string;
+  attachments?: PicAttachmentMeta[];
 }
 
 export interface Entry {
@@ -23,6 +24,26 @@ export interface Entry {
 export interface Confession {
   id: string;
   content: string;
+  folder?: string;
+  created_at: string;
+  updated_at: string;
+  attachments?: PicAttachmentMeta[];
+}
+
+export interface PicAttachmentMeta {
+  bucket: string;
+  path: string;
+  mime?: string;
+  size?: number;
+  width?: number;
+  height?: number;
+  uploaded_at?: string;
+}
+
+export interface PicPost {
+  id: string;
+  subtitle?: string | null;
+  attachments: PicAttachmentMeta[];
   folder?: string;
   created_at: string;
   updated_at: string;
@@ -62,7 +83,7 @@ export const useNotes = () => {
     }
   };
 
-  const addNote = async (content: string, folder?: string) => {
+  const addNote = async (content: string, folder?: string, attachments?: PicAttachmentMeta[]) => {
     if (!user) return null;
 
     try {
@@ -72,6 +93,7 @@ export const useNotes = () => {
           content,
           folder,
           user_id: user.id,
+          attachments: attachments || [],
         })
         .select()
         .single();
@@ -148,7 +170,21 @@ export const useNotes = () => {
     await fetchNotes();
   };
 
-  return { notes, loading, addNote, deleteNote, moveNote, refetch: refetchNotes };
+  const updateNote = async (id: string, newContent: string) => {
+    try {
+      const { error } = await supabase
+        .from('notes')
+        .update({ content: newContent })
+        .eq('id', id);
+      if (error) throw error;
+      setNotes(prev => prev.map(n => n.id === id ? { ...n, content: newContent } : n));
+      toast({ title: 'Saved', description: 'Note updated' });
+    } catch (error: any) {
+      toast({ title: 'Error', description: 'Failed to update note', variant: 'destructive' });
+    }
+  };
+
+  return { notes, loading, addNote, deleteNote, moveNote, updateNote, refetch: refetchNotes };
 };
 
 export const useEntries = () => {
@@ -272,7 +308,21 @@ export const useEntries = () => {
     await fetchEntries();
   };
 
-  return { entries, loading, addEntry, deleteEntry, moveEntry, refetch: refetchEntries };
+  const updateEntry = async (id: string, newContent: string) => {
+    try {
+      const { error } = await supabase
+        .from('entries')
+        .update({ content: newContent })
+        .eq('id', id);
+      if (error) throw error;
+      setEntries(prev => prev.map(e => e.id === id ? { ...e, content: newContent } : e));
+      toast({ title: 'Saved', description: 'Entry updated' });
+    } catch (error: any) {
+      toast({ title: 'Error', description: 'Failed to update entry', variant: 'destructive' });
+    }
+  };
+
+  return { entries, loading, addEntry, deleteEntry, moveEntry, updateEntry, refetch: refetchEntries };
 };
 
 export const useConfessions = () => {
@@ -309,7 +359,7 @@ export const useConfessions = () => {
     }
   };
 
-  const addConfession = async (content: string, folder?: string) => {
+  const addConfession = async (content: string, folder?: string, attachments?: PicAttachmentMeta[]) => {
     if (!user) return null;
 
     try {
@@ -319,6 +369,7 @@ export const useConfessions = () => {
           content,
           folder,
           user_id: user.id,
+          attachments: attachments || [],
         })
         .select()
         .single();
@@ -395,5 +446,99 @@ export const useConfessions = () => {
     await fetchConfessions();
   };
 
-  return { confessions, loading, addConfession, deleteConfession, moveConfession, refetch: refetchConfessions };
+  const updateConfession = async (id: string, newContent: string) => {
+    try {
+      const { error } = await supabase
+        .from('confessions')
+        .update({ content: newContent })
+        .eq('id', id);
+      if (error) throw error;
+      setConfessions(prev => prev.map(c => c.id === id ? { ...c, content: newContent } : c));
+      toast({ title: 'Saved', description: 'Confession updated' });
+    } catch (error: any) {
+      toast({ title: 'Error', description: 'Failed to update confession', variant: 'destructive' });
+    }
+  };
+
+  return { confessions, loading, addConfession, deleteConfession, moveConfession, updateConfession, refetch: refetchConfessions };
+};
+
+export const usePics = () => {
+  const [pics, setPics] = useState<PicPost[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [hasFetched, setHasFetched] = useState(false);
+  const { user } = useAuth();
+  const { toast } = useToast();
+
+  const fetchPics = async () => {
+    if (!user || hasFetched) return;
+    try {
+      if (pics.length === 0) setLoading(true);
+      const { data, error } = await supabase
+        .from('pics')
+        .select('*')
+        .order('created_at', { ascending: false });
+      if (error) throw error;
+      setPics((data || []) as unknown as PicPost[]);
+      setHasFetched(true);
+    } catch (error: any) {
+      toast({ title: 'Error', description: 'Failed to fetch pics', variant: 'destructive' });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const addPic = async (subtitle: string | undefined, attachments: PicAttachmentMeta[], folder?: string) => {
+    if (!user) return null;
+    try {
+      const { data, error } = await supabase
+        .from('pics')
+        .insert({ user_id: user.id, subtitle: subtitle || null, attachments, folder })
+        .select()
+        .single();
+      if (error) throw error;
+      setPics(prev => [data as unknown as PicPost, ...prev]);
+      return data as unknown as PicPost;
+    } catch (error: any) {
+      toast({ title: 'Error', description: 'Failed to add pic', variant: 'destructive' });
+      return null;
+    }
+  };
+
+  const deletePic = async (id: string) => {
+    try {
+      const { error } = await supabase.from('pics').delete().eq('id', id);
+      if (error) throw error;
+      setPics(prev => prev.filter(p => p.id !== id));
+    } catch (error: any) {
+      toast({ title: 'Error', description: 'Failed to delete pic', variant: 'destructive' });
+    }
+  };
+
+  const movePic = async (id: string, newFolder: string) => {
+    try {
+      const { error } = await supabase.from('pics').update({ folder: newFolder || null }).eq('id', id);
+      if (error) throw error;
+      setPics(prev => prev.map(p => (p.id === id ? { ...p, folder: newFolder || undefined } : p)));
+      toast({ title: 'Success', description: `Pic moved to ${newFolder || 'main folder'}` });
+    } catch (error: any) {
+      toast({ title: 'Error', description: 'Failed to move pic', variant: 'destructive' });
+    }
+  };
+
+  useEffect(() => {
+    if (user && !hasFetched) fetchPics();
+    else if (!user) {
+      setPics([]);
+      setLoading(false);
+      setHasFetched(false);
+    }
+  }, [user, hasFetched]);
+
+  const refetchPics = async () => {
+    setHasFetched(false);
+    await fetchPics();
+  };
+
+  return { pics, loading, addPic, deletePic, movePic, refetch: refetchPics };
 };

@@ -1,4 +1,4 @@
-import { Folder, FileText, MoreVertical, Trash2 } from "lucide-react";
+import { Folder, FileText, MoreVertical, Trash2, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -15,10 +15,16 @@ interface FolderWidgetProps {
   type: 'note' | 'entry' | 'confession';
   onSelect: () => void;
   onDelete?: () => void;
+  onRename?: (newName: string) => void;
 }
 
-const FolderWidget = ({ name, count, type, onSelect, onDelete }: FolderWidgetProps) => {
+const FolderWidget = ({ name, count, type, onSelect, onDelete, onRename }: FolderWidgetProps) => {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const handleRename = async () => {
+    const newName = prompt('Rename folder', name)?.trim();
+    if (!newName || newName === name) return;
+    onRename?.(newName);
+  };
   const getIcon = () => {
     switch (type) {
       case 'note':
@@ -59,7 +65,7 @@ const FolderWidget = ({ name, count, type, onSelect, onDelete }: FolderWidgetPro
           {getIcon()}
         </div>
         <div className="flex-1 text-left cursor-pointer" onClick={onSelect}>
-          <h3 className="font-semibold text-foreground font-space font-condensed text-base">
+          <h3 className="font-semibold text-foreground font-display font-condensed text-base">
             {name}
           </h3>
           <p className="text-sm text-muted-foreground font-condensed">
@@ -83,6 +89,18 @@ const FolderWidget = ({ name, count, type, onSelect, onDelete }: FolderWidgetPro
                 align="end" 
                 className="z-50 bg-background border border-border/50 rounded-xl shadow-lg backdrop-blur-sm min-w-[160px]"
               >
+                {onRename && (
+                  <DropdownMenuItem 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleRename();
+                    }}
+                    className="cursor-pointer rounded-lg px-3 py-2"
+                  >
+                    <Pencil className="w-4 h-4 mr-2" />
+                    Rename Folder
+                  </DropdownMenuItem>
+                )}
                 <DropdownMenuItem 
                   onClick={(e) => {
                     e.stopPropagation();

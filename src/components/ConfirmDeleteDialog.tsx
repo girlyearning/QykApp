@@ -56,7 +56,7 @@ const ConfirmDeleteDialog = ({
               <AlertTriangle className="w-6 h-6 text-destructive" />
             </div>
           </div>
-          <DialogTitle className="text-xl font-bold text-foreground font-space font-condensed">
+          <DialogTitle className="text-xl font-bold text-foreground font-display font-condensed">
             {title || defaultTitle}
           </DialogTitle>
           <DialogDescription className="text-sm text-muted-foreground font-condensed">

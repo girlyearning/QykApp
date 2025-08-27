@@ -3,7 +3,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 
-export type SectionType = 'note' | 'entry' | 'confession';
+export type SectionType = 'note' | 'entry' | 'confession' | 'pic';
 
 export const useUserFolders = (section: SectionType) => {
   const [folders, setFolders] = useState<string[]>([]);
@@ -91,6 +91,25 @@ export const useUserFolders = (section: SectionType) => {
     }
   };
 
+  const renameFolder = async (oldName: string, newName: string) => {
+    if (!user || !oldName || !newName || oldName === newName) return false;
+    try {
+      const { error } = await supabase
+        .from('user_folders')
+        .update({ folder_name: newName })
+        .eq('user_id', user.id)
+        .eq('section', section)
+        .eq('folder_name', oldName);
+      if (error) throw error;
+      setFolders(prev => prev.map(f => (f === oldName ? newName : f)).sort());
+      return true;
+    } catch (error: any) {
+      console.error('Error renaming folder:', error);
+      toast({ title: 'Error', description: 'Failed to rename folder', variant: 'destructive' });
+      return false;
+    }
+  };
+
   useEffect(() => {
     fetchFolders();
   }, [user, section]);
@@ -100,6 +119,7 @@ export const useUserFolders = (section: SectionType) => {
     loading,
     addFolder,
     removeFolder,
+    renameFolder,
     refetch: fetchFolders,
   };
 };

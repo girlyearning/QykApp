@@ -14,7 +14,7 @@ const QykNoteFolders = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { notes } = useNotes();
-  const { folders, removeFolder, addFolder } = useUserFolders('note');
+  const { folders, removeFolder, addFolder, renameFolder } = useUserFolders('note');
   const { getSelectedFolder, setSelectedFolder } = useUserSettings();
   const [showFolderManager, setShowFolderManager] = useState(false);
   const [showCreateDialog, setShowCreateDialog] = useState(false);
@@ -65,7 +65,7 @@ const QykNoteFolders = () => {
       <div className="min-h-screen bg-gradient-iridescent p-4 pb-safe">
         <div className="max-w-2xl mx-auto space-y-6">
           <div className="text-center py-12 animate-fade-in">
-            <h2 className="text-xl font-bold text-foreground mb-2 font-space font-condensed">
+            <h2 className="text-xl font-bold text-foreground mb-2 font-display font-condensed">
               Sign in to access folders
             </h2>
             <Button onClick={() => navigate('/auth')} className="rounded-full px-6">
@@ -81,7 +81,7 @@ const QykNoteFolders = () => {
     <div className="min-h-screen bg-gradient-iridescent p-4 pb-safe">
       <div className="max-w-2xl mx-auto space-y-6">
         {/* Modern Title Widget */}
-        <div className="pt-safe">
+        <div className="pt-safe pl-safe pr-safe">
           <ModernTitleWidget
             title="Note Folders"
             description="Organize your quick thoughts"
@@ -115,7 +115,7 @@ const QykNoteFolders = () => {
               <Plus className="w-5 h-5" />
             </div>
             <div className="text-left">
-              <h3 className="font-semibold text-foreground font-space font-condensed text-base">
+              <h3 className="font-semibold text-foreground font-display font-condensed text-base">
                 All Notes
               </h3>
               <p className="text-sm text-muted-foreground font-condensed">
@@ -147,6 +147,7 @@ const QykNoteFolders = () => {
                   type="note"
                   onSelect={() => handleFolderSelect(folder)}
                   onDelete={() => handleDeleteFolder(folder)}
+                  onRename={async (newName) => { await renameFolder(folder, newName); }}
                 />
               </div>
             ))

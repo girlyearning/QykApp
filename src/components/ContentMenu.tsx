@@ -1,4 +1,4 @@
-import { MoreVertical, FolderOpen, Trash2 } from "lucide-react";
+import { MoreVertical, FolderOpen, Trash2, Pencil, Heart, HeartOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -8,11 +8,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 interface ContentMenuProps {
-  onMoveToFolder: () => void;
+  onMoveToFolder?: () => void;
   onDelete: () => void;
+  onEdit?: () => void;
+  onAddFavorite?: () => void;
+  onRemoveFavorite?: () => void;
 }
 
-const ContentMenu = ({ onMoveToFolder, onDelete }: ContentMenuProps) => {
+const ContentMenu = ({ onMoveToFolder, onDelete, onEdit, onAddFavorite, onRemoveFavorite }: ContentMenuProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -28,13 +31,42 @@ const ContentMenu = ({ onMoveToFolder, onDelete }: ContentMenuProps) => {
         align="end" 
         className="z-50 bg-background border border-border/50 rounded-xl shadow-lg backdrop-blur-sm min-w-[160px]"
       >
+        {onEdit && (
         <DropdownMenuItem 
-          onClick={onMoveToFolder} 
+          onClick={onEdit} 
           className="cursor-pointer rounded-lg hover:bg-primary/10 focus:bg-primary/10 px-3 py-2"
         >
-          <FolderOpen className="w-4 h-4 mr-2" />
-          Move to Folder
+          <Pencil className="w-4 h-4 mr-2" />
+          Edit
         </DropdownMenuItem>
+        )}
+        {onAddFavorite && (
+          <DropdownMenuItem
+            onClick={onAddFavorite}
+            className="cursor-pointer rounded-lg hover:bg-primary/10 focus:bg-primary/10 px-3 py-2"
+          >
+            <Heart className="w-4 h-4 mr-2" />
+            Add to Favorites
+          </DropdownMenuItem>
+        )}
+        {onRemoveFavorite && (
+          <DropdownMenuItem
+            onClick={onRemoveFavorite}
+            className="cursor-pointer rounded-lg hover:bg-primary/10 focus:bg-primary/10 px-3 py-2"
+          >
+            <HeartOff className="w-4 h-4 mr-2" />
+            Remove Favorite
+          </DropdownMenuItem>
+        )}
+        {onMoveToFolder && (
+          <DropdownMenuItem 
+            onClick={onMoveToFolder} 
+            className="cursor-pointer rounded-lg hover:bg-primary/10 focus:bg-primary/10 px-3 py-2"
+          >
+            <FolderOpen className="w-4 h-4 mr-2" />
+            Move to Folder
+          </DropdownMenuItem>
+        )}
         <DropdownMenuItem 
           onClick={onDelete} 
           className="cursor-pointer rounded-lg hover:bg-destructive/10 focus:bg-destructive/10 text-destructive focus:text-destructive px-3 py-2"

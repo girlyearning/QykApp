@@ -22,6 +22,7 @@ export type Database = {
           id: string
           updated_at: string
           user_id: string
+          attachments?: Json[]
         }
         Insert: {
           content: string
@@ -30,6 +31,7 @@ export type Database = {
           id?: string
           updated_at?: string
           user_id: string
+          attachments?: Json[]
         }
         Update: {
           content?: string
@@ -38,6 +40,7 @@ export type Database = {
           id?: string
           updated_at?: string
           user_id?: string
+          attachments?: Json[]
         }
         Relationships: []
       }
@@ -98,6 +101,36 @@ export type Database = {
         }
         Relationships: []
       }
+      pics: {
+        Row: {
+          id: string
+          user_id: string
+          subtitle: string | null
+          attachments: Json[]
+          folder: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          subtitle?: string | null
+          attachments?: Json[]
+          folder?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          subtitle?: string | null
+          attachments?: Json[]
+          folder?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -149,6 +182,63 @@ export type Database = {
         }
         Relationships: []
       }
+      favorites: {
+        Row: {
+          id: string
+          user_id: string
+          item_type: string
+          item_id: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          item_type: string
+          item_id: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          item_type?: string
+          item_id?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      question_answers: {
+        Row: {
+          id: string
+          user_id: string
+          content: string
+          question: string
+          question_date: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          content: string
+          question: string
+          question_date: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          content?: string
+          question?: string
+          question_date?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_settings: {
         Row: {
           created_at: string
@@ -157,6 +247,7 @@ export type Database = {
           selected_entry_folder: string | null
           selected_note_folder: string | null
           theme: string | null
+          font_scale: string | null
           updated_at: string
           user_id: string
         }
@@ -167,6 +258,7 @@ export type Database = {
           selected_entry_folder?: string | null
           selected_note_folder?: string | null
           theme?: string | null
+          font_scale?: string | null
           updated_at?: string
           user_id: string
         }
@@ -177,6 +269,7 @@ export type Database = {
           selected_entry_folder?: string | null
           selected_note_folder?: string | null
           theme?: string | null
+          font_scale?: string | null
           updated_at?: string
           user_id?: string
         }
