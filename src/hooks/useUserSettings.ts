@@ -17,6 +17,23 @@ export const useUserSettings = () => {
   const { user } = useAuth();
   const { toast } = useToast();
 
+  const normalizeScale = (value?: string): 'small' | 'default' | 'large' | 'xlarge' => {
+    if (value === 'smallest') return 'small';
+    if (value === 'small' || value === 'default' || value === 'large' || value === 'xlarge') return value;
+    return 'default';
+  };
+
+  const persistFontScale = (value?: string) => {
+    try {
+      const normalized = normalizeScale(value);
+      if (typeof window !== 'undefined' && window.localStorage) {
+        window.localStorage.setItem('qyk_font_scale', normalized);
+      }
+    } catch {
+      // ignore storage errors
+    }
+  };
+
   const fetchSettings = async () => {
     if (!user) {
       setSettings({});
@@ -33,6 +50,10 @@ export const useUserSettings = () => {
 
       if (error) throw error;
       setSettings(data || {});
+      // Persist fetched font scale locally to prevent initial flash on next launch
+      if (data && 'font_scale' in data) {
+        persistFontScale((data as any).font_scale);
+      }
     } catch (error: any) {
       console.error('Error fetching settings:', error);
       // Don't show toast for initial load errors, just use defaults
@@ -68,6 +89,9 @@ export const useUserSettings = () => {
       }
 
       setSettings(prev => ({ ...prev, ...newSettings }));
+      if ('font_scale' in newSettings) {
+        persistFontScale((newSettings as any).font_scale);
+      }
       return true;
     } catch (error: any) {
       console.error('Error updating settings:', error);

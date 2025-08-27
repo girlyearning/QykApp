@@ -23,6 +23,35 @@
         font-display: swap;
       }
     </style>
+    <script>
+      (function () {
+        try {
+          var key = 'qyk_font_scale';
+          var raw = localStorage.getItem(key);
+          var scale = (raw === 'smallest') ? 'small' : (raw || 'default');
+          var root = document.documentElement;
+          var classes = ['font-scale-small', 'font-scale-default', 'font-scale-large', 'font-scale-xlarge'];
+          for (var i = 0; i < classes.length; i++) {
+            root.classList.remove(classes[i]);
+          }
+          root.classList.add(
+            scale === 'small' ? 'font-scale-small'
+            : scale === 'large' ? 'font-scale-large'
+            : scale === 'xlarge' ? 'font-scale-xlarge'
+            : 'font-scale-default'
+          );
+          // Precompute home-screen minus-one if on Home and default scale
+          var isHashRoute = !!location.hash;
+          var isHome = isHashRoute
+            ? (location.hash === '#/' || location.hash === '#' || location.hash === '')
+            : (location.pathname === '/');
+          if (isHome && scale === 'default') root.classList.add('home-default-minus-one');
+          else root.classList.remove('home-default-minus-one');
+        } catch (e) {
+          // no-op
+        }
+      })();
+    </script>
     <title>QYK - Personal Writing Hub</title>
     <meta name="description" content="Your personal writing sanctuary for notes, entries, and confessions" />
     <meta name="author" content="QYK Writing Hub" />

@@ -39,16 +39,15 @@ const AppContent = () => {
   // Apply font scale only when it changes to avoid reflow thrash on re-renders
   useEffect(() => {
     const root = document.documentElement;
-    const scale =
-      settings.font_scale === ("smallest" as any)
-        ? "small"
-        : settings.font_scale;
-    root.classList.remove(
-      "font-scale-small",
-      "font-scale-default",
-      "font-scale-large",
-      "font-scale-xlarge"
-    );
+    // Prefer server setting; fall back to previously persisted local value to avoid initial flash
+    const rawLocal = (() => {
+      try { return window.localStorage?.getItem('qyk_font_scale') || undefined; } catch { return undefined; }
+    })();
+    const pref = (settings.font_scale ?? (rawLocal as any)) as 'small' | 'default' | 'large' | 'xlarge' | 'smallest' | undefined;
+    const scale = pref === 'smallest' ? 'small' : (pref ?? 'default');
+
+    const classes = ["font-scale-small", "font-scale-default", "font-scale-large", "font-scale-xlarge"];
+    for (const cls of classes) root.classList.remove(cls);
     root.classList.add(
       scale === "small"
         ? "font-scale-small"
@@ -60,8 +59,7 @@ const AppContent = () => {
     );
     // Toggle home-screen-only minus-one for Default scale on the Index route
     const onHome = location.pathname === "/";
-    if (onHome && scale === "default")
-      root.classList.add("home-default-minus-one");
+    if (onHome && scale === "default") root.classList.add("home-default-minus-one");
     else root.classList.remove("home-default-minus-one");
   }, [settings.font_scale, location.pathname]);
   return (

@@ -647,6 +647,8 @@ All colors MUST be HSL.
     min-height: 100vh;
     min-height: -webkit-fill-available;
     overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
   }
 
   #root {
