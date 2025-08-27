@@ -1,4 +1,4 @@
-import { MoreVertical, FolderOpen, Trash2, Pencil, Heart, HeartOff } from "lucide-react";
+import { MoreVertical, FolderOpen, Trash2, Pencil, HeartOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -11,11 +11,10 @@ interface ContentMenuProps {
   onMoveToFolder?: () => void;
   onDelete: () => void;
   onEdit?: () => void;
-  onAddFavorite?: () => void;
   onRemoveFavorite?: () => void;
 }
 
-const ContentMenu = ({ onMoveToFolder, onDelete, onEdit, onAddFavorite, onRemoveFavorite }: ContentMenuProps) => {
+const ContentMenu = ({ onMoveToFolder, onDelete, onEdit, onRemoveFavorite }: ContentMenuProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -39,15 +38,6 @@ const ContentMenu = ({ onMoveToFolder, onDelete, onEdit, onAddFavorite, onRemove
           <Pencil className="w-4 h-4 mr-2" />
           Edit
         </DropdownMenuItem>
-        )}
-        {onAddFavorite && (
-          <DropdownMenuItem
-            onClick={onAddFavorite}
-            className="cursor-pointer rounded-lg hover:bg-primary/10 focus:bg-primary/10 px-3 py-2"
-          >
-            <Heart className="w-4 h-4 mr-2" />
-            Add to Favorites
-          </DropdownMenuItem>
         )}
         {onRemoveFavorite && (
           <DropdownMenuItem

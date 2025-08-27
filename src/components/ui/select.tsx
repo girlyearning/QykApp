@@ -1,10 +1,19 @@
 import * as React from "react"
 import * as SelectPrimitive from "@radix-ui/react-select"
+import { hapticSelectionChanged } from "@/lib/haptics"
 import { Check, ChevronDown, ChevronUp } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
-const Select = SelectPrimitive.Root
+const Select = (props: React.ComponentPropsWithoutRef<typeof SelectPrimitive.Root>) => (
+  <SelectPrimitive.Root
+    onValueChange={async (value) => {
+      try { await hapticSelectionChanged() } catch {}
+      props.onValueChange?.(value)
+    }}
+    {...props}
+  />
+)
 
 const SelectGroup = SelectPrimitive.Group
 

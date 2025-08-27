@@ -1,5 +1,6 @@
 import * as React from "react"
 import * as MenubarPrimitive from "@radix-ui/react-menubar"
+import { hapticSelectionChanged } from "@/lib/haptics"
 import { Check, ChevronRight, Circle } from "lucide-react"
 
 import { cn } from "@/lib/utils"
@@ -110,7 +111,7 @@ const MenubarItem = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Item> & {
     inset?: boolean
   }
->(({ className, inset, ...props }, ref) => (
+>(({ className, inset, onSelect, ...props }, ref) => (
   <MenubarPrimitive.Item
     ref={ref}
     className={cn(
@@ -118,6 +119,10 @@ const MenubarItem = React.forwardRef<
       inset && "pl-8",
       className
     )}
+    onSelect={async (e) => {
+      try { await hapticSelectionChanged() } catch {}
+      onSelect?.(e)
+    }}
     {...props}
   />
 ))

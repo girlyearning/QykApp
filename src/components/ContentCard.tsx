@@ -132,7 +132,6 @@ const ContentCardComponent = ({
             onMoveToFolder={() => setShowMoveDialog(true)}
             onDelete={() => setShowDeleteDialog(true)}
             onEdit={() => setIsEditOpen(true)}
-            onAddFavorite={onAddFavorite}
             onRemoveFavorite={onRemoveFavorite}
           />
         </div>

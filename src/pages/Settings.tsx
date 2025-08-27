@@ -276,7 +276,6 @@ const Settings = () => {
                   { id: 'small', label: 'Small' },
                   { id: 'default', label: 'Default' },
                   { id: 'large', label: 'Large' },
-                  { id: 'xlarge', label: 'Extra Large' },
                 ] as const).map((opt) => (
                   <Button
                     key={opt.id}

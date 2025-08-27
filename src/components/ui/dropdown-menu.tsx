@@ -1,5 +1,6 @@
 import * as React from "react"
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu"
+import { hapticSelectionChanged } from "@/lib/haptics"
 import { Check, ChevronRight, Circle } from "lucide-react"
 
 import { cn } from "@/lib/utils"
@@ -77,7 +78,7 @@ const DropdownMenuItem = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item> & {
     inset?: boolean
   }
->(({ className, inset, ...props }, ref) => (
+>(({ className, inset, onSelect, ...props }, ref) => (
   <DropdownMenuPrimitive.Item
     ref={ref}
     className={cn(
@@ -85,6 +86,10 @@ const DropdownMenuItem = React.forwardRef<
       inset && "pl-8",
       className
     )}
+    onSelect={async (e) => {
+      try { await hapticSelectionChanged() } catch {}
+      onSelect?.(e)
+    }}
     {...props}
   />
 ))
