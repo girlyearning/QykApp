@@ -69,7 +69,13 @@ const MoveToFolderDialog = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="glass-card bg-background/95 backdrop-blur-sm border-2 border-primary/30 rounded-3xl max-w-md mx-auto z-[9998]">
+      <DialogContent 
+        className="glass-card bg-background/95 backdrop-blur-sm border-2 border-primary/30 rounded-3xl max-w-md mx-auto z-[9998] pb-safe"
+        style={{
+          marginBottom: 'env(safe-area-inset-bottom, 0px)',
+          maxHeight: 'calc(100vh - env(safe-area-inset-bottom, 0px) - 2rem)',
+        }}
+      >
         <DialogHeader className="text-center">
           <div className="flex justify-center mb-4">
             <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">

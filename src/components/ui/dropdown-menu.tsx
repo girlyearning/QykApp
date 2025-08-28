@@ -1,5 +1,6 @@
 import * as React from "react"
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu"
+import { hapticImpact } from "@/lib/haptics"
 import { hapticSelectionChanged } from "@/lib/haptics"
 import { Check, ChevronRight, Circle } from "lucide-react"
 
@@ -7,7 +8,20 @@ import { cn } from "@/lib/utils"
 
 const DropdownMenu = DropdownMenuPrimitive.Root
 
-const DropdownMenuTrigger = DropdownMenuPrimitive.Trigger
+const DropdownMenuTrigger = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.Trigger>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Trigger>
+>(({ onClick, ...props }, ref) => (
+  <DropdownMenuPrimitive.Trigger
+    ref={ref}
+    onClick={async (e) => {
+      try { await hapticImpact('light') } catch {}
+      onClick?.(e)
+    }}
+    {...props}
+  />
+))
+DropdownMenuTrigger.displayName = DropdownMenuPrimitive.Trigger.displayName
 
 const DropdownMenuGroup = DropdownMenuPrimitive.Group
 

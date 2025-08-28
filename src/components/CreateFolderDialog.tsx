@@ -75,7 +75,14 @@ const CreateFolderDialog = ({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent 
         ref={dialogRef}
-        className="glass-card bg-background/95 backdrop-blur-sm border-2 border-primary/30 rounded-3xl max-w-md mx-auto ios-keyboard-fix folder-dialog"
+        className="glass-card bg-background/95 backdrop-blur-sm border-2 border-primary/30 rounded-3xl max-w-md mx-auto ios-keyboard-fix folder-dialog pb-safe"
+        style={{
+          marginBottom: 'env(safe-area-inset-bottom, 0px)',
+          maxHeight: 'calc(100vh - env(safe-area-inset-bottom, 0px) - 2rem)',
+          top: 'calc(env(safe-area-inset-top, 0px) + 4rem)',
+          transform: 'translateX(-50%)',
+          left: '50%',
+        }}
       >
         <DialogHeader className="text-center">
           <DialogTitle className="text-xl font-bold text-primary font-display font-condensed">

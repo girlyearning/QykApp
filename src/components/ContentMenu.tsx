@@ -1,4 +1,5 @@
 import { MoreVertical, FolderOpen, Trash2, Pencil, HeartOff } from "lucide-react";
+import { hapticImpact, hapticSelectionChanged } from "@/lib/haptics";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -32,7 +33,7 @@ const ContentMenu = ({ onMoveToFolder, onDelete, onEdit, onRemoveFavorite }: Con
       >
         {onEdit && (
         <DropdownMenuItem 
-          onClick={onEdit} 
+          onClick={async (e) => { try { await hapticSelectionChanged() } catch {}; onEdit?.(); }} 
           className="cursor-pointer rounded-lg hover:bg-primary/10 focus:bg-primary/10 px-3 py-2"
         >
           <Pencil className="w-4 h-4 mr-2" />
@@ -41,7 +42,7 @@ const ContentMenu = ({ onMoveToFolder, onDelete, onEdit, onRemoveFavorite }: Con
         )}
         {onRemoveFavorite && (
           <DropdownMenuItem
-            onClick={onRemoveFavorite}
+            onClick={async (e) => { try { await hapticSelectionChanged() } catch {}; onRemoveFavorite?.(); }}
             className="cursor-pointer rounded-lg hover:bg-primary/10 focus:bg-primary/10 px-3 py-2"
           >
             <HeartOff className="w-4 h-4 mr-2" />
@@ -50,7 +51,7 @@ const ContentMenu = ({ onMoveToFolder, onDelete, onEdit, onRemoveFavorite }: Con
         )}
         {onMoveToFolder && (
           <DropdownMenuItem 
-            onClick={onMoveToFolder} 
+            onClick={async (e) => { try { await hapticSelectionChanged() } catch {}; onMoveToFolder?.(); }} 
             className="cursor-pointer rounded-lg hover:bg-primary/10 focus:bg-primary/10 px-3 py-2"
           >
             <FolderOpen className="w-4 h-4 mr-2" />
@@ -58,7 +59,7 @@ const ContentMenu = ({ onMoveToFolder, onDelete, onEdit, onRemoveFavorite }: Con
           </DropdownMenuItem>
         )}
         <DropdownMenuItem 
-          onClick={onDelete} 
+          onClick={async (e) => { try { await hapticImpact('medium') } catch {}; onDelete?.(); }} 
           className="cursor-pointer rounded-lg hover:bg-destructive/10 focus:bg-destructive/10 text-destructive focus:text-destructive px-3 py-2"
         >
           <Trash2 className="w-4 h-4 mr-2" />

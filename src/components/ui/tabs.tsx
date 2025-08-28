@@ -1,9 +1,18 @@
 import * as React from "react"
 import * as TabsPrimitive from "@radix-ui/react-tabs"
+import { hapticSelectionChanged } from "@/lib/haptics"
 
 import { cn } from "@/lib/utils"
 
-const Tabs = TabsPrimitive.Root
+const Tabs = (props: React.ComponentPropsWithoutRef<typeof TabsPrimitive.Root>) => (
+  <TabsPrimitive.Root
+    onValueChange={async (value) => {
+      try { await hapticSelectionChanged() } catch {}
+      props.onValueChange?.(value)
+    }}
+    {...props}
+  />
+)
 
 const TabsList = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.List>,
@@ -23,13 +32,17 @@ TabsList.displayName = TabsPrimitive.List.displayName
 const TabsTrigger = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>
->(({ className, ...props }, ref) => (
+>(({ className, onClick, ...props }, ref) => (
   <TabsPrimitive.Trigger
     ref={ref}
     className={cn(
       "inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm",
       className
     )}
+    onClick={async (e) => {
+      try { await hapticSelectionChanged() } catch {}
+      onClick?.(e)
+    }}
     {...props}
   />
 ))

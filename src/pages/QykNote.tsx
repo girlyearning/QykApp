@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { hapticImpact } from "@/lib/haptics";
 import { QykInput } from "@/components/QykInput";
+import { ComposePopup } from "@/components/ComposePopup";
 import { ContentCard } from "@/components/ContentCard";
 import { ModernTitleWidget } from "@/components/ModernTitleWidget";
 import { CreateFolderDialog } from "@/components/CreateFolderDialog";
-import { Search, Paperclip } from "lucide-react";
+import { Search, Paperclip, Plus } from "lucide-react";
 import { Camera } from '@capacitor/camera';
 import { Filesystem } from '@capacitor/filesystem';
 import { Capacitor } from '@capacitor/core';
@@ -29,6 +31,7 @@ const QykNote = () => {
   const [newItemIds, setNewItemIds] = useState<string[]>([]);
   const [selectedImagePaths, setSelectedImagePaths] = useState<string[]>([]);
   const [selectedImagePreviews, setSelectedImagePreviews] = useState<string[]>([]);
+  const [showCompose, setShowCompose] = useState(false);
   const BUCKET = 'attachments';
   const [showCreateDialog, setShowCreateDialog] = useState(false);
 
@@ -44,6 +47,7 @@ const QykNote = () => {
         setSelectedImagePaths([]);
         setSelectedImagePreviews([]);
         incrementToday('notes');
+        setShowCompose(false);
       }
     }
   };
@@ -179,45 +183,36 @@ const QykNote = () => {
           </div>
         )}
 
-        {/* Input Section */}
-        <div className="glass-card p-6 rounded-3xl animate-slide-up hover-lift">
-          <QykInput
-            value={currentNote}
-            onChange={setCurrentNote}
-            placeholder="What's on your mind?"
-            maxLength={200}
-            rows={3}
-          />
-          <div className="flex justify-between items-center mt-4">
-            <span className="text-xs text-muted-foreground font-condensed">
-              {currentNote.length}/200 characters
-            </span>
-            <div className="flex items-center gap-2">
-              <Button
-                variant="outline"
-                onClick={handleAttachImages}
-                className="rounded-full h-9 w-9 p-0"
-                title="Attach Image"
-              >
-                <Paperclip className="w-4 h-4" />
-              </Button>
-            <Button 
-              onClick={handleSubmit}
-              disabled={!currentNote.trim() || currentNote.length > 200}
-              className="rounded-full px-6 h-9 font-condensed hover:scale-105 transition-transform duration-200"
+        {/* Floating + Button to open composer */}
+        <button
+          aria-label="Add Note"
+          onClick={() => setShowCompose(true)}
+          className="fixed bottom-6 right-6 z-40 rounded-full w-14 h-14 flex items-center justify-center shadow-xl bg-primary text-primary-foreground hover:bg-primary/90"
+        >
+          <Plus className="w-6 h-6" />
+        </button>
+        <ComposePopup
+          isOpen={showCompose}
+          onClose={() => setShowCompose(false)}
+          heading="QykNote"
+          value={currentNote}
+          onChange={setCurrentNote}
+          placeholder="What's on your mind?"
+          maxLength={200}
+          buttonLabel="Post Note"
+          onSubmit={handleSubmit}
+          attachmentSlot={
+            <Button
+              variant="outline"
+              onClick={handleAttachImages}
+              className="rounded-full h-9 w-9 p-0"
+              title="Attach Image"
             >
-              Post Note
+              <Paperclip className="w-4 h-4" />
             </Button>
-            </div>
-          </div>
-          {selectedImagePreviews.length > 0 && (
-            <div className="mt-3 grid grid-cols-3 gap-2">
-              {selectedImagePreviews.map((url, i) => (
-                <img key={i} src={url} className="w-full h-16 object-cover rounded-lg" />
-              ))}
-            </div>
-          )}
-        </div>
+          }
+        />
+
 
         {/* Notes List */}
         <div className="space-y-3 stagger-animation">

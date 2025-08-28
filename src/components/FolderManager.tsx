@@ -162,7 +162,13 @@ const FolderManager = ({
                         <Edit2 className="w-3 h-3" />
                       </Button>
                     </DialogTrigger>
-                    <DialogContent className="sm:max-w-md">
+                    <DialogContent 
+                      className="sm:max-w-md pb-safe"
+                      style={{
+                        marginBottom: 'env(safe-area-inset-bottom, 0px)',
+                        maxHeight: 'calc(100vh - env(safe-area-inset-bottom, 0px) - 2rem)',
+                      }}
+                    >
                       <DialogHeader>
                         <DialogTitle className="font-display">Manage Folder</DialogTitle>
                       </DialogHeader>

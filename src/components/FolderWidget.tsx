@@ -7,6 +7,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useState } from "react";
+import { hapticImpact, hapticSelectionChanged } from "@/lib/haptics";
 import { ConfirmDeleteDialog } from "@/components/ConfirmDeleteDialog";
 
 interface FolderWidgetProps {
@@ -64,7 +65,7 @@ const FolderWidget = ({ name, count, type, onSelect, onDelete, onRename }: Folde
         <div className="w-10 h-10 bg-primary/10 rounded-2xl flex items-center justify-center text-primary">
           {getIcon()}
         </div>
-        <div className="flex-1 text-left cursor-pointer" onClick={onSelect}>
+        <div className="flex-1 text-left cursor-pointer" onClick={async () => { try { await hapticImpact('light') } catch {}; onSelect(); }}>
           <h3 className="font-semibold text-foreground font-display font-condensed text-base">
             {name}
           </h3>
@@ -80,7 +81,7 @@ const FolderWidget = ({ name, count, type, onSelect, onDelete, onRename }: Folde
                   variant="ghost"
                   size="sm"
                   className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-lg"
-                  onClick={(e) => e.stopPropagation()}
+                  onClick={async (e) => { e.stopPropagation(); try { await hapticImpact('light') } catch {} }}
                 >
                   <MoreVertical className="w-4 h-4" />
                 </Button>
@@ -91,10 +92,7 @@ const FolderWidget = ({ name, count, type, onSelect, onDelete, onRename }: Folde
               >
                 {onRename && (
                   <DropdownMenuItem 
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleRename();
-                    }}
+                    onClick={async (e) => { e.stopPropagation(); try { await hapticSelectionChanged() } catch {}; handleRename(); }}
                     className="cursor-pointer rounded-lg px-3 py-2"
                   >
                     <Pencil className="w-4 h-4 mr-2" />
@@ -102,10 +100,7 @@ const FolderWidget = ({ name, count, type, onSelect, onDelete, onRename }: Folde
                   </DropdownMenuItem>
                 )}
                 <DropdownMenuItem 
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setShowDeleteDialog(true);
-                  }}
+                  onClick={async (e) => { e.stopPropagation(); try { await hapticImpact('medium') } catch {}; setShowDeleteDialog(true); }}
                   className="cursor-pointer rounded-lg hover:bg-destructive/10 focus:bg-destructive/10 text-destructive focus:text-destructive px-3 py-2"
                 >
                   <Trash2 className="w-4 h-4 mr-2" />

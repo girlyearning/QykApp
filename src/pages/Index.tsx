@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useNavigate } from "react-router-dom";
 import { StickyNote, BookOpen, Lock, HelpCircle, Zap, Settings, Heart } from "lucide-react";
@@ -99,10 +98,11 @@ const Index = () => {
     color: "text-purple-600",
     count: entries.length
   }, {
-    title: "QykQuestions",
+    title: "QykQuery",
     description: "Daily mindful questions",
     icon: HelpCircle,
-    iconImg: "/icons/qykquestions.png",
+    // Use a clean question mark character instead of the PNG to avoid the blue line
+    iconChar: "?",
     route: "/qyk-questions",
     color: "text-emerald-600",
     count: questionsHook.todaysAnsweredCount
@@ -167,34 +167,39 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Service Cards */}
-        <div className="space-y-4 stagger-animation">
-          {services.map((service, index) => <div key={service.title} style={{
-          '--stagger-delay': index
-        } as React.CSSProperties} className="glass-card p-6 rounded-3xl hover:scale-[1.02] transition-all duration-300 cursor-pointer hover-lift animate-slide-up" onClick={() => navigate(service.route)}>
-              <div className="flex items-center space-x-4">
-                <div className={`p-3 rounded-2xl bg-muted/50 ${service.color} animate-bounce-in`}>
-                  {service.iconImg ? (
-                    <img src={service.iconImg} alt={service.title} className="w-7 h-7 object-contain" style={{ imageRendering: 'pixelated' }} />
+        {/* Service Widgets Grid */}
+        <div className="grid grid-cols-2 gap-5 sm:gap-6 mt-8 sm:mt-10 stagger-animation">
+          {services.map((service, index) => (
+            <div
+              key={service.title}
+              style={{ '--stagger-delay': index } as React.CSSProperties}
+              className="rounded-2xl border-2 border-primary/60 bg-card p-5 hover:scale-[1.01] transition-all duration-300 cursor-pointer hover-lift animate-slide-up card-outline-glow min-h-[140px] aspect-square flex flex-col"
+              onClick={() => navigate(service.route)}
+            >
+              <div className="flex items-center gap-2">
+                <div
+                  className="w-10 h-10 rounded-xl bg-muted/60 text-primary flex items-center justify-center shrink-0"
+                  onClick={async (e) => { e.stopPropagation(); (await import('@/lib/haptics')).hapticImpact('light'); navigate(service.route); }}
+                >
+                  {service.iconChar ? (
+                    <span className="inline-flex w-6 h-6 items-center justify-center font-bold" style={{ fontSize: '1.5rem', lineHeight: '1' }}>
+                      {service.iconChar}
+                    </span>
+                  ) : service.iconImg ? (
+                    <img src={service.iconImg} alt={service.title} className="w-6 h-6 object-contain" style={{ imageRendering: 'pixelated' }} />
                   ) : (
-                    <service.icon className="w-6 h-6" />
+                    <service.icon className="w-5 h-5" />
                   )}
                 </div>
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-1">
-                    <h3 className="text-xl font-bold text-foreground font-display font-condensed">
-                      {service.title}
-                    </h3>
-                    <Badge variant="secondary" className={`text-xs font-condensed px-2 py-1 transition-opacity duration-300 ${isLoading ? 'opacity-50' : 'opacity-100'}`}>
-                      {isLoading ? '•' : service.count}
-                    </Badge>
-                  </div>
-                  <p className="text-sm text-muted-foreground font-medium font-condensed">
-                    {service.description}
-                  </p>
-                </div>
+                <h3 className="text-lg font-bold text-primary font-display font-condensed">
+                  {service.title}
+                </h3>
               </div>
-            </div>)}
+              <p className="text-sm text-muted-foreground font-medium font-condensed mt-3">
+                {service.description}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </div>;

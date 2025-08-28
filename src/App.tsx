@@ -19,11 +19,12 @@ import QykWriteFolders from "./pages/QykWriteFolders";
 import QykFessFolders from "./pages/QykFessFolders";
 import Settings from "./pages/Settings";
 import ThemePicker from "./pages/ThemePicker";
-import QykQuestions from "./pages/QykQuestions";
+import QykQueries from "./pages/QykQueries";
 import Favorites from "./pages/Favorites";
 import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { QykQuotes } from "@/lib/qykQuotes";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +36,19 @@ const AppContent = () => {
 
   // Handle hardware back button
   useBackButton();
+  // Ensure a schedule exists if user enabled previously (Android only)
+  useEffect(() => {
+    if (Capacitor.getPlatform() !== 'android') return;
+    (async () => {
+      try {
+        await QykQuotes.requestPermissions();
+        const s = await QykQuotes.getState();
+        if (s.enabled && typeof s.hour === 'number' && typeof s.minute === 'number') {
+          await QykQuotes.scheduleDailyQuote({ hour: s.hour, minute: s.minute });
+        }
+      } catch {}
+    })();
+  }, []);
 
   // Apply font scale only when it changes to avoid reflow thrash on re-renders
   useEffect(() => {
@@ -44,7 +58,7 @@ const AppContent = () => {
       try { return window.localStorage?.getItem('qyk_font_scale') || undefined; } catch { return undefined; }
     })();
     const pref = (settings.font_scale ?? (rawLocal as any)) as 'small' | 'default' | 'large' | 'xlarge' | 'smallest' | undefined;
-    const scale = pref === 'smallest' ? 'small' : (pref ?? 'default');
+    const scale = pref === 'smallest' ? 'small' : (pref ?? 'small');
 
     const classes = ["font-scale-small", "font-scale-default", "font-scale-large", "font-scale-xlarge"];
     for (const cls of classes) root.classList.remove(cls);
@@ -63,7 +77,7 @@ const AppContent = () => {
     else root.classList.remove("home-default-minus-one");
   }, [settings.font_scale, location.pathname]);
   return (
-    <div className={`min-h-screen bg-background pt-safe`}>
+    <div className={`min-h-screen`} style={{ minHeight: '100dvh' }}>
       <Routes>
         <Route path="/auth" element={<Auth />} />
         <Route
@@ -118,7 +132,7 @@ const AppContent = () => {
           path="/qyk-questions"
           element={
             <ProtectedRoute>
-              <QykQuestions />
+              <QykQueries />
             </ProtectedRoute>
           }
         />

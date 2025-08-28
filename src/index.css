@@ -151,7 +151,11 @@ All colors MUST be HSL.
   }
 
   .theme-pink .bg-gradient-iridescent {
-    background: hsl(0 0% 100%);
+    background: linear-gradient(135deg,
+      hsl(318 90% 97%) 0%,
+      hsl(318 85% 96%) 40%,
+      hsl(318 80% 95%) 100%
+    );
   }
 
   .theme-iridescent .bg-gradient-iridescent {
@@ -369,7 +373,11 @@ All colors MUST be HSL.
   }
 
   .theme-lime-green .bg-gradient-iridescent {
-    background: hsl(0 0% 100%);
+    background: linear-gradient(135deg,
+      hsl(85 65% 96%) 0%,
+      hsl(85 58% 95%) 50%,
+      hsl(85 50% 94%) 100%
+    );
   }
 
   /* Baby Blue Theme */
@@ -400,7 +408,11 @@ All colors MUST be HSL.
   }
 
   .theme-baby-blue .bg-gradient-iridescent {
-    background: hsl(0 0% 100%);
+    background: linear-gradient(135deg,
+      hsl(198 80% 97%) 0%,
+      hsl(198 75% 96%) 50%,
+      hsl(198 70% 95%) 100%
+    );
   }
 
   .theme-hot-pink-paradise .bg-gradient-iridescent {
@@ -467,6 +479,15 @@ All colors MUST be HSL.
       0 2px 4px hsl(var(--primary) / 0.10);
   }
 
+  /* Ensure sent post widgets sit on card-colored surface for themed backgrounds */
+  .theme-iridescent .glass-card,
+  .theme-pink .glass-card,
+  .theme-lime-green .glass-card,
+  .theme-baby-blue .glass-card,
+  .theme-dark-purple .glass-card {
+    background-color: hsl(var(--card));
+  }
+
   /* Tailwind Typography overrides for post content only */
   .prose-post {
     --tw-prose-body: hsl(var(--foreground));
@@ -480,6 +501,11 @@ All colors MUST be HSL.
   html.font-scale-small .prose-post :where(p):not(:where([class~="not-prose"] *)) {
     /* 17px target on 14px root => 17/14 rem */
     font-size: 1.2142857rem;
+  }
+  /* Make chat input match sent post size in Small mode */
+  html.font-scale-small .qyk-chat-input {
+    font-size: 1.2142857rem !important;
+    line-height: 1.7;
   }
   .prose-post :where(h1):not(:where([class~="not-prose"] *)) {
     font-size: 1.25rem; /* 20px */
@@ -524,13 +550,19 @@ All colors MUST be HSL.
     transform: translateY(-2px);
   }
 
-  /* Pulse glow animation for highlighted items */
+  /* Pulse glow animation for highlighted items with persistent theme outline */
   @keyframes pulse-glow {
     0%, 100% {
-      box-shadow: 0 0 0 0px hsl(var(--primary) / 0.4);
+      /* Darker, crisp outline + minimal halo */
+      box-shadow:
+        0 0 0 2px hsl(var(--primary) / 0.70),
+        0 0 0 0px hsl(var(--primary) / 0.25);
     }
     50% {
-      box-shadow: 0 0 0 6px hsl(var(--primary) / 0.1);
+      /* Keep outline while expanding the glow */
+      box-shadow:
+        0 0 0 2px hsl(var(--primary) / 0.70),
+        0 0 0 6px hsl(var(--primary) / 0.15);
     }
   }
 
@@ -677,6 +709,16 @@ All colors MUST be HSL.
   .pt-safe {
     padding-top: max(env(safe-area-inset-top, 0), 1rem);
   }
+  
+  /* Make gradient backgrounds extend into safe area */
+  .bg-gradient-iridescent {
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
 
   .pb-safe {
     padding-bottom: max(env(safe-area-inset-bottom, 0), 1rem);
@@ -745,9 +787,10 @@ All colors MUST be HSL.
     will-change: transform, padding;
   }
 
-  body.keyboard-open .keyboard-aware-content {
-    padding-bottom: calc(var(--keyboard-height, 0px) + 1rem);
-  }
+  /* Remove extra transforms/padding for dialogs; rely on Radix centering like Edit */
+  body.keyboard-open .keyboard-aware-content { }
+
+  /* No special compose dialog positioning; match Edit */
 
   /* Performance optimizations */
   .glass-card {

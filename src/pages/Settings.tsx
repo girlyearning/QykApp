@@ -24,10 +24,6 @@ const Settings = () => {
   const navigate = useNavigate();
   const [displayName, setDisplayName] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
-  const handleRefresh = () => {
-    // Force a soft reload to apply global font size classes
-    window.location.reload();
-  };
 
   // QykStats data sources and persistence
   const { notes } = useNotes();
@@ -192,10 +188,12 @@ const Settings = () => {
           </CardContent>
         </Card>
 
+        {/* Qyk Quotes removed per request */}
+
         {/* QykStats */}
         <Card className="glass-card border-0 animate-slide-up">
           <CardHeader>
-            <CardTitle className="font-display font-condensed">QykStats</CardTitle>
+            <CardTitle className="font-display font-condensed">Qyk Stats</CardTitle>
             <CardDescription className="font-condensed">
               Your daily posts and weekly averages
             </CardDescription>
@@ -261,42 +259,7 @@ const Settings = () => {
 
         {/* Favorites section removed per request (feature remains accessible elsewhere) */}
 
-        {/* Font Size (scrollable area) */}
-        <Card className="glass-card border-0 animate-slide-up">
-          <CardHeader>
-            <CardTitle className="font-display font-condensed">Font Size</CardTitle>
-            <CardDescription className="font-condensed">
-              Adjust text size across the app
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <div className="overflow-x-auto -mx-2 px-2 pb-1">
-              <div className="flex gap-2 min-w-max">
-                {([
-                  { id: 'small', label: 'Small' },
-                  { id: 'default', label: 'Default' },
-                  { id: 'large', label: 'Large' },
-                ] as const).map((opt) => (
-                  <Button
-                    key={opt.id}
-                    variant={userSettings.font_scale === opt.id ? 'default' : 'outline'}
-                    className="rounded-2xl"
-                    onClick={() => updateSettings({ font_scale: opt.id })}
-                  >
-                    {opt.label}
-                  </Button>
-                ))}
-              </div>
-            </div>
-            <Button
-              variant="outline"
-              className="w-full rounded-2xl"
-              onClick={handleRefresh}
-            >
-              Refresh to apply font changes
-            </Button>
-          </CardContent>
-        </Card>
+
 
         {/* App Info */}
         <Card className="glass-card border-0 animate-slide-up">

@@ -56,11 +56,14 @@ const Favorites = () => {
       if (f.item_type === 'question') {
         const a = answers.find(a => a.id === f.item_id);
         if (!a) return null;
+        // Title shows the daily question and the date
+        const date = new Date(a.question_date);
+        const formatted = date.toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric' });
         return {
           fav_id: f.id,
           kind: 'question' as const,
           item_id: a.id,
-          title: a.question_date,
+          title: `${a.question} — ${formatted}`,
           content: a.content,
           timestamp: a.created_at,
         };

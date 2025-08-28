@@ -9,10 +9,12 @@ interface QykInputProps {
   maxLength?: number;
   rows?: number;
   className?: string;
+  onFocusPopup?: () => void; // optional hook to open compose popup
+  autoFocus?: boolean;
 }
 
 const QykInput = forwardRef<HTMLTextAreaElement, QykInputProps>(
-  ({ value, onChange, placeholder, maxLength, rows = 4, className }, ref) => {
+  ({ value, onChange, placeholder, maxLength, rows = 4, className, onFocusPopup, autoFocus }, ref) => {
     const areaRef = useRef<HTMLTextAreaElement | null>(null);
     const [showSheet, setShowSheet] = useState(false);
 
@@ -58,7 +60,9 @@ const QykInput = forwardRef<HTMLTextAreaElement, QykInputProps>(
           }}
           value={value}
           onChange={(e) => onChange(e.target.value)}
+          onFocus={() => { if (onFocusPopup) onFocusPopup(); }}
           onBlur={() => setTimeout(() => { setShowSheet(false); }, 150)}
+          autoFocus={autoFocus}
           onContextMenu={(e) => {
             // Long-press/right-click -> show format sheet instead of browser menu
             e.preventDefault();
@@ -72,7 +76,7 @@ const QykInput = forwardRef<HTMLTextAreaElement, QykInputProps>(
           maxLength={maxLength}
           rows={rows}
           className={cn(
-            "border-0 bg-muted/50 rounded-2xl p-4 text-[1.0625rem] resize-none",
+            "qyk-chat-input border-0 bg-muted/50 rounded-2xl p-4 text-[1.0625rem] resize-none",
             // Match sent post body spacing
             "leading-relaxed font-condensed whitespace-pre-wrap",
             "placeholder:text-muted-foreground/70 focus-visible:ring-1 focus-visible:ring-primary/50",

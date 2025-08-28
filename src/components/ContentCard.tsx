@@ -4,6 +4,7 @@ import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
 import rehypeRaw from "rehype-raw";
 import { Button } from "@/components/ui/button";
+import { hapticImpact } from "@/lib/haptics";
 import { Clock, Heart } from "lucide-react";
 import { ContentMenu } from "@/components/ContentMenu";
 import { FolderTag } from "@/components/FolderTag";
@@ -99,8 +100,8 @@ const ContentCardComponent = ({
   const favorited = Boolean(onRemoveFavorite);
 
   return (
-    <div className={`glass-card p-4 rounded-2xl group transition-all duration-300 hover-lift animate-scale-in card-outline-glow ${
-      isNew ? 'ring-1 ring-primary/70 animate-pulse-glow bg-primary/5' : ''
+    <div className={`glass-card bg-card p-4 rounded-2xl group transition-all duration-300 hover-lift animate-scale-in card-outline-glow ${
+      isNew ? 'ring-2 ring-primary bg-primary/5' : ''
     }`}>
       <div className="flex items-start justify-between mb-2">
         <div className="flex-1">
@@ -119,7 +120,8 @@ const ContentCardComponent = ({
               variant="ghost"
               size="sm"
               className="opacity-70 hover:opacity-100 hover:bg-muted/50 transition-all duration-200 h-8 w-8 p-0 text-muted-foreground hover:text-foreground rounded-lg"
-              onClick={() => {
+              onClick={async () => {
+                try { await hapticImpact('light') } catch {}
                 if (favorited && onRemoveFavorite) onRemoveFavorite();
                 else if (!favorited && onAddFavorite) onAddFavorite();
               }}
@@ -172,19 +174,28 @@ const ContentCardComponent = ({
       />
 
       <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
-        <DialogContent className="glass-card rounded-3xl">
-          <DialogHeader>
-            <DialogTitle>Edit {title}</DialogTitle>
+        <DialogContent 
+          className="glass-card rounded-3xl border-2 border-primary/60 overflow-visible pb-safe"
+          style={{
+            marginBottom: 'calc(env(safe-area-inset-bottom, 0px) + 1rem)',
+            maxHeight: 'calc(100vh - env(safe-area-inset-bottom, 0px) - 3rem)',
+            top: 'calc(env(safe-area-inset-top, 0px) + 2rem)',
+            transform: 'translateX(-50%)',
+            left: '50%',
+          }}
+        >
+          <DialogHeader className="pb-1">
+            <DialogTitle className="text-base">Edit {title}</DialogTitle>
           </DialogHeader>
-          <div className="max-h-[60vh] overflow-auto">
+          <div className="max-h-[50vh] overflow-auto px-2 pb-1 pt-1">
             <Textarea
               value={editText}
               onChange={(e) => setEditText(e.target.value)}
-              rows={8}
-              className="w-full resize-y rounded-2xl"
+              rows={6}
+              className="w-full resize-y qyk-chat-input border-0 bg-muted/50 rounded-2xl p-3 leading-relaxed font-condensed placeholder:text-muted-foreground/70 focus-visible:ring-1 focus-visible:ring-primary/50 min-h-[5rem]"
             />
           </div>
-          <DialogFooter>
+          <DialogFooter className="pt-1 pb-1">
             <Button variant="outline" onClick={() => setIsEditOpen(false)}>Cancel</Button>
             <Button
               disabled={saving || editText.trim().length === 0}

@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { hapticImpact } from "@/lib/haptics";
 import { Input } from "@/components/ui/input";
 import { QykInput } from "@/components/QykInput";
+import { ComposePopup } from "@/components/ComposePopup";
 import { ContentCard } from "@/components/ContentCard";
 import { ModernTitleWidget } from "@/components/ModernTitleWidget";
 import { CreateFolderDialog } from "@/components/CreateFolderDialog";
-import { BookOpen } from "lucide-react";
+import { BookOpen, Plus } from "lucide-react";
 import { useEntries } from "@/hooks/useSupabaseData";
 import { useFavorites } from "@/hooks/useFavorites";
 import { useQykStats } from "@/hooks/useQykStats";
@@ -26,6 +28,7 @@ const QykWrite = () => {
   const [currentContent, setCurrentContent] = useState("");
   const [newItemIds, setNewItemIds] = useState<string[]>([]);
   const [showCreateDialog, setShowCreateDialog] = useState(false);
+  const [showCompose, setShowCompose] = useState(false);
 
   const selectedFolder = getSelectedFolder('entry');
 
@@ -37,6 +40,7 @@ const QykWrite = () => {
         setCurrentContent("");
         setNewItemIds(prev => [...prev, newEntry.id]);
         incrementToday('entries');
+        setShowCompose(false);
       }
     }
   };
@@ -129,36 +133,29 @@ const QykWrite = () => {
           </div>
         )}
 
-        {/* Input Section */}
-        <div className="glass-card p-6 rounded-3xl space-y-4 animate-slide-up hover-lift">
-          <Input
-            value={currentTitle}
-            onChange={(e) => setCurrentTitle(e.target.value)}
-            placeholder="Entry title..."
-            className="border-0 bg-muted/50 rounded-2xl h-12 px-4 text-base font-medium placeholder:text-muted-foreground/70 font-condensed"
-          />
-          
-          <QykInput
-            value={currentContent}
-            onChange={setCurrentContent}
-            placeholder="Start writing your thoughts..."
-            rows={8}
-            className="min-h-32"
-          />
-          
-          <div className="flex justify-between items-center">
-            <span className="text-xs text-muted-foreground font-condensed">
-              {currentContent.length} characters
-            </span>
-            <Button 
-              onClick={handleSubmit}
-              disabled={!currentTitle.trim() || !currentContent.trim()}
-              className="rounded-full px-6 h-9 font-condensed hover:scale-105 transition-transform duration-200"
-            >
-              Save Entry
-            </Button>
-          </div>
-        </div>
+        {/* Floating + Button to open composer */}
+        <button
+          aria-label="Add Entry"
+          onClick={() => setShowCompose(true)}
+          className="fixed bottom-6 right-6 z-40 rounded-full w-14 h-14 flex items-center justify-center shadow-xl bg-primary text-primary-foreground hover:bg-primary/90"
+        >
+          <Plus className="w-6 h-6" />
+        </button>
+
+        <ComposePopup
+          isOpen={showCompose}
+          onClose={() => setShowCompose(false)}
+          heading="QykWrite"
+          value={currentContent}
+          onChange={setCurrentContent}
+          placeholder="Start writing your thoughts..."
+          buttonLabel="Save Entry"
+          showTitleInput
+          titleValue={currentTitle}
+          onTitleChange={setCurrentTitle}
+          titlePlaceholder="Entry title..."
+          onSubmit={handleSubmit}
+        />
 
         {/* Entries List */}
         <div className="space-y-3 stagger-animation">

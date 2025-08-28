@@ -7,6 +7,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useNavigate } from "react-router-dom";
+import { hapticImpact } from "@/lib/haptics";
 
 interface ModernTitleWidgetProps {
   title: string;
@@ -54,7 +55,7 @@ const ModernTitleWidget = ({
               variant="outline"
               size="sm"
               className="rounded-full w-8 h-8 p-0 bg-background/50 hover:bg-background/80"
-              onClick={handleBack}
+              onClick={async () => { try { await hapticImpact('light') } catch {}; handleBack(); }}
             >
               <ArrowLeft className="w-4 h-4" />
             </Button>
@@ -94,7 +95,7 @@ const ModernTitleWidget = ({
                 variant="outline"
                 size="sm"
                 className="rounded-full w-8 h-8 p-0 bg-background/60 hover:bg-background/80"
-                onClick={onOpenFavorites}
+                onClick={async () => { try { await hapticImpact('light') } catch {}; onOpenFavorites?.(); }}
                 title="Open Favorites"
               >
                 <Heart className="w-4 h-4" />
@@ -110,7 +111,7 @@ const ModernTitleWidget = ({
               variant="outline"
               size="sm"
               className="rounded-full w-8 h-8 p-0 bg-background/60 hover:bg-background/80"
-              onClick={onOpenFavorites}
+              onClick={async () => { try { await hapticImpact('light') } catch {}; onOpenFavorites?.(); }}
               title="Open Favorites"
             >
               <Heart className="w-4 h-4" />

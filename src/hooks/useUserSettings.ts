@@ -20,7 +20,7 @@ export const useUserSettings = () => {
   const normalizeScale = (value?: string): 'small' | 'default' | 'large' | 'xlarge' => {
     if (value === 'smallest') return 'small';
     if (value === 'small' || value === 'default' || value === 'large' || value === 'xlarge') return value;
-    return 'default';
+    return 'small';
   };
 
   const persistFontScale = (value?: string) => {

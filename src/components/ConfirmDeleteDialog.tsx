@@ -49,7 +49,13 @@ const ConfirmDeleteDialog = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="glass-card bg-background/95 backdrop-blur-sm border-2 border-destructive/30 rounded-3xl max-w-md mx-auto">
+      <DialogContent 
+        className="glass-card bg-background/95 backdrop-blur-sm border-2 border-destructive/30 rounded-3xl max-w-md mx-auto pb-safe"
+        style={{
+          marginBottom: 'env(safe-area-inset-bottom, 0px)',
+          maxHeight: 'calc(100vh - env(safe-area-inset-bottom, 0px) - 2rem)',
+        }}
+      >
         <DialogHeader className="text-center">
           <div className="flex justify-center mb-4">
             <div className="w-12 h-12 rounded-full bg-destructive/10 flex items-center justify-center">

@@ -1,7 +1,9 @@
 import { useState, type CSSProperties } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { hapticImpact } from "@/lib/haptics";
 import { QykInput } from "@/components/QykInput";
+import { ComposePopup } from "@/components/ComposePopup";
 import { ContentCard } from "@/components/ContentCard";
 import { ModernTitleWidget } from "@/components/ModernTitleWidget";
 import { useQuestions } from "@/hooks/useQuestions";
@@ -10,7 +12,6 @@ import { useAuth } from "@/contexts/AuthContext";
 import { BookOpen } from "lucide-react";
 
 function formatIsoDateLocal(iso: string): string {
-  // iso is yyyy-mm-dd. Build local date to avoid UTC parsing quirks
   const [y, m, d] = iso.split("-").map(Number);
   const local = new Date(y, (m || 1) - 1, d || 1);
   return local.toLocaleDateString(undefined, {
@@ -20,7 +21,7 @@ function formatIsoDateLocal(iso: string): string {
   });
 }
 
-const QykQuestions = () => {
+const QykQueries = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const {
@@ -33,6 +34,7 @@ const QykQuestions = () => {
   } = useQuestions();
   const { addFavorite, removeFavorite, isFavorited } = useFavorites();
   const [currentContent, setCurrentContent] = useState("");
+  const [showCompose, setShowCompose] = useState(false);
   const [newItemIds, setNewItemIds] = useState<string[]>([]);
 
   if (!user) {
@@ -44,15 +46,12 @@ const QykQuestions = () => {
               <BookOpen className="w-8 h-8 text-muted-foreground" />
             </div>
             <h2 className="text-xl font-bold text-foreground mb-2 font-display font-condensed">
-              Sign in to access QykQuestions
+              Sign in to access QykQueries
             </h2>
             <p className="text-muted-foreground font-condensed mb-6">
               Your answers are synced across your devices
             </p>
-            <Button
-              onClick={() => navigate("/auth")}
-              className="rounded-full px-6"
-            >
+            <Button onClick={() => navigate("/auth")} className="rounded-full px-6">
               Sign In
             </Button>
           </div>
@@ -67,6 +66,7 @@ const QykQuestions = () => {
     if (created) {
       setCurrentContent("");
       setNewItemIds((prev) => [created.id, ...prev]);
+      setShowCompose(false);
     }
   };
 
@@ -75,7 +75,7 @@ const QykQuestions = () => {
       <div className="max-w-2xl mx-auto space-y-6 keyboard-aware-content">
         <div className="pt-safe pl-safe pr-safe">
           <ModernTitleWidget
-            title="QykQuestions"
+            title="QykQueries"
             description="Daily mindful questions"
             canGoBack={true}
             backRoute="/"
@@ -83,7 +83,6 @@ const QykQuestions = () => {
           />
         </div>
 
-        {/* Daily Question */}
         <div className="glass-card p-4 rounded-2xl animate-slide-down">
           <div className="text-center text-sm text-muted-foreground font-condensed mb-2">
             Today's question
@@ -93,21 +92,15 @@ const QykQuestions = () => {
           </div>
         </div>
 
-        {/* Input Section */}
         {!todaysAnswer ? (
           <div className="glass-card p-6 rounded-3xl space-y-4 animate-slide-up hover-lift">
-            <QykInput
-              value={currentContent}
-              onChange={setCurrentContent}
-              placeholder="Write your answer..."
-              rows={6}
-              className="min-h-28"
-            />
-            <div className="flex justify-end items-center">
+            <div className="text-center text-sm text-muted-foreground font-condensed mb-4">
+              Ready to answer today's question?
+            </div>
+            <div className="flex justify-center">
               <Button
-                onClick={handleSubmit}
-                disabled={!currentContent.trim()}
-                className="rounded-full px-6 h-9 font-condensed hover:scale-105 transition-transform duration-200"
+                onClick={() => setShowCompose(true)}
+                className="rounded-full px-8 h-12 font-condensed hover:scale-105 transition-transform duration-200 bg-primary text-primary-foreground hover:bg-primary/90"
               >
                 Answer
               </Button>
@@ -121,7 +114,17 @@ const QykQuestions = () => {
           </div>
         )}
 
-        {/* Answers List */}
+        <ComposePopup
+          isOpen={showCompose}
+          onClose={() => setShowCompose(false)}
+          heading="QykQueries"
+          value={currentContent}
+          onChange={setCurrentContent}
+          placeholder="Write your answer..."
+          buttonLabel="Answer"
+          onSubmit={handleSubmit}
+        />
+
         <div className="space-y-3 stagger-animation">
           {answers.length === 0 ? (
             <div className="text-center py-12 animate-fade-in">
@@ -140,7 +143,7 @@ const QykQuestions = () => {
                 className="animate-slide-up"
               >
                 <ContentCard
-                  title={formatIsoDateLocal(ans.question_date)}
+                  title={`${ans.question} — ${formatIsoDateLocal(ans.question_date)}`}
                   content={ans.content}
                   timestamp={new Date(ans.created_at)}
                   onDelete={() => deleteAnswer(ans.id)}
@@ -161,4 +164,4 @@ const QykQuestions = () => {
   );
 };
 
-export default QykQuestions;
+export default QykQueries;
